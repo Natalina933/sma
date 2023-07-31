@@ -1,9 +1,10 @@
 import React from 'react'
+import styles from './page.module.css'
 
-const Contact = () => {
+const Activity = () => {
   return (
-    <div>Contact</div>
+    <div className={styles.container}>Activity</div>
   )
 }
 
-export default Contact
+export default Activity

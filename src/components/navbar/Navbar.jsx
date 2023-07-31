@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import styles from './page.module.css'
 
 const Links = [
   {
@@ -35,14 +38,23 @@ const Links = [
 ];
 const Navbar = () => {
   return (
-    <div>
-      <Link href="/">Saint-Mandé Accueil</Link>
-      <div>
+    <div className={styles.container}>
+      <Link href="/" className={styles.logo}>
+        Saint-Mandé Accueil
+      </Link>
+      <div className={styles.links}>
         {Links.map((link) => (
-          <Link key={link.id} href={link.url}>
+          <Link key={link.id} href={link.url} className={styles.links}>
             {link.title}
           </Link>
         ))}
+        <button className={styles.logout}
+          onClick={() => {
+            console.log("logged out");
+          }}
+        >
+          Logout
+        </button>
       </div>
     </div>
   );

@@ -1,0 +1,26 @@
+.container {
+    background-color: aqua;
+    height: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-weight: bolder;
+    font-size: 22px;
+}
+
+.links {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.logout{
+    padding: 5px;
+    border: none;
+    background-color: #53c25b;
+    color: aliceblue;
+    cursor: pointer;
+    border-radius: 3px;
+}

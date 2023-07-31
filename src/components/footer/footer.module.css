@@ -1,0 +1,7 @@
+.container {
+    background-color: rgba(131, 130, 210, 0.56);
+    height: 100px;
+    align-items: center;
+    justify-content: space-between;
+    display: flex;
+}
