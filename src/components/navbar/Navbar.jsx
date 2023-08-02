@@ -2,8 +2,10 @@
 
 import React from "react";
 import Link from "next/link";
-import styles from './page.module.css'
+import styles from "./navbar.module.css";
+import Image from "next/image";
 
+const Navbar = () => {
 const Links = [
   {
     id: 1,
@@ -36,24 +38,27 @@ const Links = [
     url: "/dashboard",
   },
 ];
-const Navbar = () => {
+
   return (
     <div className={styles.container}>
-      <Link href="/" className={styles.logo}>
-        Saint-Mandé Accueil
-      </Link>
+      <div className={styles.logoContainer}>
+        <Link href="/" className={styles.logoLink}>
+          <Image src="/logo.jpg" width={70} height={50} alt="logo SMA" />
+          <span className={styles.logoText}>Saint-Mandé Accueil</span>
+        </Link>
+      </div>
       <div className={styles.links}>
         {Links.map((link) => (
           <Link key={link.id} href={link.url} className={styles.links}>
             {link.title}
           </Link>
         ))}
-        <button className={styles.logout}
+        <button
+          className={styles.logout}
           onClick={() => {
-            console.log("logged out");
-          }}
-        >
-          Logout
+            console.log("Déconecté");
+          }}>
+          Déconnexion
         </button>
       </div>
     </div>
