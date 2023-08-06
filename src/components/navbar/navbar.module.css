@@ -1,53 +1,80 @@
+
 .container {
-    background-color: #e39b4e;
-    height: 70px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 20px;
-  }
+  background-color: #e39b4e;
+  height: 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  font-family: Arial, sans-serif;
+}
 
-  .logoContainer {
-    display: flex;
-    align-items: center;
-  }
-  
-  .logoLink {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: #fff;
-  }
+/* .container:hover {
+  background-color: #74a2da;
+} */
 
-  .logoText {
-    margin-left: 10px;
-    font-weight: bold;
-    font-size: 22px;
-  }
-  
+.logoContainer {
+  display: flex;
+  align-items: center;
+}
 
-  .links {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .link {
-    color: #fff;
-    font-size: 18px;
-  }
-
-  .logout {
-    padding: 5px 10px;
-    border: none;
-    background-color: #4278d2;
-    color: #fff;
-    cursor: pointer;
-    border-radius: 3px;
-    font-size: 16px;
-  }
-  .logout:hover {
-  background-color: #021e9a;
+.logoLink {
+  display: flex;
+  align-items: center;
   color: #fff;
 }
-  
+
+.logoText {
+  margin-left: 10px;
+  font-weight: bold;
+  font-size: 22px;
+}
+
+.links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.link {
+  color: #fff;
+  text-decoration: none;
+  font-size: 18px;
+  transition: color 0.5s;
+  position: relative;
+}
+
+.link:hover {
+  color: #042e62;
+  background-color: #ccc; 
+  border-radius: 3px;
+  padding: 3px;
+}
+
+.link::after {
+  content: "";
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #74a2da;
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+
+
+.logout {
+  padding: 5px 10px;
+  border: none;
+  background-color: #0f4a8d;
+  color: #fff;
+  cursor: pointer;
+  border-radius: 3px;
+  font-size: 16px;
+  transition: background-color 0.5s, color 0.5s;
+}
+
+.logout:hover {
+  background-color: #e39b4e;
+}

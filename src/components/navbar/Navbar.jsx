@@ -49,7 +49,7 @@ const Links = [
       </div>
       <div className={styles.links}>
         {Links.map((link) => (
-          <Link key={link.id} href={link.url} className={styles.links}>
+          <Link key={link.id} href={link.url} className={styles.link}>
             {link.title}
           </Link>
         ))}
