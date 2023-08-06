@@ -1,3 +1,77 @@
-.container{
-    background-color: aqua;
-}
+/* page.module.css */
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 3rem;
+  }
+  
+  .item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .title {
+    font-size: 36px;
+    font-weight: bold;
+    color: #e74c3c;
+    text-align: center;
+  }
+  
+  .img {
+    object-fit: cover;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .listContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+  
+  .listContainer li {
+    font-size: 20px;
+    color: #333;
+  }
+  
+  .listContainer strong {
+    color: #e74c3c;
+    font-weight: bold;
+  }
+  
+  /* Ajout d'un style pour le texte des activités */
+  .activitiesText {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.6;
+  }
+  
+  /* Ajout d'un style pour les puces des activités */
+  .activitiesList {
+    list-style-type: none;
+    padding-left: 0;
+  }
+  
+  /* Style pour les puces personnalisées */
+  .activitiesList li {
+    position: relative;
+    padding-left: 30px;
+  }
+  
+  .activitiesList li:before {
+    content: "\2022";
+    position: absolute;
+    left: 0;
+    top: 5px;
+    color: #e74c3c;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  .desc{
+    font-size: x-large;
+  }
