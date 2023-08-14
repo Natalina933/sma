@@ -1,6 +1,8 @@
+/*Mobile first */
+
 .container {
-  background-color: #f1c40f;
-  padding: 40px 20px;
+  background-color: #f9f9f9;
+  padding: 20px;
   display: flex;
   justify-content: center;
 }
@@ -13,30 +15,49 @@
 .iconContainer {
   display: flex;
   align-items: center;
-  justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
-.locationIcon, .envelopeIcon {
+.locationIcon,
+.envelopeIcon {
   color: #e74c3c;
   margin-right: 10px;
 }
 
 .footerContent h3 {
-  font-size: 1.5rem;
-  font-family: 'Comic Sans MS', cursive, sans-serif;
-  color: #e74c3c;
+  font-size: 1.25rem;
+  font-family: 'Arial', sans-serif;
+  color: #333;
+  margin-bottom: 10px;
 }
 
 .footerContent p {
   font-size: 1rem;
   font-family: 'Arial', sans-serif;
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 15px;
 }
 
 .footerContent small {
   font-size: 0.8rem;
   display: block;
-  margin-top: 30px;
-  color: #3498db;
+  color: #777;
   font-style: italic;
+}
+
+/* Media Queries */
+
+@media screen and (min-width: 768px) {
+  .footerContent {
+    font-size: 18px;
+  }
+
+  .footerContent h3 {
+    font-size: 1.5rem;
+  }
+
+  .footerContent p {
+    font-size: 1.1rem;
+  }
 }
