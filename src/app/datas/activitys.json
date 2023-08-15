@@ -4,26 +4,26 @@
     "title": "Aquagym",
     "schedule": "Jeudi 14h",
     "place": "Piscine de Saint-Mandé",
-    "description": "Activités  hebdomadaires, à la piscine de Saint Mandé",
+    "description": "Activités hebdomadaires à la piscine de Saint Mandé",
     "category": "Activité hebdomadaires",
-    "price": 30,
+    "price": "gratuit",
     "rating": 5,
     "programme": "",
     "inscription": "oui"
-},
-{
+  },
+  {
     "id": 2,
-    "image": "/images/art florale.jpg",
+    "image": "/images/artflorale.jpg",
     "title": "Art florale",
     "schedule": "Lundi 14h",
-    "place": "Centre CRESCO Salle Bruno Cremer - 4 avenue Pasteur 94160 SAINT MANDE ",
-    "description": "L'art traditionnel de l'arrangement floral japonais." ,
+    "place": "Centre CRESCO Salle Bruno Cremer - 4 avenue Pasteur 94160 SAINT MANDE",
+    "description": "L'art traditionnel de l'arrangement floral japonais.",
     "category": "Activité hebdomadaires",
     "price": 20,
     "rating": 5,
     "programme": "Arranger des fleurs est le résultat de l’étude de nombreux aspects, mais quand les personnes prennent place devant les végétaux et les considèrent le cœur plein d’indulgence, ils arborent un visage plus que beau, reflet du changement qui s’opère en eux.",
     "inscription": "oui"
-},
+  },
 {
     "id": 3,
     "image": "/images/cercle.jpg",
@@ -54,16 +54,16 @@
     "title": "Débats cinéma",
     "schedule": "mercredi 16h",
     "place": "Piscine de Saint-Mandé",
-    "description": "Activitésudis )",
+    "description": "sans inscription",
     "category": "Activité hebdomadaires",
     "price": 10,
     "rating": 5,
     "programme": "",
-    "inscription": ""
+    "inscription": "non"
 }, {
     "id": 6,
     "image": "/images/gouter.jpg",
-    "title": "Aquagym",
+    "title": "Gouter",
     "schedule": "Jeudi 14h",
     "place": "Piscine de Saint-Mandé",
     "description": "Activités  hebt Mandé (les jeudis )",
@@ -75,7 +75,7 @@
 }, {
     "id": 7,
     "image": "/images/loto.jpg",
-    "title": "Aquagym",
+    "title": "Loto",
     "schedule": "Jeudi 14h",
     "place": "Piscine de Saint-Mandé",
     "description": "Activités  hebdomadaires,   ",
@@ -87,7 +87,7 @@
 }, {
     "id": 8,
     "image": "/images/marche.jpg",
-    "title": "Aquagym",
+    "title": "Marche",
     "schedule": "Jeudi 14h",
     "place": "Piscine de Saint-Mandé",
     "description": "Activités  hebdomadaires,)",
@@ -98,8 +98,8 @@
     "inscription": ""
 }, {
     "id": 9,
-    "image": "/images/Matinées théâtrales.jpg",
-    "title": "Aquagym",
+    "image": "/images/Matineestheatrales.jpg",
+    "title": "Matinées théâtrales",
     "schedule": "Jeudi 14h",
     "place": "Piscine de Saint-Mandé",
     "description": "Activités  hebdomadaires,   ",
@@ -111,7 +111,7 @@
 }, {
     "id": 10,
     "image": "/images/scabble.jpg",
-    "title": "Aquagym",
+    "title": "Scabble",
     "schedule": "Jeudi 14h",
     "place": "Piscine de Saint-Mandé",
     "description": "Activités  hebdomadaires,",
@@ -122,8 +122,8 @@
     "inscription": ""
 }, {
     "id": 11,
-    "image": "/images/Sorties culturelles.jpg",
-    "title": "Aquagym",
+    "image": "/images/Sortiesculturelles.jpg",
+    "title": "Sorties culturelles",
     "schedule": "Jeudi 14h",
     "place": "Piscine de Saint-Mandé",
     "description": "Activités  hebdomadaires)",

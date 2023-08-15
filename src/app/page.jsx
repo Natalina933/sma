@@ -1,7 +1,10 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
+"use client"
+import React from "react";
 import styles from "./page.module.css";
 import Banner from "@/components/banner/Banner";
+import MyCarousel from "@/components/carousel/MyCarousel";
 
 export default function Home() {
   return (
@@ -31,6 +34,9 @@ export default function Home() {
           </li>
         </ul>
       </section>
+      <MyCarousel />
+     
+
     </article>
   );
 }

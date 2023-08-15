@@ -19,45 +19,51 @@ const Navbar = () => {
       id: 1,
       title: "Home",
       url: "/",
-      icon: < FaHome />,
+      icon: <FaHome />,
     },
     {
       id: 2,
       title: "Activity",
       url: "/activity",
-      icon: <FaCalendarWeek/>,
+      icon: <FaCalendarWeek />,
     },
     {
       id: 3,
       title: "Blog",
       url: "/blog",
-      icon: <FaComments/> ,
+      icon: <FaComments />,
     },
     {
       id: 4,
       title: "About",
       url: "/about",
-      icon: < FaFeather/>,
+      icon: <FaFeather />,
     },
     {
       id: 5,
       title: "Contact",
       url: "/contact",
-      icon: <FaEnvelopeOpenText/>,
+      icon: <FaEnvelopeOpenText />,
     },
     {
       id: 6,
       title: "Dashboard",
       url: "/dashboard",
-      icon: <FaCogs/> ,
+      icon: <FaCogs />,
     },
   ];
 
   return (
-<div className={styles.container}>
+    <div className={styles.container}>
       <section className={styles.logoContainer}>
         <Link href="/" className={styles.logoLink}>
-          <Image src="/logo.svg" width={50} height={35} alt="logo SMA" />
+          <Image
+            src="/logo.svg"
+            className={styles.logoImage}
+            width={100}
+            height={70}
+            alt="logo SMA"
+          />
           <span className={styles.logoText}>Saint-Mandé Accueil</span>
         </Link>
       </section>
@@ -72,8 +78,7 @@ const Navbar = () => {
           className={styles.logout}
           onClick={() => {
             console.log("Déconnecté");
-          }}
-        >
+          }}>
           Déconnexion
         </button>
       </section>

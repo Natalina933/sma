@@ -1,7 +1,7 @@
 /* mobile first*/
 
 .container {
-  background: linear-gradient(45deg, #f3b538,  #2999b5,#4278d2);
+  background: linear-gradient(45deg,#4278d2 , #2999b5,#E49D4D );
   height: 70px;
   display: flex;
   justify-content: space-between;
@@ -18,13 +18,16 @@
 .logoLink {
   display: flex;
   align-items: center;
-  color: #fff;
-}
 
+}
+.logoImage {
+  border-radius: 50%;
+  border-color:blue;
+}
 .logoText {
   margin-left: 10px;
   font-weight: bold;
-  font-size: 12px;
+  font-size: 25px;
 }
 
 .links {
@@ -37,7 +40,7 @@
   color: #fff;
   text-decoration: none;
   font-size: 18px;
-  transition: color 0.5s;
+  transition: color 0.5s, background-color 0.5s;
   position: relative;
 }
 
@@ -59,7 +62,7 @@
   transform: scaleX(0);
   transition: transform 0.3s;
 }
-
+/* Styles pour le bouton de déconnexion */
 .logout {
   padding: 5px 10px;
   border: none;
@@ -75,7 +78,7 @@
   background-color: #e39b4e;
 }
 
-/* Styles pour les petits écrans (mobiles) */
+/* Styles pour les mobiles */
 @media (max-width: 768px) {
   .container {
     padding: 0 10px;
@@ -98,7 +101,7 @@
   .logoText {
     display: none;
   }
-  .logoLink{
+  .logoLink {
     width: 50px;
     height: 50px;
   }
@@ -120,5 +123,67 @@
 
   .logout {
     font-size: 16px;
+  }
+  .linkIcon{
+    display:none;
+  }
+}
+@media (min-width: 1025px) {
+  .container {
+    padding: 0 50px;
+  }
+
+  .logoText {
+    font-size: 24px;
+  }
+
+  .link {
+    font-size: 20px;
+  }
+  .linkIcon{
+    display:none;
+  }
+  .logout {
+    font-size: 18px;
+  }
+}
+
+/* Styles pour les écrans grandes résolutions */
+@media (min-width: 1440px) {
+  .container {
+    padding: 0 100px;
+  }
+
+  .logoText {
+    font-size: 28px;
+  }
+
+  .link {
+    font-size: 24px;
+  }
+  .linkIcon{
+    display:none;
+  }
+  .logout {
+    font-size: 20px;
+  }
+}
+
+/* Styles pour les écrans larges */
+@media (min-width: 1920px) {
+  .container {
+    padding: 0 150px;
+  }
+
+  .logoText {
+    font-size: 32px;
+  }
+
+  .link {
+    font-size: 28px;
+  }
+
+  .logout {
+    font-size: 22px;
   }
 }
