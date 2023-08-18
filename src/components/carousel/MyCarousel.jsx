@@ -42,7 +42,7 @@ const MyCarousel = () => {
       <Carousel responsive={responsive} className={styles.carousel}>
         {activityData.map(activity => (
           <div className={`${styles.card} ${expandedActivity === activity.id ? styles.cardExpanded : ''}`} key={activity.id}>
-            <Image src={activity.image} width={200} height={130} alt={activity.title} />
+            <Image src={activity.image} width={300} height={130} alt={activity.title} />
             <div className={styles.cardContent}>
               <h2 className={styles.activityTitle}>{activity.title}</h2>
               <p className={styles.description}>{activity.description}</p>

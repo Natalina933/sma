@@ -60,8 +60,8 @@ const Navbar = () => {
           <Image
             src="/logo.svg"
             className={styles.logoImage}
-            width={100}
-            height={70}
+            width={70}
+            height={50}
             alt="logo SMA"
           />
           <span className={styles.logoText}>Saint-Mandé Accueil</span>
