@@ -1,11 +1,20 @@
 import React from 'react'
 import styles from './page.module.css'
+import GalleryCardActivity from '@/components/card/GalleryCardActivity'
+import activityData from '@/app/datas/activitys.json';
 
-
-const Category = () => {
+function App() {
   return (
-    <div className={styles.container}>Category</div>
-  )
+    <div>
+      <GalleryCardActivity activityData={activityData} />
+    </div>
+  );
 }
 
-export default Category
+export default App;
+
+
+
+
+
+

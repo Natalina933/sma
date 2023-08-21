@@ -4,7 +4,6 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import styles from "@/components/carousel/mycarousel.module.css";
 import Image from 'next/image';
-import Hero from 'public/hero.jpg';
 import activityData from "@/app/datas/activitys.json"
 
 const MyCarousel = () => {
@@ -29,11 +28,9 @@ const MyCarousel = () => {
   const [expandedActivity, setExpandedActivity] = useState(null);
 
   const handleToggleDescription = (activityId) => {
-    if (expandedActivity === activityId) {
-      setExpandedActivity(null);
-    } else {
-      setExpandedActivity(activityId);
-    }
+    setExpandedActivity(prevExpandedActivity =>
+      prevExpandedActivity === activityId ? null : activityId
+    );
   };
 
   return (
@@ -41,7 +38,12 @@ const MyCarousel = () => {
       <h1 className={styles.carouselTitle}>Découvrez un monde d'activités passionnantes</h1>
       <Carousel responsive={responsive} className={styles.carousel}>
         {activityData.map(activity => (
-          <div className={`${styles.card} ${expandedActivity === activity.id ? styles.cardExpanded : ''}`} key={activity.id}>
+          <div
+            className={`${styles.card} ${
+              expandedActivity === activity.id ? styles.cardExpanded : ''
+            }`}
+            key={activity.id}
+          >
             <Image src={activity.image} width={300} height={130} alt={activity.title} />
             <div className={styles.cardContent}>
               <h2 className={styles.activityTitle}>{activity.title}</h2>
@@ -50,8 +52,14 @@ const MyCarousel = () => {
               <div className={styles.details}>
                 <p className={styles.schedule}>{activity.schedule}</p>
                 <p className={styles.place}>{activity.place}</p>
-                <p className={styles.price}>{activity.price === "gratuit" ? "Gratuit" : `${activity.price} €`}</p>
-                <button className={styles.addButton} type="button" onClick={() => handleToggleDescription(activity.id)}>
+                <p className={styles.price}>
+                  {activity.price === "gratuit" ? "Gratuit" : `${activity.price} €`}
+                </p>
+                <button
+                  className={styles.addButton}
+                  type="button"
+                  onClick={() => handleToggleDescription(activity.id)}
+                >
                   {expandedActivity === activity.id ? 'Réduire' : 'En savoir plus'}
                 </button>
               </div>
@@ -61,6 +69,6 @@ const MyCarousel = () => {
       </Carousel>
     </section>
   );
-}
+};
 
 export default MyCarousel;
