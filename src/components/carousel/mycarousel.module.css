@@ -1,6 +1,7 @@
 .carouselContainer {
   text-align: center;
   padding: 20px;
+  background-color: #2588b8;
 }
 
 .carouselTitle {
@@ -11,6 +12,8 @@
 .carousel {
   display: flex;
   align-items: center;
+  justify-content: space-between; 
+  flex-wrap: wrap; 
 }
 
 .card {
@@ -22,6 +25,7 @@
   text-align: center;
   max-width: 322px;
   border-radius: 30px;
+  margin-bottom: 20px; 
 }
 
 .card img {

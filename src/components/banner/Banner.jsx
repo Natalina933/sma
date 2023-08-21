@@ -17,6 +17,7 @@ const Banner = () => {
               src={Hero}
               width={300}
               height={200}
+              style={{ borderRadius: '15px' }}
               layout="responsive"
               className={styles.image}
               alt="Activités passionnantes"
