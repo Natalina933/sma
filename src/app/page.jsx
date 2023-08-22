@@ -15,7 +15,9 @@ export default function Home() {
       <Banner />
 
       <section className={styles.desc}>
-        <h2>Découvrez un monde d'activités passionnantes</h2>
+        <div className={styles.arrow}>
+          <h2>Découvrez un monde d'activités passionnantes</h2>
+        </div>
 
         <h3>Qui sommes-nous ?</h3>
         <p>

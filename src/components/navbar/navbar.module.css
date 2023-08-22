@@ -1,8 +1,7 @@
 /* mobile first*/
 
 .container {
-  background: linear-gradient(45deg,#4278d2 , #2999b5,#E49D4D );
-  height: 70px;
+  height: 90px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,11 +36,12 @@
 }
 
 .link {
-  color: #fff;
   text-decoration: none;
   font-size: 18px;
   transition: color 0.5s, background-color 0.5s;
   position: relative;
+  border-bottom: 2mm ridge rgba(50, 183, 220, 0.6);
+
 }
 
 .link:hover {
@@ -81,7 +81,7 @@
 /* Styles pour les mobiles */
 @media (max-width: 768px) {
   .container {
-    padding: 0 10px;
+    padding: 0 3px;
   }
 
   .logoText {
@@ -110,7 +110,7 @@
 /* Styles pour les écrans de tablette */
 @media (min-width: 768px) and (max-width: 1024px) {
   .container {
-    padding: 0 30px;
+    padding: 0 3px;
   }
 
   .logoText {
@@ -130,7 +130,7 @@
 }
 @media (min-width: 1025px) {
   .container {
-    padding: 0 50px;
+    padding: 0 3px;
   }
 
   .logoText {
@@ -151,7 +151,7 @@
 /* Styles pour les écrans grandes résolutions */
 @media (min-width: 1440px) {
   .container {
-    padding: 0 100px;
+    padding: 0 3px;
   }
 
   .logoText {
@@ -172,7 +172,7 @@
 /* Styles pour les écrans larges */
 @media (min-width: 1920px) {
   .container {
-    padding: 0 150px;
+    padding: 0 3px;
   }
 
   .logoText {

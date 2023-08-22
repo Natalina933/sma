@@ -21,8 +21,7 @@
   padding: 20px;
   color: black;
   text-align: center;
-  border-top: 3px solid #2588b8; 
-  border-bottom: 3px solid #2588b8; 
+  border-bottom: 2mm ridge rgba(238, 91, 23, 0.918);
 }
 
 .text {
@@ -39,6 +38,7 @@
   transform: scale(1.05);
   box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
 }
+
 /* Tablettes */
 @media (min-width: 768px) {
   .banner {
