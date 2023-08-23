@@ -5,49 +5,35 @@
   align-items: center;
   padding: 20px;
 }
+
+
 .logoContainer {
   display: flex;
   align-items: center;
   margin-bottom: 20px;
 }
+
 .logoLink {
-  display: flex;
-  align-items: center;
   text-decoration: none;
   color: #333;
 }
-.title {
-  text-align: center;
-  color: #333;
-  margin: 10px;
-}
+
 .logoText {
   margin-left: 10px;
   font-weight: bold;
   font-size: 18px;
 }
 
-.link {
-  display: flex;
-  align-items: center;
-  margin: 10px 0;
-}
+.title {
+  text-align: center;
+  color: white;
+  margin: 10px;
+  border: white solid 4px;
+  border-radius: 10px 30px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  height: 183px;
+  padding-top: 41px;
 
-
-.img {
-  width: 100%;
-  max-width: 300px;
-  height: auto;
-  display: block;
-  margin: 0 auto;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-}
-
-.img:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .desc {
@@ -55,8 +41,10 @@
   text-align: center;
   color: #201b1b;
   margin: 20px 0;
-  background-color: #f5f5f5; 
-  padding: 20px; 
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 .desc h2 {
@@ -77,33 +65,49 @@
   margin-bottom: 20px;
 }
 
-
-
-.listContainer {
+.backgroundArrow {
+  position: relative;
+  /* Ajoutez cette ligne */
+  top: 0;
+  left: 0;
   width: 100%;
-  text-align: center;
+  height: 100%;
+  z-index: 1;
 }
 
-.listItem {
-  background-color: #f8f8f8;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 20px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-}
-.arrow{
-  display: flex;
-  align-items: center;
+.backgroundArrow::before {
+  content: '';
+  display: block;
   width: 0;
-height: 0;
-border-style: solid;
-border-width: 80px 0 80px 100px;
-border-color: transparent transparent transparent #1523bc;
+  height: 0;
+  border-style: solid;
+  border-width: 200px 0 200px 250px;
+  border-color: transparent transparent transparent #1523bc;
+  position: absolute;
+  bottom: 0;
 }
+
+
+.img {
+  width: 100%;
+  max-width: 300px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.img:hover {
+  transform: scale(1.05);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+}
+
 /* Media query pour tablettes */
 @media (min-width: 768px) {
   .container {
-    flex-direction: row;
+    display: flex;
     justify-content: space-between;
     align-items: flex-start;
   }

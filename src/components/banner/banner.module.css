@@ -2,26 +2,23 @@
 .banner {
   position: relative;
   height: 415px;
-  background-size: cover;
-  background-position: center;
-  background-image: url("/public/hero.jpg");
 }
-
-
 
 .contentContainer {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
+  background-color: #28db4a36;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+
 }
 
 .textContainer {
   width: 100%;
   padding: 20px;
-  color: black;
+  color: #333;
   text-align: center;
-  border-bottom: 2mm ridge rgba(238, 91, 23, 0.918);
 }
 
 .text {
@@ -37,6 +34,48 @@
 .img:hover {
   transform: scale(1.05);
   box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.3);
+}
+
+.arrowsContainer {
+  position: relative;
+}
+
+.arrow {
+  position: absolute;
+  z-index: -1;
+}
+
+.arrow1,
+.arrow2,
+.arrow3 {
+  border-style: solid;
+  border-width: 0;
+  border-color: transparent transparent transparent #1523bc;
+  opacity: 0.5;
+}
+
+.arrow1 {
+  width: 30px;
+  height: 30px;
+  top: 20%;
+  left: 10%;
+  border-width: 30px 0 0 30px;
+}
+
+.arrow2 {
+  width: 50px;
+  height: 50px;
+  top: 60%;
+  left: 50%;
+  border-width: 50px 0 0 50px;
+}
+
+.arrow3 {
+  width: 80px;
+  height: 80px;
+  top: 30%;
+  right: 10%;
+  border-width: 80px 0 0 80px;
 }
 
 /* Tablettes */
@@ -58,9 +97,7 @@
   }
 
   .text {
-    width: 50%;
-    text-align: left;
-    padding: 20px;
+    padding-left: 58px;
   }
 
   .img {
@@ -68,12 +105,35 @@
     text-align: right;
     max-width: 300px;
   }
+  .arrow1 {
+    width: 40px;
+    height: 40px;
+    top: 15%;
+    left: 10%;
+    border-width: 40px 0 0 40px;
+  }
+
+  .arrow2 {
+    width: 60px;
+    height: 60px;
+    top: 50%;
+    left: 50%;
+    border-width: 60px 0 0 60px;
+  }
+
+  .arrow3 {
+    width: 100px;
+    height: 100px;
+    top: 25%;
+    right: 10%;
+    border-width: 100px 0 0 100px;
+  }
 }
 
 /* Écrans d'ordinateur */
 @media (min-width: 1024px) {
   .banner {
-    height: 383px;
+    height: 445px;
   }
 
   .text {
@@ -81,7 +141,40 @@
   }
 
   .img {
-    width: 60%;
-    max-width: 500px;
+    width: 38%;
+    max-width: 428px;
+    border-radius: 28px;
+
+
+  }
+  .arrow1 {
+    width: 60px;
+    height: 60px;
+    top: 10%;
+    left: 5%;
+    border-width: 60px 0 0 60px;
+  }
+
+  .arrow2 {
+    width: 100px;
+    height: 100px;
+    top: 50%;
+    left: 50%;
+    border-width: 100px 0 0 100px;
+  }
+
+  .arrow3 {
+    width: 160px;
+    height: 160px;
+    top: 20%;
+    right: 5%;
+    border-width: 160px 0 0 160px;
+  }
+
+  
+  .text {
+    opacity: 0.9;
+    position: relative; /* Ajoutez cette ligne */
+    z-index: 2; /* Ajoutez cette ligne */
   }
 }

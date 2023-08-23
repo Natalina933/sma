@@ -14,8 +14,8 @@ export default function Home() {
       </h1>
       <Banner />
 
-      <section className={styles.desc}>
-        <div className={styles.arrow}>
+      <section className={`${styles.desc} ${styles.arrow} ${styles.backgroundArrow}`}>
+        <div className={styles.arrowContainer}>
           <h2>Découvrez un monde d'activités passionnantes</h2>
         </div>
 
@@ -37,8 +37,6 @@ export default function Home() {
         </ul>
       </section>
       <MyCarousel />
-     
-
     </article>
   );
 }

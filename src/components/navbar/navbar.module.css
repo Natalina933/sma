@@ -7,6 +7,7 @@
   align-items: center;
   font-family: Arial, sans-serif;
   padding-right: 10px;
+  background-color: floralwhite;
 }
 
 .logoContainer {
@@ -21,7 +22,7 @@
 }
 .logoImage {
   border-radius: 50%;
-  border-color:blue;
+  border:2px solid rgba(255, 137, 2, 0.338);
 }
 .logoText {
   margin-left: 10px;
@@ -40,7 +41,7 @@
   font-size: 18px;
   transition: color 0.5s, background-color 0.5s;
   position: relative;
-  border-bottom: 2mm ridge rgba(50, 183, 220, 0.6);
+  /* border-bottom: 2mm ridge rgba(50, 183, 220, 0.6); */
 
 }
 
