@@ -38,10 +38,9 @@
 
 .link {
   text-decoration: none;
-  font-size: 18px;
+  font-size: 17px;
   transition: color 0.5s, background-color 0.5s;
   position: relative;
-  /* border-bottom: 2mm ridge rgba(50, 183, 220, 0.6); */
 
 }
 
@@ -82,7 +81,7 @@
 /* Styles pour les mobiles */
 @media (max-width: 768px) {
   .container {
-    padding: 0 3px;
+    padding: 0 13px;
   }
 
   .logoText {
@@ -131,7 +130,7 @@
 }
 @media (min-width: 1025px) {
   .container {
-    padding: 0 3px;
+    padding: 0 20px;
   }
 
   .logoText {

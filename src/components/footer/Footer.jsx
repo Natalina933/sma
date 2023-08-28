@@ -8,7 +8,7 @@ const Footer = () => {
     <div className={styles.container}>
       <div className={styles.footerContent}>
         <div className={styles.iconContainer}>
-        <FontAwesomeIcon  width={45} height={45} icon={faLocationDot} className={styles.locationIcon} />
+        <FontAwesomeIcon  width={25} height={25} icon={faLocationDot} className={styles.locationIcon} />
           <h3>Permanences Tous les mardis de 14h30 à 17h</h3>
         </div>
         <p>
@@ -16,7 +16,7 @@ const Footer = () => {
           vous accueillir à la salle polyvalente :
         </p>
         <div className={styles.iconContainer}>
-         <FontAwesomeIcon width={50} height={50} icon={faEnvelope} className={styles.envelopeIcon} /> 
+         <FontAwesomeIcon width={25} height={25} icon={faEnvelope} className={styles.envelopeIcon} /> 
          <p>
           CENTRE CRESCO - Salle Bruno Cremer, 4 avenue Pasteur à Saint-Mandé.
         </p>   
