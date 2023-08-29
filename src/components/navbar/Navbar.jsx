@@ -17,13 +17,13 @@ const Navbar = () => {
   const Links = [
     {
       id: 1,
-      title: "Home",
+      title: "Accueil",
       url: "/",
       icon: <FaHome />,
     },
     {
       id: 2,
-      title: "Activity",
+      title: "Nos Activités",
       url: "/activity",
       icon: <FaCalendarWeek />,
     },
@@ -35,7 +35,7 @@ const Navbar = () => {
     },
     {
       id: 4,
-      title: "About",
+      title: "A propos de nous",
       url: "/about",
       icon: <FaFeather />,
     },
@@ -47,7 +47,7 @@ const Navbar = () => {
     },
     {
       id: 6,
-      title: "Dashboard",
+      title: "Tableau de bord",
       url: "/dashboard",
       icon: <FaCogs />,
     },
