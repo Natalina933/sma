@@ -1,9 +1,6 @@
 /* Mobile first */
 
-.banner {
-  position: relative;
-  height: 415px;
-}
+
 
 .contentContainer {
   display: flex;
