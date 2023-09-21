@@ -5,16 +5,39 @@ import React from "react";
 import styles from "./page.module.css";
 import Banner from "@/components/banner/Banner";
 import MyCarousel from "@/components/carousel/MyCarousel";
+import Image from 'next/image';
+import HeroImage from 'public/hero.jpg';
+import HeaderImage from 'public/headerImage.jpg';
 
 export default function Home() {
   return (
     <article className={styles.item}>
+      <div className={styles.img}>
+        <Image
+          src={HeaderImage}
+          width={1920} 
+          height={1080} 
+          layout="responsive"
+          className={styles.image}
+          alt="Activités passionnantes"
+        />
+      </div>
       <h1 className={styles.title}>
         Bienvenue sur le site de l'association SMA <br /> Saint-Mandé Accueil
       </h1>
       <Banner />
 
       <section className={`${styles.desc} ${styles.arrow} ${styles.backgroundArrow}`}>
+        <div className={styles.img}>
+          <Image
+            src={HeroImage}
+            width={300}
+            height={200}
+            layout="responsive"
+            className={styles.image}
+            alt="Activités passionnantes"
+          />
+        </div>
         <div className={styles.arrowContainer}>
           <h2>Découvrez un monde d'activités passionnantes</h2>
         </div>
