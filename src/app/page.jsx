@@ -1,7 +1,6 @@
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
 "use client"
-import React from "react";
 import styles from "./page.module.css";
 import Banner from "@/components/banner/Banner";
 import MyCarousel from "@/components/carousel/MyCarousel";
@@ -12,19 +11,41 @@ import HeaderImage from 'public/headerImage.jpg';
 export default function Home() {
   return (
     <article className={styles.item}>
-      <div className={styles.img}>
+      {/* <div className={styles.img}>
         <Image
           src={HeaderImage}
-          width={1920} 
-          height={1080} 
+          width={1920}
+          height={1080}
           layout="responsive"
           className={styles.image}
           alt="Activités passionnantes"
         />
+        <h1 className={styles.title}>
+          Bienvenue sur le site de l'association SMA <br /> Saint-Mandé Accueil
+        </h1>
+      </div> */}
+      <div className={styles.container}>
+        <div className={styles.imgContainer}>
+        <Image
+          src={HeaderImage}
+          width={1920}
+          height={1080}
+          layout="responsive"
+          className={styles.image}
+          alt="Activités passionnantes"
+        />
+        <div className={styles.imgText}>
+        <h1 className={styles.imgTitle}>
+          Bienvenue sur le site de l'association SMA <br /> Saint-Mandé Accueil
+        </h1>
+        <h2 className={styles.imgDesc}>Découvrez un monde d'activités passionnantes</h2>
+        </div>
+        </div>
+        <div className={styles.textContainer}>
+
+        </div>
+
       </div>
-      <h1 className={styles.title}>
-        Bienvenue sur le site de l'association SMA <br /> Saint-Mandé Accueil
-      </h1>
       <Banner />
 
       <section className={`${styles.desc} ${styles.arrow} ${styles.backgroundArrow}`}>

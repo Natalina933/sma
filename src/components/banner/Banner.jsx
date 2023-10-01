@@ -1,4 +1,3 @@
-import React from 'react';
 import styles from './banner.module.css';
 import HeroImage from 'public/hero.jpg';
 import Image from 'next/image';
