@@ -1,6 +1,6 @@
 import styles from "./page.module.css";
 import Image from 'next/image';
-import HeaderImage from '../../../public/images/headerImage.jpg';
+import HeaderImage from 'public/headerImage.jpg';
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
 
@@ -12,7 +12,6 @@ const About = () => {
           src={HeaderImage}
           width={1920}
           height={1080}
-          layout="responsive"
           className={styles.image}
           alt="Activités passionnantes"
         />
@@ -31,7 +30,7 @@ const About = () => {
             </p>
         </div>
         <div className={styles.item}>
-          <h1 className={styles.title}>Ce que nous proposons?</h1>
+          <h1 className={styles.title}>Ce que nous faisont??</h1>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aspernatur corporis debitis, eum eligendi modi perferendis deserunt nisi, sequi suscipit nemo ipsum, maxime alias perspiciatis? Libero temporibus repellendus animi blanditiis.</p>
         </div>
       </div>
