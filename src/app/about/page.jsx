@@ -1,6 +1,6 @@
 import styles from "./page.module.css";
 import Image from 'next/image';
-import HeaderImage from 'public/headerImage.jpg';
+import HeaderImage from '../../../public/images/headerImage.jpg';
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
 
