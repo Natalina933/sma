@@ -26,10 +26,12 @@ const About = () => {
       <div className={styles.textContainer}>
         <div className={styles.item}>
           <h1 className={styles.title}>Qui sommes-nous?</h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aspernatur corporis debitis, eum eligendi modi perferendis deserunt nisi, sequi suscipit nemo ipsum, maxime alias perspiciatis? Libero temporibus repellendus animi blanditiis.</p>
+          <p className={styles.desc}>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aspernatur corporis debitis, eum eligendi modi perferendis deserunt nisi, sequi suscipit nemo ipsum, maxime alias perspiciatis? Libero temporibus repellendus animi blanditiis.
+            </p>
         </div>
         <div className={styles.item}>
-          <h1 className={styles.title}>Qui sommes-nous?</h1>
+          <h1 className={styles.title}>Ce que nous proposons?</h1>
           <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis aspernatur corporis debitis, eum eligendi modi perferendis deserunt nisi, sequi suscipit nemo ipsum, maxime alias perspiciatis? Libero temporibus repellendus animi blanditiis.</p>
         </div>
       </div>
