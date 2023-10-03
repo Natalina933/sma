@@ -11,7 +11,7 @@ export default function Home() {
       <header className={styles.container}>
         <div className={styles.imgContainer}>
           <Image
-            src='/public/headerImage.jpg'
+            src='/headerImage.jpg'
             height={300}
             width={1000}
             className={styles.image}

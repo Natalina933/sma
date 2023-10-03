@@ -1,6 +1,5 @@
 import styles from "./page.module.css";
 import Image from 'next/image';
-import HeaderImage from 'public/headerImage.jpg';
 import Button from "@/components/Button/Button";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
@@ -10,9 +9,9 @@ const About = () => {
     <div className={styles.container}>
       <header className={styles.header}>
         <Image
-          src={HeaderImage}
+          src='/headerImage.jpg'
           height={300}
-          layout="responsive"
+          width={1000}
           className={styles.image}
           alt="Activités passionnantes"
         />
