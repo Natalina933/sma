@@ -5,17 +5,15 @@ import styles from "./page.module.css";
 import Banner from "@/components/banner/Banner";
 import MyCarousel from "@/components/carousel/MyCarousel";
 import Image from 'next/image';
-import HeroImage from '/public/hero.jpg';
-import HeaderImage from '/public/headerImage.jpg';
 export default function Home() {
   return (
     <div className={styles.item}>
       <header className={styles.container}>
         <div className={styles.imgContainer}>
           <Image
-            src={HeaderImage}
+            src='/public/headerImage.jpg'
             height={300}
-            layout="responsive"
+            width={1000}
             className={styles.image}
             alt="Activités passionnantes"
           />
@@ -33,10 +31,9 @@ export default function Home() {
       <main className={`${styles.desc} ${styles.arrow} ${styles.backgroundArrow}`}>
         <div className={styles.img}>
           <Image
-            src={HeroImage}
+            src='/public/hero.jpg'
             width={300}
             height={200}
-            layout="responsive"
             className={styles.image}
             alt="Activités passionnantes"
           />
