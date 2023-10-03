@@ -10,44 +10,28 @@ import HeaderImage from 'public/headerImage.jpg';
 
 export default function Home() {
   return (
-    <article className={styles.item}>
-      {/* <div className={styles.img}>
-        <Image
-          src={HeaderImage}
-          width={1920}
-          height={1080}
-          layout="responsive"
-          className={styles.image}
-          alt="Activités passionnantes"
-        />
-        <h1 className={styles.title}>
-          Bienvenue sur le site de l'association SMA <br /> Saint-Mandé Accueil
-        </h1>
-      </div> */}
+
+    <main className={styles.item}>
       <div className={styles.container}>
-        <div className={styles.imgContainer}>
-        <Image
-          src={HeaderImage}
-          width={1920}
-          height={1080}
-          layout="responsive"
-          className={styles.image}
-          alt="Activités passionnantes"
-        />
-        <div className={styles.imgText}>
-        <h1 className={styles.imgTitle}>
-          Bienvenue sur le site de l'association SMA <br /> Saint-Mandé Accueil
-        </h1>
-        <h2 className={styles.imgDesc}>Découvrez un monde d'activités passionnantes</h2>
-        </div>
-        </div>
+        <header className={styles.imgContainer}>
+          <Image
+            src={HeaderImage}
+            height={300}
+            layout="responsive"
+            className={styles.image}
+            alt="Activités passionnantes"
+          />
+          <div className={styles.headerText}>
+            <h1 className={styles.headerTitle}>
+              Bienvenue sur le site de l'association SMA <br /> Saint-Mandé Accueil
+            </h1>
+            <h2 className={styles.subtitle}>Découvrez un monde d'activités passionnantes</h2>
+          </div>
+        </header>
         <div className={styles.textContainer}>
-
         </div>
-
       </div>
       <Banner />
-
       <section className={`${styles.desc} ${styles.arrow} ${styles.backgroundArrow}`}>
         <div className={styles.img}>
           <Image
@@ -81,6 +65,6 @@ export default function Home() {
         </ul>
       </section>
       <MyCarousel />
-    </article>
+    </main>
   );
 }
