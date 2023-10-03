@@ -5,8 +5,8 @@ import styles from "./page.module.css";
 import Banner from "@/components/banner/Banner";
 import MyCarousel from "@/components/carousel/MyCarousel";
 import Image from 'next/image';
-import HeroImage from 'public/hero.jpg';
-import HeaderImage from 'public/headerImage.jpg';
+import HeroImage from '/public/hero.jpg';
+import HeaderImage from '/public/headerImage.jpg';
 export default function Home() {
   return (
     <div className={styles.item}>
