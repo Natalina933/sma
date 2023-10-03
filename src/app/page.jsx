@@ -31,7 +31,7 @@ export default function Home() {
       <main className={`${styles.desc} ${styles.arrow} ${styles.backgroundArrow}`}>
         <div className={styles.img}>
           <Image
-            src='/public/hero.jpg'
+            src='/hero.jpg'
             width={300}
             height={200}
             className={styles.image}
