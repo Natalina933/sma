@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import styles from "@/components/carousel/mycarousel.module.css";
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import activityData from "@/app/datas/activitys.json"
 
 const MyCarousel = () => {

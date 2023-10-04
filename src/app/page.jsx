@@ -4,7 +4,7 @@
 import styles from "./page.module.css";
 import Banner from "@/components/banner/Banner";
 import MyCarousel from "@/components/carousel/MyCarousel";
-import Image from 'next/image';
+import Image from "next/legacy/image";
 export default function Home() {
   return (
     <div className={styles.item}>
@@ -12,7 +12,7 @@ export default function Home() {
         <div className={styles.imgContainer}>
           <Image
             src='/headerImage.jpg'
-            height={300}
+            height="300"
             width={1000}
             className={styles.image}
             alt="Activités passionnantes"

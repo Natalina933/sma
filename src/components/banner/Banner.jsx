@@ -1,6 +1,6 @@
 import styles from './banner.module.css';
 import HeroImage from 'public/hero.jpg';
-import Image from 'next/image';
+import Image from "next/legacy/image";
 
 const Banner = () => {
   return (

@@ -1,5 +1,5 @@
 import styles from "./page.module.css";
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import Button from "@/components/Button/Button";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
