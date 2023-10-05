@@ -1,24 +1,46 @@
 /* Styles mobile first */
-.container {
-    padding: 20px;
-}
-
-/* Styles pour l'image d'en-tête */
 .headerImage {
-    position: relative;
     width: 100%;
-    overflow: hidden;
-    border-radius: 8px;
-    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+    border-radius: 5px;
 }
 
-.image:hover {
-    transform: scale(1.05);
-    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
+.img {
+    object-fit: cover;
+    border-radius: 5px;
 }
 
-.image {
-    border-radius: 20px;
-    height: 300px;
+.headerText {
+    position: absolute;
+    bottom: 20px;
+    background-color: rgba(164, 237, 213, 0.453);
+    box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
+    border-radius: 50px;
+    padding: 20px;
+    font-size:smaller ;
 
+}
+
+.title {
+    
+    text-align: center;
+    margin: 10px;
+    background: linear-gradient(135deg, #3f76d0, #E49D4D);
+    background-clip: text;
+    color: transparent;
+    text-shadow: 1px 2px 0 #0d0d0d;
+}
+/* Styles pour les tablettes */
+@media (min-width: 768px) {
+    .headerText {
+        left: 215px; /* Ajustez cette valeur pour les écrans plus larges */
+
+    }
+}
+
+/* Styles pour les écrans plus larges */
+@media (min-width: 1024px) {
+    .headerText {
+        left: 315px; /* Ajustez cette valeur pour les écrans plus larges */
+    }
 }

@@ -1,13 +1,5 @@
 
-.title {
-  text-align: center;
-  margin: 10px;
-  height: 183px;
-  padding-top: 41px;
-  background: linear-gradient(135deg, #1523bc, hsl(32, 100%, 53%));
-  background-clip: text;
-  color: transparent;
-}
+
 
 .desc {
   font-size: 18px;
@@ -50,7 +42,7 @@
   border-style: solid;
   border-width: 127px 0 147px 162px;
   border-color: transparent transparent transparent #1523bc36;
-  position: absolute;
+  /* position: absolute; */
   bottom: 0;
 }
 

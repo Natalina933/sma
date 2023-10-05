@@ -7,12 +7,12 @@ import Image from "next/legacy/image";
 const Header = () => {
     return (
         <header className={styles.container}>
-            <div className={styles.imgContainer}>
+            <div className={styles.headerImage}>
                 <Image
                     src='/headerImagev1.jpg'
-                    height="300"
-                    width={1000}
-                    className={styles.image}
+                    height={600}
+                    width={1900}
+                    className={styles.img}
                     alt="Activités passionnantes"
                 />
                 <div className={styles.headerText}>
