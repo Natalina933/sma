@@ -1,7 +1,31 @@
 import styles from './header.module.css';
-import HeroImage from 'public/hero.jpg';
 import Image from "next/legacy/image";
+
 
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
+const Header = () => {
+    return (
+        <header className={styles.container}>
+            <div className={styles.imgContainer}>
+                <Image
+                    src='/headerImagev1.jpg'
+                    height="300"
+                    width={1000}
+                    className={styles.image}
+                    alt="Activités passionnantes"
+                />
+                <div className={styles.headerText}>
+                    <h1 className={styles.title}>
+                        Bienvenue sur le site de l'association SMA <br /> Saint-Mandé Accueil
+                    </h1>
+                    <h2 className={styles.subtitle}>Découvrez un monde d'activités passionnantes</h2>
+                </div>
+            </div>
+            <div className={styles.textContainer}>
+            </div>
+        </header>
+    )
 
+}
+export default Header;
