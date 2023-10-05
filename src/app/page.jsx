@@ -4,29 +4,12 @@
 import styles from "./page.module.css";
 import Banner from "@/components/banner/Banner";
 import MyCarousel from "@/components/carousel/MyCarousel";
+import Header from "@/components/header/Header";
 import Image from "next/legacy/image";
 export default function Home() {
   return (
     <div className={styles.item}>
-      <header className={styles.container}>
-        <div className={styles.imgContainer}>
-          <Image
-            src='/headerImage.jpg'
-            height="300"
-            width={1000}
-            className={styles.image}
-            alt="Activités passionnantes"
-          />
-          <div className={styles.headerText}>
-            <h1 className={styles.title}>
-              Bienvenue sur le site de l'association SMA <br /> Saint-Mandé Accueil
-            </h1>
-            <h2 className={styles.subtitle}>Découvrez un monde d'activités passionnantes</h2>
-          </div>
-        </div>
-        <div className={styles.textContainer}>
-        </div>
-      </header>
+      <Header />
       <Banner />
       <main className={`${styles.desc} ${styles.arrow} ${styles.backgroundArrow}`}>
         <div className={styles.img}>

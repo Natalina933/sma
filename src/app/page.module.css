@@ -1,25 +1,4 @@
-/* Styles mobile first */
-.container {
-  padding: 20px;
-}
 
-/* Styles pour l'image d'en-tête */
-.headerImage{
-  position: relative;
-  width: 100%;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
-}
-.image:hover {
-  transform: scale(1.05);
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.2);
-}
-.image{
-  border-radius: 20px;
-  height: 300px;
-
-}
 .title {
   text-align: center;
   margin: 10px;
