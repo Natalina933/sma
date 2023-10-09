@@ -27,7 +27,12 @@
 .item:nth-child(1) {
     background: url("/hero.jpg");
 }
-
+.item:nth-child(2) {
+    background: url("/hero.jpg");
+}
+.item:nth-child(3) {
+    background: url("/hero.jpg");
+}
 .item :hover.title {
     color: aqua;
 }
