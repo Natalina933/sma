@@ -1,15 +1,14 @@
-'use client'
-import { useEffect, useState } from 'react'
-import styles from './page.module.css'
-import useSWR from 'swr' //Bibliothèque de React Hooks pour la récupération de données
-
+"use client";
+import { useEffect, useState } from "react";
+import styles from "./page.module.css";
+import useSWR from "swr"; //Bibliothèque de React Hooks pour la récupération de données
 
 /*data fetching - récupération des données*/
 
 const Dashboard = () => {
   //   const [data, setData] = useState([]);
   //   const [err, setErr] = useState([false]);
-  //   const [isLoading, setIsLoading] = useState([false]); 
+  //   const [isLoading, setIsLoading] = useState([false]);
 
   //   useEffect(() => {
   //     const getData = async () => {
@@ -33,9 +32,7 @@ const Dashboard = () => {
     fetcher
   );
   console.log(data);
-  return (
-    <div className={styles.container}>Dashboard</div>
-  )
+  return <div className={styles.container}>Dashboard</div>;
 };
 
 export default Dashboard;

@@ -1,6 +1,6 @@
-import Button from '@/components/Button/Button'
-import styles from './page.module.css'
-import Image from 'next/legacy/image'
+import Button from "@/components/Button/Button";
+import styles from "./page.module.css";
+import Image from "next/legacy/image";
 
 const Contact = () => {
   return (
@@ -12,26 +12,24 @@ const Contact = () => {
             src="/contact.jpg"
             width={400}
             height={300}
-            alt='photo'
+            alt="photo"
             className={styles.image}
           />
-
         </div>
         <form className={styles.form}>
-          <input type="text" placeholder='name' className={styles.input} />
-          <input type="text" placeholder='email' className={styles.input} />
+          <input type="text" placeholder="name" className={styles.input} />
+          <input type="text" placeholder="email" className={styles.input} />
           <textarea
             className={styles.textArea}
-            placeholder='message'
+            placeholder="message"
             cols="30"
-            rows="10">
-          </textarea>
-          <Button url="#" text="Send"/>
+            rows="10"
+          ></textarea>
+          <Button url="#" text="Send" />
         </form>
-
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Contact
+export default Contact;

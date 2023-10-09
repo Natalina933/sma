@@ -1,6 +1,6 @@
 /*user client*/
-import styles from './page.module.css'
-import Link from 'next/link'
+import styles from "./page.module.css";
+import Link from "next/link";
 
 const Activity = () => {
   return (
@@ -16,10 +16,9 @@ const Activity = () => {
         <Link href="/activity/application" className={styles.item}>
           <span className={styles.title}>Application</span>
         </Link>
-
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Activity
+export default Activity;
