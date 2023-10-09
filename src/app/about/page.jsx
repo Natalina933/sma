@@ -7,7 +7,7 @@ import Header from "@/components/header/Header"
 const About = () => {
   return (
     <div className={styles.container}>
-      <Header/>
+      <Header />
       <main className={styles.textContainer}>
         <section className={styles.item}>
           <h1 className={styles.title}>Qui sommes-nous?</h1>
