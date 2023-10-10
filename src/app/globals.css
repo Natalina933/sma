@@ -16,6 +16,16 @@ a {
     color: inherit;
 }
 
+.light{
+    background-color: whitesmoke;
+    color: #111;
+}
+.dark{
+    background-color: #111;
+    color: #bbb;
+
+}
+
 /* Conteneur principal */
 .container {
     min-height: 100vh;

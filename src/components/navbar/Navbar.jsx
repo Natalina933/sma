@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import styles from "./navbar.module.css";
 import Image from "next/legacy/image";
-import {
+import { 
   FaHome,
   FaCogs,
   FaComments,
@@ -12,6 +12,7 @@ import {
   FaEnvelopeOpenText,
   FaFeather,
 } from "react-icons/fa";
+import DarkModeToggle from "../DarkModeToggle/darkModeToggle";
 
 const Navbar = () => {
   const Links = [
@@ -68,6 +69,7 @@ const Navbar = () => {
         </Link>
       </section>
       <section className={styles.links}>
+        <DarkModeToggle />
         {Links.map((link) => (
           <Link key={link.id} href={link.url} className={styles.link}>
             <div className={styles.linkIcon}>{link.icon}</div>
@@ -78,7 +80,8 @@ const Navbar = () => {
           className={styles.logout}
           onClick={() => {
             console.log("Déconnecté");
-          }}>
+          }}
+        >
           Déconnexion
         </button>
       </section>
