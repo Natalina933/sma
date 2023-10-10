@@ -7,7 +7,7 @@ import Link from 'next/link'
 const Blog = () => {
   return (
     <div className={styles.mainContainer}>
-      <Link href="/testId" className={styles.container}>
+      <Link href="/blog/testId" className={styles.container}>
         <div className={styles.imgContainer}>
           <Image
             className={styles.img}
@@ -22,7 +22,7 @@ const Blog = () => {
           <p className={styles.desc}>Desciptions</p>
         </div>
       </Link>
-      <Link href="/testId" className={styles.container}>
+      <Link href="/blog/testId" className={styles.container}>
         <div className={styles.imgContainer}>
           <Image
             className={styles.img}
