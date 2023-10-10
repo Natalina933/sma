@@ -15,7 +15,10 @@ a {
     text-decoration: none;
     color: inherit;
 }
+.theme{
+transition: 1s all ease;
 
+}
 .light{
     background-color: whitesmoke;
     color: #111;
