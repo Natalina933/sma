@@ -25,7 +25,8 @@ const Dashboard = () => {
   //     };
   //     getData()
   //   }, []);
-
+  
+  //client-side data fetching avec swr
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const { data, err, isLoading } = useSWR(
     "https://jsonplaceholder.typicode.com/posts",
