@@ -69,7 +69,7 @@ const Navbar = () => {
         </Link>
       </section>
       <section className={styles.links}>
-        <DarkModeToggle />
+        {/* <DarkModeToggle /> */}
         {Links.map((link) => (
           <Link key={link.id} href={link.url} className={styles.link}>
             <div className={styles.linkIcon}>{link.icon}</div>
