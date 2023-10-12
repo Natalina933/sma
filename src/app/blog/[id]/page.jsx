@@ -3,7 +3,7 @@ import styles from "./page.module.css";
 import { notFound } from "next/navigation";
 
 async function getData(id) {
-  const res = await fetch("https://jsonplaceholder.typicode.com/posts/${id}", {
+  const res = await fetch("http://localhost/api/posts/${id}", {
     cache: "no-store",
   });
 
@@ -21,7 +21,7 @@ const BlogPost = async ({ params }) => {
     <div className={styles.container}>
       <div className={styles.top}>
         <div className={styles.info}>
-          <h1 className={styles.titre}>{data.title}</h1>
+          <h1 className={styles.title}>{data.title}</h1>
           <p className={styles.desc}>
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Saepe
             dolores veniam eos expedita laudantium autem quae natus aut.
@@ -47,7 +47,7 @@ const BlogPost = async ({ params }) => {
               className={styles.avatar}
               width={40}
               height={40}
-              src="/contact.jpg"
+              src={data.img}
               alt=""
             />
             <span className={styles.username}>Marie-Joel</span>
@@ -58,7 +58,7 @@ const BlogPost = async ({ params }) => {
             className={styles.img}
             width={400}
             height={250}
-            src="/contact.jpg"
+            src={data.img}
             alt=""
           />
         </div>

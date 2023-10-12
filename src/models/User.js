@@ -22,4 +22,5 @@ const userSchema = new Schema(
     },
     { timestamps: true } //horodatage Mongoose ajoutera deux propriétés de type Date createdAt: une date représentant la date à laquelle ce document a été créé updatedAt: une date représentant la dernière mise à jour de ce document
 );
-export default mongoose.model("User", userSchema);
+//If the User collection does not exist create a new one.
+export default mongoose.models.User || mongoose.model("User", userSchema);
