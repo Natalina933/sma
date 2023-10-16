@@ -3,19 +3,31 @@ import styles from "./page.module.css";
 import { notFound } from "next/navigation";
 
 async function getData(id) {
-  const res = await fetch("http://localhost/api/posts/${id}", {
+try{
+
+  const res = await fetch("http://localhost:3000/api/posts/${id}", {
     cache: "no-store",
   });
-
   if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    // throw new Error("Failed to fetch data");
+// Cela déclenchera la limite d'erreur `error.js` la plus proche
+// throw new Error("");
+    console.error("Échec de la récupération des données");
     return notFound();
   }
   return res.json();
+  }catch(error){
+    console.error("An error occurred while fetching data:", error);
+    throw error;
+  }
+
 }
 
+
+
 const BlogPost = async ({ params }) => {
+  try{
+
+ 
   const data = await getData(params.id);
   return (
     <div className={styles.container}>
@@ -65,6 +77,14 @@ const BlogPost = async ({ params }) => {
       </div>
     </div>
   );
+  }catch (error)
+  {
+    console.error("An error occurred while rendering the component:", error);
+    // Vous pouvez choisir de retourner un composant d'erreur personnalisé ici.
+    // Par exemple, vous pourriez afficher un message d'erreur spécifique.
+    return <div>Une erreur sest produite : {error.message}</div>;
+
+  }
 };
 
 export default BlogPost;

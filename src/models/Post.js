@@ -26,8 +26,14 @@ const postSchema = new Schema(
             required: true,
         },
     },
-    { timestamps: true } //horodatage Mongoose ajoutera deux propriétés de type Date createdAt: une date représentant la date à laquelle ce document a été créé updatedAt: une date représentant la dernière mise à jour de ce document
+    {
+        timestamps: true, // Mongoose ajoutera deux propriétés de type Date : createdAt et updatedAt
+      }
 );
 
-//If the Post collection does not exist create a new one.
-export default mongoose.models.Post || mongoose.model("Post", postSchema);
+// Si la collection Post n'existe pas, créez-en une nouvelle.
+const PostModel = mongoose.models.Post || mongoose.model("Post", postSchema);
+
+console.log("Le modèle de publication (PostModel) est le suivant : ", PostModel);
+
+export default PostModel;
