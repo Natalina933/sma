@@ -62,7 +62,7 @@ const BlogPost = async ({ params }) => {
                 src={data.img}
                 alt=""
               />
-              <span className={styles.username}>Marie-Joel</span>
+              <span className={styles.username}>{data.author}</span>
             </div>
           </div>
           <div className={styles.imgContainer}>
