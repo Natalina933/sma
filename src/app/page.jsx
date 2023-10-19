@@ -6,6 +6,9 @@ import Banner from "@/components/banner/Banner";
 import MyCarousel from "@/components/carousel/MyCarousel";
 import Header from "@/components/header/Header";
 import Image from "next/legacy/image";
+
+// devra etre mis dans components ou utils doit faire appel à un maximum d'import
+
 export default function Home() {
   return (
     <div className={styles.item}>

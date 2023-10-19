@@ -4,6 +4,9 @@ import Image from "next/legacy/image";
 import { items } from "./data.js";
 import { notFound } from "next/navigation";
 
+// devra etre mis dans components ou utils doit faire appel à un maximum d'import
+
+
 const getData = (cat) => {
   const data = items[cat];
   if (data) {

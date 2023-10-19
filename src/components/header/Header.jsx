@@ -4,6 +4,9 @@ import Image from "next/legacy/image";
 
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
+// devra etre plus modulable
+
+
 const Header = () => {
     return (
         <header className={styles.container}>

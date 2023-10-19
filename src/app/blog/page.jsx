@@ -3,6 +3,7 @@ import styles from "./page.module.css";
 // import Button from "@/components/Button/Button";
 import Image from "next/legacy/image";
 import Link from "next/link";
+// devra etre mis dans components ou utils doit faire appel à un maximum d'import
 
 async function getData() {
   const res = await fetch('https://jsonplaceholder.typicode.com/posts', {
@@ -43,8 +44,7 @@ const Blog = async () => {
     );
   } catch (error) {
     console.error("An error occurred while fetching data:", error);
-    // Vous pouvez choisir de retourner un composant d'erreur personnalisé ici.
-    // Par exemple, vous pourriez afficher un message d'erreur spécifique.
+
     return <div>Une erreur sest produite : {error.message}</div>;
   }
 };
