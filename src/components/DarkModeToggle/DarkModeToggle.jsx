@@ -1,14 +1,8 @@
 import styles from "./darkModeToggle.module.css";
 import { useContext } from "react";
 import { ThemeContext } from "../../context/ThemeContext";
-import {
-    FaHome,
-    FaCogs,
-    FaComments,
-    FaCalendarWeek,
-    FaEnvelopeOpenText,
-    FaFeather,
-} from "react-icons/fa";
+
+
 const DarkModeToggle = () => {
     const { toggle, mode } = useContext(ThemeContext);
     return (
