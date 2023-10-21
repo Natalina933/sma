@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa";
 import DarkModeToggle from "../darkModeToggle/DarkModeToggle";
 
+
 const Navbar = () => {
   const Links = [
     {
@@ -69,7 +70,7 @@ const Navbar = () => {
       </section>
       <section className={styles.links}>
         
-        <DarkModeToggle />
+        <DarkModeToggle/>
 
         {Links.map((link) => (
           <Link key={link.id} href={link.url} className={styles.link}>
