@@ -11,7 +11,7 @@ import {
   FaEnvelopeOpenText,
   FaFeather,
 } from "react-icons/fa";
-import DarkModeToggle from "../DarkModeToggle/DarkModeToggle";
+import DarkModeToggle from "../darkModeToggle/DarkModeToggle";
 
 const Navbar = () => {
   const Links = [
