@@ -3,13 +3,13 @@
 import Link from "next/link";
 import styles from "./navbar.module.css";
 import Image from "next/legacy/image";
-import menuItems from "../menuItems/MenuItems"
+import MenuItems from "../../app/datas/MenuItems"
 
 import DarkModeToggle from "../darkModeToggle/DarkModeToggle";
 
 
 const Navbar = () => {
-  
+
 
   return (
     <div className={styles.container}>
@@ -29,7 +29,7 @@ const Navbar = () => {
 
         <DarkModeToggle />
 
-        {menuItems.map((link) => (
+        {MenuItems.map((link) => (
           <Link key={link.id} href={link.url} className={styles.link}>
             <div className={styles.linkIcon}>{link.icon}</div>
             <div className={styles.linkTitle}>{link.title}</div>

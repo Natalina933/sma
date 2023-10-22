@@ -15,8 +15,8 @@ export const GET = async (request) => {
       return new NextResponse(responseBody, { status: 200 });
     } catch (error) {
       console.error("Erreur lors de la récupération des données:", error);
-      const errorMessage = "Erreur lors de la récupération des données";
-      return new NextResponse(errorMessage, { status: 500 });
+
+      return new NextResponse("Erreur lors de la récupération des données", { status: 500 });
     }
   };
 

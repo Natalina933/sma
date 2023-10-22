@@ -25,6 +25,19 @@ const postSchema = new Schema(
             type: String,
             required: true,
         },
+        date:{
+            type:Date,
+            required : true,
+        },
+        place:{
+            type: String,
+            required: true,
+
+        },
+        price:{
+            type: Number,
+            required: true,
+        }
     },
     {
         timestamps: true, // Mongoose ajoutera deux propriétés de type Date : createdAt et updatedAt
