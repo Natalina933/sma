@@ -2,6 +2,9 @@ import Image from "next/legacy/image";
 import styles from "./page.module.css";
 import { notFound } from "next/navigation";
 
+//devra etre mis dans components ou utils doit faire appel à un maximum d'import
+
+
 async function getData(id) {
   try {
 

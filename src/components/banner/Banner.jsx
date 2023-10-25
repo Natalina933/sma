@@ -2,6 +2,9 @@ import styles from './banner.module.css';
 import HeroImage from 'public/hero.jpg';
 import Image from "next/legacy/image";
 
+
+// devra etre plus modulable
+
 const Banner = () => {
   return (
     <section className={styles.banner}>

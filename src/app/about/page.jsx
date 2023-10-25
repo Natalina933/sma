@@ -4,6 +4,8 @@ import Header from "@/components/header/Header";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
 
+// devra etre mis dans components ou utils doit faire appel à un maximum d'import
+
 const About = () => {
   return (
     <div className={styles.container}>
