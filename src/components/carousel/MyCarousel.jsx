@@ -4,7 +4,7 @@ import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import styles from "@/components/carousel/mycarousel.module.css";
 import Image from "next/legacy/image";
-import activityData from "@/app/datas/activitys.json"
+import activityData from "@/app/datas/activitys/activitys.json"
 
 const MyCarousel = () => {
   const responsive = {

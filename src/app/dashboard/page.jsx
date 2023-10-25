@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import styles from "./page.module.css";
 import useSWR from "swr"; //Bibliothèque de React Hooks pour la récupération de données
 

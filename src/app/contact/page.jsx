@@ -1,7 +1,6 @@
-import Button from "@/components/Button/Button";
+import Button from "@/components/button/Button";
 import styles from "./page.module.css";
 import Image from "next/legacy/image";
-// devra etre mis dans components ou utils doit faire appel à un maximum d'import
 
 
 const Contact = () => {
