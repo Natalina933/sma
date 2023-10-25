@@ -1,0 +1,8 @@
+.container{
+    cursor: pointer;
+    background-color: aqua;
+    border: none;
+    border-radius: 5px;
+    width: max-content;
+    color: azure;
+}

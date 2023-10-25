@@ -1,58 +1,13 @@
 "use client";
 
-import React from "react";
 import Link from "next/link";
 import styles from "./navbar.module.css";
 import Image from "next/legacy/image";
-import { 
-  FaHome,
-  FaCogs,
-  FaComments,
-  FaCalendarWeek,
-  FaEnvelopeOpenText,
-  FaFeather,
-} from "react-icons/fa";
 import DarkModeToggle from "../DarkModeToggle/darkModeToggle";
+import { Navlinks } from "../navLinks/Navlinks";
 
 const Navbar = () => {
-  const Links = [
-    {
-      id: 1,
-      title: "Accueil",
-      url: "/",
-      icon: <FaHome />,
-    },
-    {
-      id: 2,
-      title: "Nos Activités",
-      url: "/activity",
-      icon: <FaCalendarWeek />,
-    },
-    {
-      id: 3,
-      title: "Blog",
-      url: "/blog",
-      icon: <FaComments />,
-    },
-    {
-      id: 4,
-      title: "A propos de nous",
-      url: "/about",
-      icon: <FaFeather />,
-    },
-    {
-      id: 5,
-      title: "Contact",
-      url: "/contact",
-      icon: <FaEnvelopeOpenText />,
-    },
-    {
-      id: 6,
-      title: "Tableau de bord",
-      url: "/dashboard",
-      icon: <FaCogs />,
-    },
-  ];
+  <Navlinks />
 
   return (
     <div className={styles.container}>
@@ -69,13 +24,15 @@ const Navbar = () => {
         </Link>
       </section>
       <section className={styles.links}>
-        
+
         <DarkModeToggle />
 
-        {Links.map((link) => (
-          <Link key={link.id} href={link.url} className={styles.link}>
-            <div className={styles.linkIcon}>{link.icon}</div>
-            <div className={styles.linkTitle}>{link.title}</div>
+        {Navlinks.map((link) => (
+          <Link key={link.id} href={link.url}>
+            <div className={styles.link}>
+              <div className={styles.linkIcon}>{link.icon}</div>
+              <div className={styles.linkTitle}>{link.title}</div>
+            </div>
           </Link>
         ))}
         <button
