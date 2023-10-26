@@ -9,7 +9,7 @@ const postSchema = new Schema(
             type: String,
             required: true,
         },
-        desc: {
+        description: {
             type: String,
             required: true,
         },
@@ -37,6 +37,27 @@ const postSchema = new Schema(
         price: {
             type: Number,
             required: true,
+        }
+        ,
+        category: {
+            type: String,
+            required: true,
+
+        },
+        rating: {
+            type: String,
+            required: true,
+
+        },
+        programme: {
+            type: String,
+            required: true,
+
+        },
+        keywords: {
+            type: String,
+            required: true,
+
         }
     },
     {

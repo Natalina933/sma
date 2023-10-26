@@ -29,8 +29,6 @@ async function getData(id) {
 
 const BlogPost = async ({ params }) => {
   try {
-
-
     const data = await getData(params.id);
     return (
       <div className={styles.container}>
@@ -38,14 +36,15 @@ const BlogPost = async ({ params }) => {
           <div className={styles.info}>
             <h1 className={styles.title}>{data.title}</h1>
             <p className={styles.desc}>
-              {data.desc}
+              {data.description}
             </p>
-            <div className={styles.author}>
+            <div className={styles.username}>
               <Image
                 className={styles.avatar}
                 width={40}
                 height={40}
                 src={data.img}
+                priority={true}
                 alt=""
               />
               <span className={styles.username}>{data.username}</span>
@@ -57,6 +56,7 @@ const BlogPost = async ({ params }) => {
               width={400}
               height={250}
               src={data.img}
+              priority={true}
               alt=""
             />
           </div>
