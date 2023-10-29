@@ -3,55 +3,12 @@
 import Link from "next/link";
 import styles from "./navbar.module.css";
 import Image from "next/legacy/image";
-import { 
-  FaHome,
-  FaCogs,
-  FaComments,
-  FaCalendarWeek,
-  FaEnvelopeOpenText,
-  FaFeather,
-} from "react-icons/fa";
+import { Navlinks } from "../navLinks/Navlinks";
 import DarkModeToggle from "../DarkModeToggle/darkModeToggle";
 
 const Navbar = () => {
-  const Links = [
-    {
-      id: 1,
-      title: "Accueil",
-      url: "/",
-      icon: <FaHome />,
-    },
-    {
-      id: 2,
-      title: "Nos Activités",
-      url: "/activity",
-      icon: <FaCalendarWeek />,
-    },
-    {
-      id: 3,
-      title: "Blog",
-      url: "/blog",
-      icon: <FaComments />,
-    },
-    {
-      id: 4,
-      title: "A propos de nous",
-      url: "/about",
-      icon: <FaFeather />,
-    },
-    {
-      id: 5,
-      title: "Contact",
-      url: "/contact",
-      icon: <FaEnvelopeOpenText />,
-    },
-    {
-      id: 6,
-      title: "Tableau de bord",
-      url: "/dashboard",
-      icon: <FaCogs />,
-    },
-  ];
+
+  <Navlinks />
 
   return (
     <div className={styles.container}>
@@ -71,7 +28,7 @@ const Navbar = () => {
 
         <DarkModeToggle />
 
-        {Links.map((link) => (
+        {Navlinks.map((link) => (
           <Link key={link.id} href={link.url} className={styles.link}>
             <div className={styles.linkIcon}>{link.icon}</div>
             <div className={styles.linkTitle}>{link.title}</div>
