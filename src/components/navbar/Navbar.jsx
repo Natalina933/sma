@@ -7,9 +7,6 @@ import { Navlinks } from "../navLinks/Navlinks";
 import DarkModeToggle from "../DarkModeToggle/darkModeToggle";
 
 const Navbar = () => {
-
-  <Navlinks />
-
   return (
     <div className={styles.container}>
       <section className={styles.logoContainer}>
@@ -19,15 +16,14 @@ const Navbar = () => {
             className={styles.logoImage}
             width={70}
             height={50}
+            priority={true}
             alt="logo SMA"
           />
           <span className={styles.logoText}>Saint-Mandé Accueil</span>
         </Link>
       </section>
       <section className={styles.links}>
-
         <DarkModeToggle />
-
         {Navlinks.map((link) => (
           <Link key={link.id} href={link.url} className={styles.link}>
             <div className={styles.linkIcon}>{link.icon}</div>
@@ -48,3 +44,4 @@ const Navbar = () => {
 };
 
 export default Navbar;
+

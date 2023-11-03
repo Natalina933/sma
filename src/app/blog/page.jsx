@@ -32,13 +32,15 @@ const Blog = async () => {
                 width={300}
                 height={150}
                 priority={true}
-
-                alt=""
+                alt={item.title}
               />
             </div>
             <div className={styles.content}>
               <h1 className={styles.title}>{item.title}</h1>
               <p className={styles.desc}>{item.desc}</p>
+            </div>
+            <div>
+              <div>{item.rating}</div>
             </div>
           </Link>
         ))}
