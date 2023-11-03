@@ -1,5 +1,4 @@
 
-import React from "react";
 import styles from "./footer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons'
