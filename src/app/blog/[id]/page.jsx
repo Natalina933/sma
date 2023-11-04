@@ -1,6 +1,8 @@
 import Image from "next/legacy/image";
 import styles from "./page.module.css";
 import { notFound } from "next/navigation";
+/* eslint-disable react/jsx-no-comment-textnodes */
+/* eslint-disable react/no-unescaped-entities */
 
 //devra etre mis dans components ou utils doit faire appel à un maximum d'import
 
@@ -24,7 +26,20 @@ async function getData(id) {
   }
 
 }
+// Dynamic metadata
+export async function generateMetadata({ params }) {
+  try {
+    const post = await getData(params.id);
 
+    return {
+      title: post.title,
+      description: post.desc,
+
+    };
+  } catch (error) {
+    console.error("An error occurred while generating metadata:", error);
+    }
+}
 
 
 const BlogPost = async ({ params }) => {
@@ -36,7 +51,7 @@ const BlogPost = async ({ params }) => {
           <div className={styles.info}>
             <h1 className={styles.title}>{data.title}</h1>
             <p className={styles.desc}>
-              {data.description}
+              {data.desc}
             </p>
             <div className={styles.author}>
               <Image
@@ -45,7 +60,7 @@ const BlogPost = async ({ params }) => {
                 height={40}
                 src={data.img}
                 priority={true}
-                alt=""
+                alt={data.title}
               />
               <span className={styles.username}>{data.username}</span>
             </div>
@@ -57,7 +72,7 @@ const BlogPost = async ({ params }) => {
               height={250}
               src={data.img}
               priority={true}
-              alt=""
+              alt="username"
             />
           </div>
         </div>
@@ -67,7 +82,7 @@ const BlogPost = async ({ params }) => {
     console.error("An error occurred while rendering the component:", error);
     // Vous pouvez choisir de retourner un composant d'erreur personnalisé ici.
     // Par exemple, vous pourriez afficher un message d'erreur spécifique.
-    return <div>Une erreur sest produite : {error.message}</div>;
+    return <div>Une erreur s'est produite : {error.message}</div>;
 
   }
 };

@@ -4,7 +4,7 @@ import Link from "next/link";
 import styles from "./navbar.module.css";
 import Image from "next/legacy/image";
 import { Navlinks } from "../navLinks/Navlinks";
-import DarkModeToggle from "../darkModeToggle/DarkModeToggle";
+import DarkModeToggle from "../DarkModeToggle/DarkModeToggle";
 
 const Navbar = () => {
   return (

@@ -1,7 +1,11 @@
-import Button from "@/components/button/Button";
+import Button from "@/components/Button/button";
 import styles from "./page.module.css";
 import Image from "next/legacy/image";
 
+export const metadata = {
+  title: "SMA Contact",
+  description: "Page de contact de l'Association Saint-Mandé Accueil",
+};
 
 const Contact = () => {
   return (

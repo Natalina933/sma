@@ -1,4 +1,4 @@
-import Button from "@/components/button/Button";
+import Button from "@/components/Button/button";
 import styles from "./page.module.css";
 import Image from "next/legacy/image";
 import { items } from "../../datas/activitys/data";
@@ -21,7 +21,7 @@ const Category = ({ params }) => {
         <div className={styles.item} key={item.id}>
           <div className={styles.content}>
             <h1 className={styles.title}>{item.title}</h1>
-            <p className={styles.desc}>{item.description}</p> 
+            <p className={styles.desc}>{item.description}</p>
             <Button text="En savoir plus" url="#" />
           </div>
           <div className={styles.imgContainer}>
@@ -29,7 +29,7 @@ const Category = ({ params }) => {
               className={styles.img}
               width={300}
               height={200}
-              src={item.img} 
+              src={item.img}
               alt=""
             />
           </div>
