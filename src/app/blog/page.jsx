@@ -1,4 +1,4 @@
-"user client";
+
 import styles from "./page.module.css";
 // import Button from "@/components/button/Button";
 import Image from "next/legacy/image";
