@@ -1,6 +1,6 @@
 import styles from "./page.module.css";
-import Button from "@/components/Button/button";
-import Header from "@/components/header/Header";
+import Button from "../../components/Button/Button";
+import Header from "../../components/header/Header";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
 

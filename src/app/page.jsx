@@ -1,14 +1,11 @@
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/no-unescaped-entities */
 "use client"
 import styles from "./page.module.css";
-import Banner from "@/components/banner/Banner";
-import MyCarousel from "@/components/carousel/MyCarousel";
-import Header from "@/components/header/Header";
+import Banner from "../components/banner/Banner";
+import MyCarousel from "../components/carousel/MyCarousel";
+import Header from "../components/header/Header";
 import Image from "next/legacy/image";
-
-// devra etre mis dans components ou utils doit faire appel à un maximum d'import
-
+/* eslint-disable react/jsx-no-comment-textnodes */
+/* eslint-disable react/no-unescaped-entities */
 export default function Home() {
   return (
     <div className={styles.item}>

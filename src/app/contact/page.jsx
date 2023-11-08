@@ -1,4 +1,4 @@
-import Button from "@/components/Button/button";
+import Button from "../../components/Button/Button";
 import styles from "./page.module.css";
 import Image from "next/legacy/image";
 

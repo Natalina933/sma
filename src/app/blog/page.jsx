@@ -1,6 +1,5 @@
 
 import styles from "./page.module.css";
-// import Button from "@/components/button/Button";
 import Image from "next/legacy/image";
 import Link from "next/link";
 // devra etre mis dans components ou utils doit faire appel à un maximum d'import
