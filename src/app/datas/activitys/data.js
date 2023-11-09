@@ -1,5 +1,5 @@
 export const items = {
-  En_Plein_Air: [
+  EnPleinAir: [
     {
       id: 1,
       username: "Marie-Joëlle",
@@ -170,6 +170,46 @@ export const items = {
       keywords:
         "cercle de lecture, discussion de livres, activités hebdomadaires, SAINT-MANDÉ",
     },
-    // Autres activités de la catégorie LoisirsCreatifs
+    
+  ],
+  Theatre: [
+    {
+      id: 13,
+      username: "Marie-Joëlle",
+      img: "/images/artflorale.jpg",
+      title: "Art floral",
+      date: "Lundi 14h",
+      place:
+        "Centre CRESCO Salle Bruno Cremer - 4 avenue Pasteur 94160 SAINT-MANDÉ",
+      description: "L'art traditionnel de l'arrangement floral japonais",
+      category: "Activité hebdomadaire",
+      price: 20,
+      rating: 5,
+      programme:
+        "Arranger des fleurs est le résultat de l’étude de nombreux aspects, mais quand les personnes prennent place devant les végétaux et les considèrent le cœur plein d’indulgence, ils arborent un visage plus que beau, reflet du changement qui s’opère en eux",
+      inscription: "oui",
+      keywords:
+        "art floral, arrangement floral, activités hebdomadaires, SAINT-MANDÉ",
+    },
+    {
+      id: 14,
+      username: "Marie-Joëlle",
+      img: "/images/cercle.jpg",
+      title: "Cercle de lecture",
+      date: "Mardi 14h",
+      place:
+        "Centre CRESCO Salle Bruno Cremer - 4 avenue Pasteur 94160 SAINT-MANDÉ",
+      description:
+        "Vous enrichirez vos connaissances et votre appréciation du monde qui vous entoure",
+      category: "Activité hebdomadaire",
+      price: "gratuit",
+      rating: 5,
+      programme:
+        "Grâce aux discussions approfondies sur un livre en particulier ainsi que les différents points de vue des membres du club, vous enrichirez vos connaissances et votre appréciation du monde qui vous entoure. Vous serez plus enclin à apprécier les autres cultures, non seulement à travers le livre, mais aussi à travers les échanges entre les membres qui peuvent avoir des parcours différents",
+      inscription: "non",
+      keywords:
+        "cercle de lecture, discussion de livres, activités hebdomadaires, SAINT-MANDÉ",
+    },
+    
   ],
 };

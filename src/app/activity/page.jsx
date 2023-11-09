@@ -17,7 +17,7 @@ const Activity = () => {
           <span className={styles.title}
           >Aquatique</span>
         </Link>
-        <Link href="/activity/Théâtre" className={styles.item}>
+        <Link href="/activity/Theatre" className={styles.item}>
           <span className={styles.title}
           >Théâtre</span>
         </Link>
