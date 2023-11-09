@@ -1,5 +1,5 @@
 export const items = {
-  EnPleinAir: [
+  En_Plein_Air: [
     {
       id: 1,
       username: "Marie-Joëlle",
@@ -98,7 +98,7 @@ export const items = {
     },
     // Autres activités de la catégorie Aquatique
   ],
-  Rencontre: [
+  Sorties: [
     {
       id: 7,
       username: "Marie-Joëlle",

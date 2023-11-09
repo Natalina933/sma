@@ -5,26 +5,11 @@ import 'react-multi-carousel/lib/styles.css';
 import styles from "../carousel/mycarousel.module.css";
 import Image from "next/legacy/image";
 import activityData from "../../app/datas/activitys/activitys.json"
+import {responsiveConfig}from "../responsiveConfig/responsiveConfig"
+
 
 const MyCarousel = () => {
-  const responsive = {
-    superLargeDesktop: {
-      breakpoint: { max: 4000, min: 1024 },
-      items: 5
-    },
-    desktop: {
-      breakpoint: { max: 1024, min: 900 },
-      items: 4
-    },
-    tablet: {
-      breakpoint: { max: 900, min: 464 },
-      items: 2
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-  };
+  
   const [expandedActivity, setExpandedActivity] = useState(null);
 
   const handleToggleDescription = (activityId) => {
@@ -36,7 +21,7 @@ const MyCarousel = () => {
   return (
     <section className={styles.carouselContainer}>
       <h1 className={styles.carouselTitle}>Découvrez un monde d'activités passionnantes</h1>
-      <Carousel responsive={responsive} className={styles.carousel}>
+      <Carousel  responsive={responsiveConfig} className={styles.carousel}>
         {activityData.map(activity => (
           <div
             className={`${styles.card} ${
@@ -44,10 +29,10 @@ const MyCarousel = () => {
             }`}
             key={activity.id}
           >
-            <Image src={activity.image} width={300} height={130} alt={activity.title} />
+            <Image src={activity.img} width={300} height={130} alt={activity.title} />
             <div className={styles.cardContent}>
               <h2 className={styles.activityTitle}>{activity.title}</h2>
-              <p className={styles.description}>{activity.description}</p>
+              <p className={styles.description}>{activity.desc}</p>
 
               <div className={styles.details}>
                 <p className={styles.schedule}>{activity.schedule}</p>
