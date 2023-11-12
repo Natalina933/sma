@@ -1,4 +1,4 @@
-export const items = {
+export const dataActivitys = {
   EnPleinAir: [
     {
       id: 1,
@@ -13,7 +13,7 @@ export const items = {
       price: 10,
       rating: 5,
       programme:
-        "La croisière commence dans le port de l’Arsenal : après avoir passé l’écluse de la Bastille, superbe point de vue sur Notre Dame de Paris et découverte des quartiers de l'est de Paris : Bercy, la grande bibliothèque de France... Au confluent de la Marne, Chinagora, le nouveau centre chinois marque la limite du paysage urbain. Tranquillement, le bateau remonte la Marne en passant l'écluse Saint-Maurice, lieu d'enfance de Delacroix, l'île du Moulin-Brulé et l'île aux Corbeaux. Laissant l'île Fanac, nous entrerons au pays des guinguettes : Gégène, Le P’tit Robinson, l'ancien bal Convert et le Verger à Nogent. Après avoir longé les îles des Loups et l'île d'Amour, le bateau fait demi-tour à Bry-sur-Marne et accoste pour une escale à l'heure du déjeuner face à la mythique guinguette 'Chez Gégène' à Joinville-le-Pont où nous prendrons notre repas. L'après-midi, nous reviendrons vers Paris dans une ambiance musette animée par notre accordéoniste, en découvrant de superbes demeures et des paysages protégés peints notamment par Paul Cézanne, Daubigny, Corot, etc. RENDEZ-VOUS : à 8 H 45 précises à l'embarcadère CANAUXRAMA au port de l’Arsenal, face au 50 Bd de la Bastille Paris 12ème – Métro Bastille - Sortie 'Port de l’Arsenal'. Retour vers 17 heures au port de l’Arsenal",
+        "La croisière commence dans le port de l’Arsenal : après avoir passé l’écluse de la Bastille, superbe point de vue sur Notre Dame de Paris et découverte des quartiers de l'est de Paris : Bercy, la grande bibliothèque de France... Au confluent de la Marne, Chinagora, le nouveau centre chinois marque la limite du paysage urbain. Tranquillement, le bateau remonte la Marne en passant l'écluse Saint-Maurice, lieu d'enfance de Delacroix, l'île du Moulin-Brulé et l'île aux Corbeaux. Laissant l'île Fanac, nous entrerons au pays des guinguettes : Gégène, Le P’tit Robinson, l'ancien bal Convert et le Verger à Nogent. ",
       inscription: "oui",
       keywords: "croisière, Marne, guinguettes, Paris, excursion",
     },

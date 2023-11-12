@@ -1,17 +1,16 @@
 import Image from "next/legacy/image";
 import styles from "./page.module.css";
 import { notFound } from "next/navigation";
+import Button from "../../../components/Button/button";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
 
-//devra etre mis dans components ou utils doit faire appel à un maximum d'import
-
+//devra etre plus modulable
 
 async function getData(id) {
   try {
-
     const res = await fetch(`http://localhost:3000/api/posts/${id}`, {
-      cache: 'no-store',
+      cache: "no-store",
     });
     if (!res.ok) {
       // Cela déclenchera la limite d'erreur `error.js` la plus proche
@@ -24,24 +23,21 @@ async function getData(id) {
     console.error("An error occurred while fetching data:", error);
     throw error;
   }
-
 }
 // Dynamic metadata
-export async function generateMetaData({ params }) {
+export async function generateMetadata({ params }) {
   try {
     const post = await getData(params.id);
 
     return {
       title: post.title,
       description: post.desc,
-
     };
   } catch (error) {
     console.error("An error occurred while generating metadata:", error);
-    }
+  }
 }
-
-
+// Composant BlogPost
 const BlogPost = async ({ params }) => {
   try {
     const data = await getData(params.id);
@@ -50,9 +46,7 @@ const BlogPost = async ({ params }) => {
         <div className={styles.top}>
           <div className={styles.info}>
             <h1 className={styles.title}>{data.title}</h1>
-            <p className={styles.desc}>
-              {data.desc}
-            </p>
+            <p className={styles.programme}>{data.programme}</p>
             <div className={styles.author}>
               <Image
                 className={styles.avatar}
@@ -76,6 +70,7 @@ const BlogPost = async ({ params }) => {
             />
           </div>
         </div>
+        <Button url="#" text="s'inscrire" />
       </div>
     );
   } catch (error) {
@@ -83,7 +78,6 @@ const BlogPost = async ({ params }) => {
     // Vous pouvez choisir de retourner un composant d'erreur personnalisé ici.
     // Par exemple, vous pourriez afficher un message d'erreur spécifique.
     return <div>Une erreur s'est produite : {error.message}</div>;
-
   }
 };
 

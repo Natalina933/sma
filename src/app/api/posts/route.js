@@ -10,11 +10,13 @@ export const GET = async (request) => {
     await connect();
     console.log("Connexion à la base de données établie.");
     console.log(mongoose.models);
+
     const posts = await Post.find();
     console.log("Données récupérées avec succès:", posts);
 
     const responseBody = JSON.stringify(posts);
     return new NextResponse(responseBody, { status: 200 });
+    
   } catch (error) {
     console.error("Erreur lors de la récupération des données:", error);
 
