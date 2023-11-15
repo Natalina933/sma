@@ -3,13 +3,17 @@ import styles from './button.module.css';
 // devra etre plus modulable
 
 
-const Button = ({text,url}) => {
+const Button = ({ text, url }) => {
     return (
-        <Link href={url}>
-        
-        <button className={styles.container}>{text}</button>
-        </Link>
-    )
-}
+        <div className={styles.buttonContainer}>
+            <Link href={url} passHref>
 
-export default Button
+                <button className={styles.container}>{text}</button>
+
+            </Link>
+        </div>
+    );
+};
+
+
+export default Button;

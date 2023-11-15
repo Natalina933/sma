@@ -1,5 +1,5 @@
 import styles from "./page.module.css";
-import Button from "../../components/Button/Button";
+import Button from "../../components/button/Button";
 import Header from "../../components/header/Header";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */

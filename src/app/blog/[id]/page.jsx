@@ -1,7 +1,7 @@
 import Image from "next/legacy/image";
 import styles from "./page.module.css";
 import { notFound } from "next/navigation";
-import Button from "../../../components/Button/button";
+import Button from "../../../components/button/Button";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
 

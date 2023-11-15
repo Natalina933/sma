@@ -6,17 +6,21 @@ import Link from "next/link";
 //devra etre plus modulable
 
 async function getData() {
-  const res = await fetch('http://localhost:3000/api/posts', {
-    cache: "no-store",
-  });
+  try {
+    const res = await fetch('http://localhost:3000/api/posts', {
+      cache: 'no-store',
+    });
 
+    if (!res.ok) {
+      throw new Error(`Fetch failed with status: ${res.status}`);
+    }
 
-  if (!res.ok) {
-    // This will activate the closest `error.js` Error Boundary
-    throw new Error("Échec de la récupération des données");
+    return res.json();
+  } catch (error) {
+    throw new Error(`Error during fetch: ${error.message}`);
   }
-  return res.json();
 }
+
 
 const Blog = async () => {
   try {
