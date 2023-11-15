@@ -2,7 +2,8 @@
 import styles from "./page.module.css";
 import Link from "next/link";
 
-// devra etre mis dans components ou utils doit faire appel à un maximum d'import
+
+//devra etre plus modulable
 
 const Activity = () => {
   return (

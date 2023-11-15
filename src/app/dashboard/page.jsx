@@ -3,6 +3,9 @@
 import styles from "./page.module.css";
 import useSWR from "swr"; //Bibliothèque de React Hooks pour la récupération de données
 
+//devra etre plus modulable
+
+
 /*data fetching - récupération des données*/
 
 const Dashboard = () => {

@@ -2,7 +2,8 @@
 import styles from "./page.module.css";
 import Image from "next/legacy/image";
 import Link from "next/link";
-// devra etre mis dans components ou utils doit faire appel à un maximum d'import
+
+//devra etre plus modulable
 
 async function getData() {
   const res = await fetch('http://localhost:3000/api/posts', {
@@ -22,24 +23,27 @@ const Blog = async () => {
     const data = await getData();
     return (
       <div className={styles.mainContainer}>
-        {data.map((item) => (
-          <Link href={`/blog/${item._id}`} className={styles.container} key={item._id}>
+        {data.map((activity) => (
+          <Link href={`/blog/${activity._id}`} key={activity._id} className={styles.container} >
             <div className={styles.imgContainer}>
               <Image
-                src={item.img}
+                src={activity.img}
                 className={styles.img}
-                width={300}
-                height={150}
+                width={600}
+                height={550}
                 priority={true}
-                alt={item.title}
+                alt={activity.title}
               />
             </div>
             <div className={styles.content}>
-              <h1 className={styles.title}>{item.title}</h1>
-              <p className={styles.desc}>{item.desc}</p>
+              <h1 className={styles.title}>{activity.title}</h1>
+              <p className={styles.date}>{activity.date}</p>
             </div>
             <div>
-              <div>{item.rating}</div>
+              <div>
+                <div className={styles.price}> {activity.price}</div>
+              </div>
+              <div>{activity.rating}</div>
             </div>
           </Link>
         ))}
