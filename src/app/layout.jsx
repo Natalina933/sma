@@ -3,7 +3,7 @@ import "./globals.css";
 import { Inter } from "next/font/google";
 import Footer from "../components/footer/Footer";
 import { ThemeProvider } from "../context/ThemeContext";
-// import { AuthProvider } from "../components/authProvider/AuthProvider"
+import { AuthProvider } from "../components/authProvider/AuthProvider"
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -15,6 +15,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
+      <head>
+      <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+      </head>
       <body className={inter.className}>
         <ThemeProvider>
           {/* <AuthProvider> */}
