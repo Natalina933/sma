@@ -3,8 +3,8 @@
 import Link from "next/link";
 import styles from "./navbar.module.css";
 import Image from "next/legacy/image";
-import { Navlinks } from "../navLinks/Navlinks";
-import DarkModeToggle from "../DarkModeToggle/DarkModeToggle";
+import { Navlinks } from "@/components/navLinks/Navlinks";
+import DarkModeToggle from "@/components/darkModeToggle/DarkModeToggle";
 
 const Navbar = () => {
   return (

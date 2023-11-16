@@ -1,8 +1,8 @@
 import styles from "./page.module.css";
 import Image from "next/legacy/image";
-import { dataActivitys } from "../../datas/activitys/dataActivitys";
+import { dataActivitys } from "@/app/datas/activitys/dataActivitys";
 import { notFound } from "next/navigation";
-import Button from "../../../components/Button/button";
+import Button from "@/components/button/Button";
 
 
 //devra être plus modulable
