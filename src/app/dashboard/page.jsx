@@ -1,5 +1,6 @@
-"use client";
+"use client"
 // import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 import styles from "./page.module.css";
 import useSWR from "swr"; //Bibliothèque de React Hooks pour la récupération de données
 
@@ -28,7 +29,9 @@ const Dashboard = () => {
   //     };
   //     getData()
   //   }, []);
-  
+  const session = useSession()
+  console.log(session);
+
   //client-side data fetching avec swr
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const { data, err, isLoading } = useSWR(
