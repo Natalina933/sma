@@ -2,15 +2,13 @@
 
 
 const nextConfig = {
-    experimental: {
-      // experimental options here
-    },
+    experimental: true,
     webpack: (config, { isServer }) => {
-      config.resolve.alias = {
-        ...config.resolve.alias,
-        '@/pages': path.resolve(__dirname, 'src/pages'),
-        '@/modules': path.resolve(__dirname, 'src/modules'),
-      };
-      return config;
+        config.resolve.alias = {
+            ...config.resolve.alias,
+            '@/pages': path.resolve(__dirname, 'src/pages'),
+            '@/modules': path.resolve(__dirname, 'src/modules'),
+        };
+        return config;
     },
-  };
+};
