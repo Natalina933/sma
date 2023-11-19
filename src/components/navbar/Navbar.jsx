@@ -7,6 +7,7 @@ import { Navlinks } from "@/components/navLinks/Navlinks";
 import DarkModeToggle from "@/components/darkModeToggle/DarkModeToggle";
 import { signOut, useSession } from "next-auth/react";
 const Navbar = () => {
+  const session = useSession();
   return (
     <div className={styles.container}>
       <section className={styles.logoContainer}>
@@ -30,11 +31,13 @@ const Navbar = () => {
             <div className={styles.linkTitle}>{link.title}</div>
           </Link>
         ))}
+          {session.status ==="authenticated"&& (
         <button className={styles.logout}
           onClick={signOut}
         >
           Déconnexion
         </button>
+)}
       </section>
     </div>
   );

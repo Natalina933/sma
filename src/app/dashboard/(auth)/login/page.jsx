@@ -1,18 +1,28 @@
 "use client";
+import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
 
 const Login = () => {
+
+  const session = useSession();
+  const router=useRouter();
+  if (session.status === "loading") {
+    return <p>Loading...</p>;
+  }
+  if (session.status === "authenticated") {
+    router?.push("/dashboard")
+  }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const email = e.target[0].value;
-    const password = e.target[1].value;
- signIn("credentials", { email, password });
-      };
-    return (
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    signIn("credentials", { email, password });
+  };
+  return (
     <div className={styles.container}>
 
       <form className={styles.form} onSubmit={handleSubmit}>
@@ -32,10 +42,10 @@ const Login = () => {
           required
           autoComplete="current-password"
         />
-        <button className={styles.button}>Connexion</button>
+        <button type="submit" className={styles.button}>Connexion</button>
 
       </form>
-      <button
+      <button 
         onClick={() => {
           signIn("google");
         }}
