@@ -4,6 +4,7 @@ import Post from "@/models/Post";
 import mongoose from "mongoose";
 
 
+
 export const GET = async (request) => {
   try {
     console.log("Tentative de connexion à la base de données...");
