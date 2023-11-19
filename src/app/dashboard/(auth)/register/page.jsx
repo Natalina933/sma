@@ -30,11 +30,9 @@ const Register = () => {
           password,
         }),
       });
-      if (res.status === 201)
+      res.status === 201 &&
         router.push("/dashboard/login?success=Votre compte a été créé");
-      else {
-        throw new Error("Echec de la création du compte");
-      }
+      
     } catch (error) {
       setError(true);
     }

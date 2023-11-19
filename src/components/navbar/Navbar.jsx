@@ -5,7 +5,7 @@ import styles from "./navbar.module.css";
 import Image from "next/legacy/image";
 import { Navlinks } from "@/components/navLinks/Navlinks";
 import DarkModeToggle from "@/components/darkModeToggle/DarkModeToggle";
-
+import { signOut, useSession } from "next-auth/react";
 const Navbar = () => {
   return (
     <div className={styles.container}>
@@ -30,11 +30,8 @@ const Navbar = () => {
             <div className={styles.linkTitle}>{link.title}</div>
           </Link>
         ))}
-        <button
-          className={styles.logout}
-          onClick={() => {
-            console.log("Déconnecté");
-          }}
+        <button className={styles.logout}
+          onClick={signOut}
         >
           Déconnexion
         </button>
