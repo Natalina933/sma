@@ -6,25 +6,28 @@ import { signIn, useSession } from "next-auth/react";
 /* eslint-disable react/no-unescaped-entities */
 
 const Login = () => {
-
   const session = useSession();
-  const router=useRouter();
+  const router = useRouter();
+
   if (session.status === "loading") {
     return <p>Loading...</p>;
   }
   if (session.status === "authenticated") {
-    router?.push("/dashboard")
+    router?.push("/dashboard");
   }
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     const email = e.target.email.value;
     const password = e.target.password.value;
-    signIn("credentials", { email, password });
+
+    signIn("credentials", { 
+      email, 
+      password });
   };
   return (
     <div className={styles.container}>
-
+      
       <form className={styles.form} onSubmit={handleSubmit}>
         <input
           type="email"
@@ -42,15 +45,15 @@ const Login = () => {
           required
           autoComplete="current-password"
         />
-        <button type="submit" className={styles.button}>Connexion</button>
-
+        <button type="submit" className={styles.button}>
+          Connexion
+        </button>
       </form>
-      <button 
+      <button
         onClick={() => {
           signIn("google");
         }}
-        className={styles.button + " " + styles.google}
-      >
+        className={styles.button + " " + styles.google}>
         Login with Google
       </button>
     </div>
