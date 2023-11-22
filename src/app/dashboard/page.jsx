@@ -4,13 +4,14 @@ import { useSession } from "next-auth/react";
 import styles from "./page.module.css";
 import useSWR from "swr"; //Bibliothèque de React Hooks pour la récupération de données
 import { useRouter } from "next/navigation";
+import Image from "next/legacy/image";
 
 //devra etre plus modulable
 
 /*data fetching - récupération des données*/
 
 const Dashboard = () => {
-//*ancienne structure
+  //*ancienne structure
   //   const [err, setErr] = useState([false]);
   //   const [isLoading, setIsLoading] = useState([false]);
 
@@ -32,23 +33,91 @@ const Dashboard = () => {
   const session = useSession();
 
   const router = useRouter();
-  
+
   //client-side data fetching avec swr
   const fetcher = (url) => fetch(url).then((res) => res.json());
-  const { data, err, isLoading } = useSWR(
-    "https://jsonplaceholder.typicode.com/posts",
+  const { data, mutate, error, isLoading } = useSWR(
+    "/api/posts?username=${session?.data?.user.name}",
     fetcher
   );
+  console.log(data);
+
   if (session.status === "loading") {
     return <p>Loading...</p>;
   }
   if (session.status === "unauthenticated") {
     router?.push("/dashboard/login");
   }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const title = e.target.title.value;
+    const desc = e.target.desc.value;
+    const img = e.target.img.value;
+    const content = e.target.content.value;
+    try {
+      await fetch("/api/posts", {
+        method: "POST",
+        body: JSON.stringify({
+          title,
+          desc,
+          img,
+          content,
+          username: session.data.user.name,
+        }),
+      });
+      mutate();
+      e.taget.reset()
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-
+  const handleDelete = async (id) => {
+    try {
+      await fetch("/api/posts/${id}", {
+        method: "DELETE",
+      });
+      mutate()
+    } catch (error) {
+      console.log(error);
+    }
+  };
   if (session.status === "authenticated") {
-    return <div className={styles.container}>Dashboard</div>;
+    return (
+      <div className={styles.container}>
+        <div className={styles.posts}>
+          {isLoading
+            ? "loading"
+            : data?.map((post) => (
+                <div className={styles.post} key={post._id}>
+                  <div className={styles.imgContainer}>
+                    <Image src={post.img} alt="" width={200} height={100} />
+                  </div>
+                  <h2 className={styles.postTitle}>{post.title}</h2>
+                  <span
+                    className={styles.delete}
+                    onClick={() => handleDelete(post._id)}
+                  >
+                    X
+                  </span>
+                </div>
+              ))}
+        </div>
+        <form className={styles.new} onSubmit={handleSubmit}>
+          <h1>Add New Post</h1>
+          <input type="text" placeholder="Title" className={styles.input} />
+          <input type="text" placeholder="Desc" className={styles.input} />
+          <input type="text" placeholder="Image" className={styles.input} />
+          <textarea
+            placeholder="Content"
+            className={styles.textArea}
+            cols="30"
+            rows="10"
+          ></textarea>
+          <button className={styles.button}>Send</button>
+        </form>
+      </div>
+    );
   }
 };
 
