@@ -31,17 +31,14 @@ const Navbar = () => {
             <div className={styles.linkTitle}>{link.title}</div>
           </Link>
         ))}
-          {session.status ==="authenticated"&& (
-        <button className={styles.logout}
-          onClick={signOut}
-        >
-          Déconnexion
-        </button>
-)}
+        {session.status === "authenticated" && (
+          <button className={styles.logout} onClick={signOut}>
+            Déconnexion
+          </button>
+        )}
       </section>
     </div>
   );
 };
 
 export default Navbar;
-

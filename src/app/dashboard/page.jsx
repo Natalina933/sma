@@ -10,7 +10,7 @@ import { useRouter } from "next/navigation";
 /*data fetching - récupération des données*/
 
 const Dashboard = () => {
-
+//*ancienne structure
   //   const [err, setErr] = useState([false]);
   //   const [isLoading, setIsLoading] = useState([false]);
 
@@ -32,7 +32,7 @@ const Dashboard = () => {
   const session = useSession();
 
   const router = useRouter();
-
+  
   //client-side data fetching avec swr
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const { data, err, isLoading } = useSWR(
@@ -42,10 +42,10 @@ const Dashboard = () => {
   if (session.status === "loading") {
     return <p>Loading...</p>;
   }
-
   if (session.status === "unauthenticated") {
     router?.push("/dashboard/login");
   }
+
 
   if (session.status === "authenticated") {
     return <div className={styles.container}>Dashboard</div>;
