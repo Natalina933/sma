@@ -20,7 +20,7 @@ const handler = NextAuth({
           const user = await User.findOne({ email: credentials.email });
 
           if (!user) {
-            return Promise.reject(new Error("Utilisateur non trouvé!"));
+            return Promise.reject(new Error("email ou mot de passe invalide !"));
           }
           //vérifier le mot de passe
           const isPasswordCorrect = await bcrypt.compare(
@@ -29,7 +29,7 @@ const handler = NextAuth({
           );
 
           if (!isPasswordCorrect) {
-            return { error: "Mot de passe incorrect" };
+            return { error: "email ou mot de passe invalide" };
           }
           return user;
         } catch (error) {

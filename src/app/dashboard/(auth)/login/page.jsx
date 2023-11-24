@@ -2,10 +2,24 @@
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { signIn, useSession } from "next-auth/react";
+// import { useForm } from 'react-hook-form';
+// import { yupResolver } from '@hookform/resolvers/yup';
+// import * as yup from 'yup';
+
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
+// let validationSchema = yup.object({
+//   email: yup.string().required(),
+//   password: yup.string().required().min(6).max(32)
+
+// })
+
 
 const Login = () => {
+  // const {login, handleSubmit,formState:{errors}}=useForm({
+  //   resolver: yupResolver(validationSchema)
+  // });
+  
   const session = useSession();
   const router = useRouter();
 
@@ -21,13 +35,14 @@ const Login = () => {
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    signIn("credentials", { 
-      email, 
-      password });
+    signIn("credentials", {
+      email,
+      password
+    });
   };
   return (
     <div className={styles.container}>
-      
+
       <form className={styles.form} onSubmit={handleSubmit}>
         <input
           type="email"

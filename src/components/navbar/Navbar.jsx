@@ -34,14 +34,17 @@ const Navbar = () => {
           </Link>
         ))}
                 {!session ? (
-          <Link href="/dashbaord/login">
-            <div className={styles.link}>Connexion</div>
+          <Link href="dashboard/login">
+            <button className={styles.login}>Connexion</button>
           </Link>
         ) : (
           <button className={styles.logout} onClick={() => signOut()}>
             Déconnexion
           </button>
-        )}
+
+        ) 
+        
+        }
       </section>
     </div>
   );
