@@ -3,11 +3,11 @@ import { useState } from "react";
 import styles from "./page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-
-//importer le button
-
+import bcrypt from "bcryptjs";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
+
+
 const Register = () => {
   const [error, setError] = useState(false);
   const router = useRouter();
@@ -17,6 +17,15 @@ const Register = () => {
     const name = e.target.username.value;
     const email = e.target.email.value;
     const password = e.target.password.value;
+    const confirmPassword = e.target.confirmPassword.value;
+
+    if (password !== confirmPassword) {
+      setError(true);
+      return;
+    }
+
+    // Hachage du mot de passe avant de l'envoyer au serveur
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
       const res = await fetch("/api/auth/register", {
@@ -27,12 +36,15 @@ const Register = () => {
         body: JSON.stringify({
           name,
           email,
-          password,
+          password: hashedPassword, // Utilisation du mot de passe haché
         }),
       });
-      res.status === 201 &&
+
+      if (res.status === 201) {
         router.push("/dashboard/login?success=Votre compte a été créé");
-      
+      } else {
+        setError(true);
+      }
     } catch (error) {
       setError(true);
     }
@@ -40,34 +52,41 @@ const Register = () => {
 
   return (
     <div className={styles.container}>
-      <form className={styles.form} action="" onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="username"
-          className={styles.input}
-          name="username"
-          required
-        />
+      <form autoComplete="on" className={styles.form} onSubmit={handleSubmit}>
+        <label htmlFor="email">Email</label>
         <input
           type="email"
-          placeholder="email"
+          placeholder="Email"
           className={styles.input}
           name="email"
-
+          autoComplete="email"
           required
         />
+
+        <label htmlFor="password">Mot de passe</label>
         <input
           type="password"
-          placeholder="password"
+          placeholder="Mot de passe"
           className={styles.input}
           name="password"
-
+          autoComplete="new-password"
           required
         />
+
+        <label htmlFor="confirmPassword">Confirmation du mot de passe</label>
+        <input
+          type="confirmPassword"
+          placeholder="Confirmation du mot de passe"
+          className={styles.input}
+          name="confirmPassword"
+          autoComplete="new-password"
+          required
+        />
+
         <button className={styles.button}>S'inscrire</button>
       </form>
-      {error && "Quelque chose s'est mal passe!"}
-      <Link href="/dashboard/login">Me connecter avec un compte existant</Link>
+      {error && <p>Une erreur s'est produite lors de la création du compte.</p>}
+      <Link href="/dashboard/login">Je suis déjà inscrit</Link>
     </div>
   );
 };
