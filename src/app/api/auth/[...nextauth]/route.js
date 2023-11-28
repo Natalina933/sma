@@ -4,6 +4,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 
+
+
 const handler = NextAuth({
   providers: [
     GoogleProvider({
@@ -20,18 +22,32 @@ const handler = NextAuth({
           const user = await User.findOne({ email: credentials.email });
 
           if (!user) {
-            return Promise.reject(new Error("email ou mot de passe invalide !"));
+            return Promise.reject(new Error("Email ou mot de passe invalide !"));
           }
-          //vérifier le mot de passe
+
+          // Vérifier le mot de passe
           const isPasswordCorrect = await bcrypt.compare(
             credentials.password,
             user.password
           );
 
           if (!isPasswordCorrect) {
-            return { error: "email ou mot de passe invalide" };
+            return { error: "Email ou mot de passe invalide" };
           }
-          return user;
+
+          // Générer un jeton en utilisant la bibliothèque JSON Web Token (JWT)
+          const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+
+          // Stocker le jeton dans la session
+          const session = {
+            user: {
+              id: user._id,
+              email: user.email,
+            },
+            token,
+          };
+
+          return session;
         } catch (error) {
           throw new Error(error.message);
         }
@@ -39,6 +55,7 @@ const handler = NextAuth({
     }),
   ],
   pages: {
+      // Redirigez vers la page de connexion en cas d'erreur
     error: "/dashboard/login",
   }
 });

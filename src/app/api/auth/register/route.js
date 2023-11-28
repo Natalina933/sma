@@ -3,14 +3,20 @@ import connect from "@/utils/db";
 import { NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
 
+
 export const POST = async (request) => {
     try {
         const { name, email, password } = await request.json();
 
-        await connect(); // Assure-toi de te connecter à ta base de données
+  
+ 
 
         // Vérifie si l'utilisateur existe déjà dans la base de données
-        const existingUser = await User.findOne({ email });
+        await connect(); // Connection à la base de données
+
+//         // Vérifie si l'utilisateur existe déjà dans la base de données
+//         const existingUser = await User.findOne({ email });
+
 
         if (existingUser) {
             return new NextResponse("Cet utilisateur existe déjà", {

@@ -3,8 +3,11 @@ import { useState } from "react";
 import styles from "./page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import bcrypt from "bcryptjs";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
+
+
 const Register = () => {
   const [error, setError] = useState(false);
   const [passwordMismatch, setPasswordMismatch] = useState(false);
@@ -18,9 +21,12 @@ const Register = () => {
     const confirmPassword = e.target.confirmPassword.value;
 
     if (password !== confirmPassword) {
-      setPasswordMismatch(true);
+      setError(true);
       return;
     }
+
+    // Hachage du mot de passe avant de l'envoyer au serveur
+    const hashedPassword = await bcrypt.hash(password, 10);
 
     try {
       const res = await fetch("/api/auth/register", {
@@ -31,7 +37,7 @@ const Register = () => {
         body: JSON.stringify({
           username,
           email,
-          password,
+          password: hashedPassword, // Utilisation du mot de passe haché
         }),
       });
 
@@ -47,40 +53,43 @@ const Register = () => {
 
   return (
     <div className={styles.container}>
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="username"
-          className={styles.input}
-          name="username"
-          required
-        />
+      <form autoComplete="on" className={styles.form} onSubmit={handleSubmit}>
+        <label htmlFor="email">Email</label>
         <input
           type="email"
-          placeholder="email"
+          placeholder="Email"
           className={styles.input}
           name="email"
+          autoComplete="email"
           required
         />
+
+        <label htmlFor="password">Mot de passe</label>
         <input
           type="password"
-          placeholder="password"
+          placeholder="Mot de passe"
           className={styles.input}
           name="password"
+          autoComplete="new-password"
           required
         />
+
+        <label htmlFor="confirmPassword">Confirmation du mot de passe</label>
         <input
-          type="password"
-          placeholder="confirm password"
+          type="confirmPassword"
+          placeholder="Confirmation du mot de passe"
           className={styles.input}
           name="confirmPassword"
+          autoComplete="new-password"
           required
         />
+
         <button className={styles.button}>S'inscrire</button>
         {error && <p>Une erreur s'est produite lors de la création du compte.</p>}
         {passwordMismatch && <p>Les mots de passe ne correspondent pas.</p>}
       </form>
-      <Link href="/dashboard/login">Me connecter avec un compte existant</Link>
+      {error && <p>Une erreur s'est produite lors de la création du compte.</p>}
+      <Link href="/dashboard/login">Je suis déjà inscrit</Link>
     </div>
   );
 };

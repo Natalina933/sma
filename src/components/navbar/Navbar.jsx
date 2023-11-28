@@ -6,6 +6,8 @@ import Image from "next/legacy/image";
 import { Navlinks } from "@/components/navLinks/Navlinks";
 import DarkModeToggle from "@/components/darkModeToggle/DarkModeToggle";
 import { signOut, useSession } from "next-auth/react";
+/* eslint-disable react/jsx-no-comment-textnodes */
+/* eslint-disable react/no-unescaped-entities */
 
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
@@ -47,7 +49,10 @@ const Navbar = () => {
           <button className={styles.logout} onClick={() => signOut()}>
             Déconnexion
           </button>
-        )}
+
+        ) 
+        
+        }
       </section>
     </div>
   );
