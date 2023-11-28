@@ -7,9 +7,10 @@ import { Navlinks } from "@/components/navLinks/Navlinks";
 import DarkModeToggle from "@/components/darkModeToggle/DarkModeToggle";
 import { signOut, useSession } from "next-auth/react";
 
-
+/* eslint-disable react/jsx-no-comment-textnodes */
+/* eslint-disable react/no-unescaped-entities */
 const Navbar = () => {
-  const {data:session} = useSession();
+  const { data: session } = useSession();
   return (
     <div className={styles.container}>
       <section className={styles.logoContainer}>
@@ -33,18 +34,20 @@ const Navbar = () => {
             <div className={styles.linkTitle}>{link.title}</div>
           </Link>
         ))}
-                {!session ? (
-          <Link href="dashboard/login">
-            <button className={styles.login}>Connexion</button>
-          </Link>
+        {!session ? (
+          <>
+            <Link href="/dashboard/login">
+              <button className={styles.login}>Connexion</button>
+            </Link>
+            <Link href="/dashboard/register">
+              <button className={styles.signup}>S'inscrire</button>
+            </Link>
+          </>
         ) : (
           <button className={styles.logout} onClick={() => signOut()}>
             Déconnexion
           </button>
-
-        ) 
-        
-        }
+        )}
       </section>
     </div>
   );
