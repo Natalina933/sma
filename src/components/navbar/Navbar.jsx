@@ -9,8 +9,6 @@ import { signOut, useSession } from "next-auth/react";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
 
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/no-unescaped-entities */
 const Navbar = () => {
   const { data: session } = useSession();
   return (

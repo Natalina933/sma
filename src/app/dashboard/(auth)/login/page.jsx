@@ -2,6 +2,9 @@
 import { useRouter } from "next/navigation";
 import styles from "./page.module.css";
 import { signIn, useSession } from "next-auth/react";
+import Link from "next/link";
+/* eslint-disable react/jsx-no-comment-textnodes */
+/* eslint-disable react/no-unescaped-entities */
 
 const Login = () => {
   const { data: session, status } = useSession();
@@ -35,6 +38,8 @@ const Login = () => {
   return (
     <div className={styles.container}>
       <form className={styles.form} onSubmit={handleSignIn}>
+             <h1>Connectez-vous</h1>
+        <Link href="/dashboard/register">Pas de compte ? Inscrivez-vous</Link>
         <input
           type="email"
           placeholder="email"
@@ -55,14 +60,17 @@ const Login = () => {
           Connexion
         </button>
       </form>
+      <span>ou</span>
+
       <button
         onClick={() => {
           signIn("google");
         }}
         className={styles.button + " " + styles.google}
       >
-        Connexion avec votre compte Google
+        Connectez-vous avec votre compte Google
       </button>
+      {/* <Link href="/dashboard/newmail">Mot de passe oublié ?</Link> */}
     </div>
   );
 };

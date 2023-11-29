@@ -31,3 +31,26 @@
   color: #bbb;
   font-weight: bold;
 }
+/* Styles pour les boutons radio de la civilité */
+.custom-radio {
+  opacity: 0;
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+
+.label {
+  cursor: pointer;
+  display: inline-block;
+  padding: 8px 12px;
+  font-size: 14px;
+  border-radius: 5px;
+  margin-right: 10px;
+  color: #bbb;
+}
+
+/* Style pour le label sélectionné */
+.custom-radio:checked + label {
+  background-color: #e77e05;
+  color: white;
+}

@@ -4,6 +4,8 @@ import styles from "./page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import bcrypt from "bcryptjs";
+import { signIn } from "next-auth/react";
+
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
 
@@ -13,48 +15,94 @@ const Register = () => {
   const [passwordMismatch, setPasswordMismatch] = useState(false);
   const router = useRouter();
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const username = e.target.username.value;
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    const confirmPassword = e.target.confirmPassword.value;
-
-    if (password !== confirmPassword) {
-      setError(true);
-      return;
-    }
-
-    // Hachage du mot de passe avant de l'envoyer au serveur
-    const hashedPassword = await bcrypt.hash(password, 10);
-
+  const createAccount = async (userData) => {
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          username,
-          email,
-          password: hashedPassword, // Utilisation du mot de passe haché
-        }),
+        body: JSON.stringify(userData),
       });
 
       if (res.status === 201) {
-        router.push("/dashboard/login?success=Votre compte a été créé");
+        router.push("/dashboard?success=Votre compte a été créé");
       } else {
         setError(true);
       }
     } catch (error) {
+      console.error("Une erreur s'est produite lors de la création du compte :", error);
       setError(true);
     }
   };
 
+  const handleSignIn = async (email, password) => {
+    try {
+      const { status } = await signIn("credentials", { email, password });
+
+      if (status === "authenticated") {
+        router.push("/dashboard");
+      }
+    } catch (error) {
+      console.error("Erreur de connexion :", error);
+      setError(true);
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const { name, surname, email, password, confirmPassword, civilite } = e.target;
+
+    if (password.value !== confirmPassword.value) {
+      setPasswordMismatch(true);
+      setError(false);
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(password.value, 10);
+
+    await createAccount({
+      civilite: civilite.value,
+      name: name.value,
+      surname: surname.value,
+      email: email.value,
+      password: hashedPassword,
+    });
+
+    await handleSignIn(email.value, password.value);
+  };
   return (
     <div className={styles.container}>
       <form autoComplete="on" className={styles.form} onSubmit={handleSubmit}>
-        <label htmlFor="email">Email</label>
+        <h1>Créez votre compte</h1>
+        <Link href="/dashboard/login">Déjà inscrit ? Connectez-vous</Link>
+
+        <div className={styles.radioGroup}>
+          <input type="radio" id="civiliteMme" name="civilite" value="Mme" />
+          <label className={styles.label} htmlFor="civiliteMme">Mme</label>
+
+          <input type="radio" id="civiliteM" name="civilite" value="M." />
+          <label className={styles.label} htmlFor="civiliteM">M.</label>
+
+          <input type="radio" id="civiliteMmeEtM" name="civilite" value="Mme et M." />
+          <label className={styles.label} htmlFor="civiliteMmeEtM">Mme et M.</label>
+        </div>
+        <input
+          type="text"
+          placeholder="Nom"
+          className={styles.input}
+          name="name"
+          autoComplete="name"
+          required
+        />
+        <input
+          type="text"
+          placeholder="Prénom"
+          className={styles.input}
+          name="surname"
+          autoComplete="surname"
+          required
+        />
         <input
           type="email"
           placeholder="Email"
@@ -64,7 +112,6 @@ const Register = () => {
           required
         />
 
-        <label htmlFor="password">Mot de passe</label>
         <input
           type="password"
           placeholder="Mot de passe"
@@ -74,22 +121,28 @@ const Register = () => {
           required
         />
 
-        <label htmlFor="confirmPassword">Confirmation du mot de passe</label>
         <input
-          type="confirmPassword"
+          type="password"
           placeholder="Confirmation du mot de passe"
           className={styles.input}
           name="confirmPassword"
           autoComplete="new-password"
           required
         />
-
-        <button className={styles.button}>S'inscrire</button>
-        {error && <p>Une erreur s'est produite lors de la création du compte.</p>}
-        {passwordMismatch && <p>Les mots de passe ne correspondent pas.</p>}
-      </form>
+      <button className={styles.button}>S'inscrire</button>
+      <span>ou</span>
+      <button
+        onClick={() => {
+          signIn("google");
+        }}
+        className={styles.button + " " + styles.google}
+        >
+        S'inscrire avec votre compte Google
+      </button>
+        </form>
       {error && <p>Une erreur s'est produite lors de la création du compte.</p>}
-      <Link href="/dashboard/login">Je suis déjà inscrit</Link>
+      {passwordMismatch && <p>Les mots de passe ne correspondent pas.</p>}
+      {error && <p>Une erreur s'est produite lors de la création du compte.</p>}
     </div>
   );
 };

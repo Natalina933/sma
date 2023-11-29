@@ -7,16 +7,11 @@ import bcrypt from "bcryptjs";
 export const POST = async (request) => {
     try {
         const { name, email, password } = await request.json();
-
-
-
-
-        // Vérifie si l'utilisateur existe déjà dans la base de données
+        // si l'utilisateur existe déjà dans la base de données
         await connect(); // Connection à la base de données
 
-        //         // Vérifie si l'utilisateur existe déjà dans la base de données
-        //         const existingUser = await User.findOne({ email });
-
+        //  si l'utilisateur existe déjà dans la base de données
+        const existingUser = await User.findOne({ email });
 
         if (existingUser) {
             return new NextResponse("Cet utilisateur existe déjà", {
