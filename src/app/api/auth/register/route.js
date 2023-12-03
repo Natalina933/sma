@@ -7,18 +7,16 @@ import bcrypt from "bcryptjs";
 const SALT_ROUNDS = 10;
 
 export const GET = async (request) => {
-    const url = new URL(requst.url)
+    const url = new URL(request.url)
     const username = url.searchParams.get("username")
     try {
-
-        await connect()
-        const users = await User.find(username ? { name: username } : {}); // Recherche des utilisateurs par nom si `username` est présent dans l'URL
-        return new NextResponse(JSON.stringify(posts), { status: 200 })
+        await connect();
+        const users = await User.find(username ? { name: username } : {});
+        return new NextResponse(JSON.stringify(users), { status: 200 }); // Correction de la variable `posts`
     } catch (error) {
-        return new NextResponse("Database erreur", { status: 500 })
+        return new NextResponse("Erreur de base de données", { status: 500 }); // Correction du message d'erreur
     }
-
-}
+};
 
 export const POST = async (request) => {
     try {
@@ -49,7 +47,7 @@ export const POST = async (request) => {
 
         console.log("Utilisateur créé avec succès");
 
-        return new NextResponse("Utilisateur créé", {
+        return new NextResponse("Utilisateur créé avec succès", {
             status: 201, // Utilisateur créé avec succès
         });
     } catch (error) {
