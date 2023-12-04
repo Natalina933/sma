@@ -3,15 +3,12 @@ import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
-
+import connect from "@/utils/db";
 
 
 const handler = NextAuth({
   providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
+
     CredentialsProvider({
       id: "credentials",
       name: "Credentials",
@@ -19,7 +16,9 @@ const handler = NextAuth({
         // Vérifier si l'utilisateur existe.
         try {
           await connect();
-          const user = await User.findOne({ email: credentials.email });
+          const user = await User.findOne({
+            email: credentials.email
+          });
 
           if (!user) {
             return Promise.reject(new Error("Email ou mot de passe invalide !"));
@@ -55,7 +54,7 @@ const handler = NextAuth({
     }),
   ],
   pages: {
-      // Redirigez vers la page de connexion en cas d'erreur
+    // Redirigez vers la page de connexion en cas d'erreur
     error: "/dashboard/login",
   }
 });

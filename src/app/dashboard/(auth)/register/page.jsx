@@ -26,7 +26,7 @@ const Register = () => {
       });
 
       if (res.status === 201) {
-        router.push("/dashboard?success=Votre compte a été créé");
+        router.push("/dashboard");
       } else {
         setError(true);
       }
@@ -140,9 +140,12 @@ const Register = () => {
         S'inscrire avec votre compte Google
       </button>
         </form>
-      {error && <p>Une erreur s'est produite lors de la création du compte.</p>}
-      {passwordMismatch && <p>Les mots de passe ne correspondent pas.</p>}
-      {error && <p>Une erreur s'est produite lors de la création du compte.</p>}
+        {(error || passwordMismatch) && (
+        <p>
+          {error ? "Une erreur s'est produite lors de la création du compte." : ""}
+          {passwordMismatch ? "Les mots de passe ne correspondent pas." : ""}
+        </p>
+      )}
     </div>
   );
 };
