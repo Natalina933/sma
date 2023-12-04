@@ -35,7 +35,7 @@ const handler = NextAuth({
             return { error: "Email ou mot de passe invalide" };
           }
 
-          // Générer un jeton en utilisant la bibliothèque JSON Web Token (JWT)
+// Générer un jeton en utilisant la bibliothèque JSON Web Token (JWT)
           const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
 
           // Stocker le jeton dans la session
