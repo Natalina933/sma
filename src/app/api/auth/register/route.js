@@ -12,9 +12,9 @@ export const GET = async (request) => {
     try {
         await connect();
         const users = await User.find(username ? { name: username } : {});
-        return new NextResponse(JSON.stringify(users), { status: 200 }); // Correction de la variable `posts`
+        return new NextResponse(JSON.stringify(users), { status: 200 });
     } catch (error) {
-        return new NextResponse("Erreur de base de données", { status: 500 }); // Correction du message d'erreur
+        return new NextResponse("Erreur de base de données", { status: 500 });
     }
 };
 

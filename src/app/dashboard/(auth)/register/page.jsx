@@ -26,6 +26,7 @@ const Register = () => {
       });
 
       if (res.status === 201) {
+        console.log("Utilisateur créé avec succès");
         router.push("/dashboard");
       } else {
         setError(true);
@@ -71,6 +72,9 @@ const Register = () => {
 
     await handleSignIn(email.value, password.value);
   };
+  const handleGoogleSignIn = () => {
+    signIn("google");
+  };
   return (
     <div className={styles.container}>
       <form autoComplete="on" className={styles.form} onSubmit={handleSubmit}>
@@ -78,7 +82,13 @@ const Register = () => {
         <Link href="/dashboard/login">Déjà inscrit ? Connectez-vous</Link>
 
         <div className={styles.radioGroup}>
-          <input type="radio" id="civiliteMme" name="civilite" value="Mme" />
+          <input
+            type="radio"
+            id="civiliteMme"
+            name="civilite"
+            value="Mme"
+            onChange={(e) => console.log(e.target.value)} />
+
           <label className={styles.label} htmlFor="civiliteMme">Mme</label>
 
           <input type="radio" id="civiliteM" name="civilite" value="M." />
@@ -100,7 +110,6 @@ const Register = () => {
           placeholder="Prénom"
           className={styles.input}
           name="surname"
-          autoComplete="surname"
           required
         />
         <input
@@ -129,18 +138,18 @@ const Register = () => {
           autoComplete="new-password"
           required
         />
-      <button className={styles.button}>S'inscrire</button>
-      <span>ou</span>
-      <button
-        onClick={() => {
-          signIn("google");
-        }}
-        className={styles.button + " " + styles.google}
+        <button
+          className={styles.button}>S'inscrire</button>
+        <span>ou</span>
+        <button
+          type="button"
+          onClick={handleGoogleSignIn}
+          className={styles.button + " " + styles.google}
         >
-        S'inscrire avec votre compte Google
-      </button>
-        </form>
-        {(error || passwordMismatch) && (
+          S'inscrire avec votre compte Google
+        </button>
+      </form>
+      {(error || passwordMismatch) && (
         <p>
           {error ? "Une erreur s'est produite lors de la création du compte." : ""}
           {passwordMismatch ? "Les mots de passe ne correspondent pas." : ""}

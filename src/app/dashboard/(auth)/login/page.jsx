@@ -8,8 +8,7 @@ import { useState, useEffect } from "react";
 /* eslint-disable react/no-unescaped-entities */
 
 const Login = ({ }) => {
- // Récupération de la session utilisateur
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   const params = useSearchParams();
   const [error, setError] = useState("");// État local pour gérer les erreurs
