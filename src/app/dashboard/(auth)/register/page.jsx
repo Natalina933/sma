@@ -11,69 +11,52 @@ import { signIn } from "next-auth/react";
 
 
 const Register = () => {
-  const [error, setError] = useState(false);
-  const [passwordMismatch, setPasswordMismatch] = useState(false);
+  // State pour gérer les erreurs
+  const [error, setError] = useState(null);
   const router = useRouter();
 
-  const createAccount = async (userData) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const name = e.target.name.value;
+    const surname = e.target.surname.value;
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+    const confirmPassword = e.target.confirmPassword.value;
+    const civility = e.target.civility.value;
+
+    if (password !== confirmPassword) {
+      setError("Les mots de passe ne correspondent pas.");
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(userData),
+        body: JSON.stringify({
+          civility,
+          name,
+          surname,
+          email,
+          password: hashedPassword,
+        }),
       });
 
       if (res.status === 201) {
-        console.log("Utilisateur créé avec succès");
+        // Rediriger vers le tableau de bord après inscription réussie
         router.push("/dashboard");
       } else {
-        setError(true);
+        setError("Une erreur s'est produite lors de la création du compte.");
       }
-    } catch (error) {
-      console.error("Une erreur s'est produite lors de la création du compte :", error);
-      setError(true);
+    } catch (err) {
+      setError(err);
+      console.log(err);
     }
-  };
-
-  const handleSignIn = async (email, password) => {
-    try {
-      const { status } = await signIn("credentials", { email, password });
-
-      if (status === "authenticated") {
-        router.push("/dashboard");
-      }
-    } catch (error) {
-      console.error("Erreur de connexion :", error);
-      setError(true);
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const { name, surname, email, password, confirmPassword, civilite } = e.target;
-
-    if (password.value !== confirmPassword.value) {
-      setPasswordMismatch(true);
-      setError(false);
-      return;
-    }
-
-    const hashedPassword = await bcrypt.hash(password.value, 10);
-
-    await createAccount({
-      civilite: civilite.value,
-      name: name.value,
-      surname: surname.value,
-      email: email.value,
-      password: hashedPassword,
-    });
-
-    await handleSignIn(email.value, password.value);
-  };
-  const handleGoogleSignIn = () => {
-    signIn("google");
   };
   return (
     <div className={styles.container}>
@@ -84,18 +67,18 @@ const Register = () => {
         <div className={styles.radioGroup}>
           <input
             type="radio"
-            id="civiliteMme"
-            name="civilite"
+            id="civilityMme"
+            name="civility"
             value="Mme"
             onChange={(e) => console.log(e.target.value)} />
 
-          <label className={styles.label} htmlFor="civiliteMme">Mme</label>
+          <label className={styles.label} htmlFor="civilityMme">Mme</label>
 
-          <input type="radio" id="civiliteM" name="civilite" value="M." />
-          <label className={styles.label} htmlFor="civiliteM">M.</label>
+          <input type="radio" id="civilityM" name="civility" value="M." />
+          <label className={styles.label} htmlFor="civilityM">M.</label>
 
-          <input type="radio" id="civiliteMmeEtM" name="civilite" value="Mme et M." />
-          <label className={styles.label} htmlFor="civiliteMmeEtM">Mme et M.</label>
+          <input type="radio" id="civilityMmeEtM" name="civility" value="Mme et M." />
+          <label className={styles.label} htmlFor="civilityMmeEtM">Mme et M.</label>
         </div>
         <input
           type="text"
@@ -138,23 +121,19 @@ const Register = () => {
           autoComplete="new-password"
           required
         />
-        <button
-          className={styles.button}>S'inscrire</button>
-        <span>ou</span>
-        <button
-          type="button"
-          onClick={handleGoogleSignIn}
-          className={styles.button + " " + styles.google}
-        >
-          S'inscrire avec votre compte Google
-        </button>
+        <button className={styles.button}>S'inscrire</button>
       </form>
-      {(error || passwordMismatch) && (
-        <p>
-          {error ? "Une erreur s'est produite lors de la création du compte." : ""}
-          {passwordMismatch ? "Les mots de passe ne correspondent pas." : ""}
-        </p>
-      )}
+      <span>ou</span>
+      <button
+        type="button"
+        onClick={() => {
+          signIn("google");
+        }}
+        className={styles.button + " " + styles.google}
+      >
+        S'inscrire avec votre compte Google
+      </button>
+      {error && <p>{error}</p>}
     </div>
   );
 };
