@@ -14,7 +14,8 @@ const Register = () => {
   // State pour gérer les erreurs
   const [error, setError] = useState(null);
   const router = useRouter();
-
+  const { data: session } = useSession();
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -54,10 +55,11 @@ const Register = () => {
         setError("Une erreur s'est produite lors de la création du compte.");
       }
     } catch (err) {
-      setError(err);
+      setError(err.message);
       console.log(err);
     }
   };
+
   return (
     <div className={styles.container}>
       <form autoComplete="on" className={styles.form} onSubmit={handleSubmit}>

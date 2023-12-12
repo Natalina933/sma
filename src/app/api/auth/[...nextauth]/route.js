@@ -19,9 +19,8 @@ const handler = NextAuth({
           const user = await User.findOne({
             email: credentials.email
           });
-
           if (!user) {
-            return Promise.reject(new Error("Email ou mot de passe invalide !"));
+            return Promise.reject(new Error("Utilisateur non trouvé !"));
           }
 
           // Vérifier le mot de passe
@@ -30,32 +29,40 @@ const handler = NextAuth({
             user.password
           );
 
-          if (!isPasswordCorrect) {
-            return { error: "Email ou mot de passe invalide" };
+          if (isPasswordCorrect) {
+            // Generate a JWT token
+            const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+
+            // Stocker le token dans la session
+            const session = {
+              user: {
+                id: user._id,
+                email: user.email,
+              },
+              token,
+            };
+
+            return session;
+          } else {
+            throw new Error("Invalid credentials!");
           }
-
-// Générer un jeton en utilisant la bibliothèque JSON Web Token (JWT)
-          const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-
-          // Stocker le jeton dans la session
-          const session = {
-            user: {
-              id: user._id,
-              email: user.email,
-            },
-            token,
-          };
-
-          return session;
-        } catch (error) {
-          throw new Error(error.message);
+        } catch (err) {
+          throw new Error(err);
         }
       },
     }),
+
+GoogleProvider({
+  clientId: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+}),
   ],
-  pages: {
-    // Redirigez vers la page de connexion en cas d'erreur
-    error: "/dashboard/login",
+
+
+
+pages: {
+  // Redirigez vers la page de connexion en cas d'erreur
+  error: "/dashboard/login",
   }
 });
 
