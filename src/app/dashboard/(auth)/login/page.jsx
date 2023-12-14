@@ -1,95 +1,49 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import React, { useEffect, useState } from "react";
 import styles from "./page.module.css";
-import { signIn, useSession } from "next-auth/react";
+import { getProviders, signIn, useSession } from "next-auth/react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { useState, useEffect } from "react";
-import bcrypt from "bcryptjs";
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/no-unescaped-entities */
 
 const Login = () => {
+  // Récupération de la session en cours
   const session = useSession();
+   // Récupération du routeur et des paramètres de recherche
   const router = useRouter();
   const params = useSearchParams();
-  const [error, setError] = useState("");// État local pour gérer les erreurs
-  const [success, setSuccess] = useState("");// État local pour gérer les succès
-  const [showResetPassword, setShowResetPassword] = useState(false);
+  // États pour gérer les messages d'erreur et de succès
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
-  const handleResetPassword = () => {
-    setShowResetPassword(true);
-  };
-  //UseEffect pour mettre à jour les erreurs et les succès en fonction des paramètres de l'URL
   useEffect(() => {
+    // Mettre à jour les états des erreurs et des succès à partir des paramètres de recherche
     setError(params.get("error"));
     setSuccess(params.get("success"));
   }, [params]);
-  // Vérification de l'état de la session pour gérer les différentes conditions
+// Si la session est en cours de chargement, afficher "Chargement..."
   if (session.status === "loading") {
-    return <p>Loading...</p>;// Affichage pendant le chargement de la session
+    return <p>Loading...</p>;
+  }
+// Si l'utilisateur est authentifié, rediriger vers "/dashboard"
+  if (session.status === "authenticated") {
+    console.log("Redirection vers le tableau de bord...")
+    router?.push("/dashboard");
   }
 
-  if (session.status === "authenticated") {
-    router?.push("/dashboard");// Redirection vers le dashboard si l'utilisateur est authentifié
-  }
-  // Fonction de soumission du formulaire de connexion
   const handleSubmit = (e) => {
     e.preventDefault();
+    const email = e.target[0].value;
+    const password = e.target[1].value;
+    // Affichage des informations saisies dans le formulaire
+    console.log("Email soumis :", email);
+    console.log("Mot de passe soumis :", password);
 
-    const email = e.target.email.value;
-    const password = e.target.password.value;
+    // Connexion avec les informations saisies
     signIn("credentials", {
       email,
       password,
     });
   };
-    // Validation des champs
-  // if (!email.includes("@")) {
-  //   setError("L'adresse e-mail doit contenir un symbole @.");
-  //   return;
-  // }
-
-  // if (password.length < 8) {
-  //   setError("Le mot de passe doit contenir au moins 8 caractères.");
-  //   return;
-  // }
-
-  // try {
-  //   // Check if the user exists
-  //   const user = await getUserByEmail(email);
-  //   if (!user) {
-  //     throw new Error("L'utilisateur n'existe pas.");
-  //   }
-  //   // Compare entered password with stored hashed password
-  //   const isPasswordCorrect = await bcrypt.compare(password, user.password);
-
-    // if (isPasswordCorrect) {
-      // Generate a JWT token
-//       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
-
-//       // Store the token in the session
-//       const session = {
-//         user: {
-//           id: user._id,
-//           email: user.email,
-//         },
-//         token,
-//       };
-
-//       // Sign in the user
-//       signIn("credentials", session);
-
-//       // Redirect to the dashboard
-//       router?.push("/dashboard");
-//     } else {
-//       throw new Error("Invalid credentials!");
-//     }
-//   } catch (error) {
-//     setError(error.message);
-//   }
-// };
-
-// const notRegisteredMessage = "Vous n'avez pas de compte. Veuillez vous inscrire pour accéder.";
 
   return (
     <div className={styles.container}>
@@ -149,7 +103,7 @@ const Login = () => {
         Réinitialiser le mot de passe
       </button>
     </form> */}
-  </div>
-)
+    </div>
+  )
 };
 export default Login;

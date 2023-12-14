@@ -7,17 +7,17 @@ const userSchema = new Schema(
     {
         name: {
             type: String,
-            unique: true,
-            required: true,
+            unique: [true,"Must be unique."],
+            required: [true,"Must provide a name"],
         },
         email: {
             type: String,
-            unique: true,
-            required: true,
+            unique: [true,"Must be unique."],
+            required: [true,"Must provide an mail"],
         },
         password: {
             type: String,
-            required: true,
+            required: [true,"Must provide an pass"],
         },
     },
     { timestamps: true } //horodatage Mongoose ajoutera deux propriétés de type Date createdAt: une date représentant la date à laquelle ce document a été créé updatedAt: une date représentant la dernière mise à jour de ce document
