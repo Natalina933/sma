@@ -6,9 +6,9 @@ import bcrypt from "bcryptjs";
 
 export const POST = async (request) => {
     try {
-        const { civility, name, surname, email, password } = await request.json();
+        const { name, username, email, password } = await request.json();
         await connectDB(); // Connexion à la base de données
-        // console.log({ civility, name, surname, email, password });
+        console.log({ name, username, email, password });
         // Vérifier si l'utilisateur existe déjà
 
         const existingUser = await User.findOne({ $or: [{ email }, { name }] });
@@ -18,11 +18,11 @@ export const POST = async (request) => {
             });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        await User.create({ civility, name, surname, email, password: hashedPassword })
+        const hashedPassword = await bcrypt.hash(password, 5);
+        await User.create({  name, username, email, password: hashedPassword })
 
         // Créer un nouvel utilisateur
-        // const newUser = new User({ civility, name, surname, email, password: hashedPassword });
+        // const newUser = new User({ name, username, email, password: hashedPassword });
         // await newUser.save();
 
         return NextResponse.json({ message: "Utilisateur créé avec succès" }, {

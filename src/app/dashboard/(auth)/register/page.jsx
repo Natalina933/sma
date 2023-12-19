@@ -11,11 +11,12 @@ import { signIn } from "next-auth/react";
 
 const Register = () => {
   const router = useRouter();
-  const [info, setInfo] = useState({// civility: "",
+  const [info, setInfo] = useState({
     name: "",
-    surname: "",
+    username: "",
     email: "",
     password: "",
+    confirmPassword: "",
   });
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
@@ -25,17 +26,23 @@ const Register = () => {
   }
 
   async function handleSubmit(e) {
-    // console.log("inside haandleSubmit");
+    // console.log("inside handleSubmit");
     e.preventDefault();
+    // si tous les champs ne sont pas rempli
     if (
-      // !info.civility ||
       !info.email ||
       !info.password ||
       !info.name ||
-      !info.surname
+      !info.username
     ) {
-      setError("Doit fournir toutes les informations d'identification");
+      setError("Veuillez remplir tous les champs");
     }
+// si les mots de passe ne correspondent pas
+if (info.password !== info.password) {
+  setError("Les mots de passe ne correspondent pas");
+  return;
+}
+
     try {
       setPending(true);
       const res = await fetch("/api/auth/register", {
@@ -68,14 +75,14 @@ const Register = () => {
         <h1>Créez votre compte</h1>
         <Link href="/dashboard/login">Déjà inscrit ? Connectez-vous</Link>
 
-        <div className={styles.radioGroup}>
+        {/* <div className={styles.radioGroup}>
           <input
             type="radio"
             id="civilityMme"
             name="civility"
             value="Mme"
+            onChange={handleCivilityChange}
           />
-
           <label className={styles.label} htmlFor="civilityMme">
             Mme
           </label>
@@ -94,7 +101,7 @@ const Register = () => {
           <label className={styles.label} htmlFor="civilityMmeEtM">
             Mme et M.
           </label>
-        </div>
+        </div> */}
 
         <input
           type="text"
@@ -110,7 +117,7 @@ const Register = () => {
           placeholder="Prénom"
           onChange={(e) => handleInput(e)}
           className={styles.input}
-          name="surname"
+          name="username"
           required
         />
         <input
@@ -148,7 +155,7 @@ const Register = () => {
           {pending?"Registering":"S'inscrire"}</button>
       </form>
       <span>ou</span>
-      {/* <button
+      <button
         type="button"
         onClick={() => {
           signIn("google");
@@ -157,7 +164,7 @@ const Register = () => {
       >
         Sinscrire avec votre compte Google
       </button>
-      {error && <p>{error}</p>} */}
+      {error && <p>{error}</p>}
     </div>
   );
 };
