@@ -9,57 +9,59 @@ import { signIn } from "next-auth/react";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
 
-
 const Register = () => {
-  // State pour gérer les erreurs
-  const [error, setError] = useState(null);
   const router = useRouter();
-  const { data: session } = useSession();
-  
-  const handleSubmit = async (e) => {
+  const [info, setInfo] = useState({// civility: "",
+    name: "",
+    surname: "",
+    email: "",
+    password: "",
+  });
+  const [error, setError] = useState("");
+  const [pending, setPending] = useState(false);
+
+  function handleInput(e) {
+    setInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+
+  async function handleSubmit(e) {
+    // console.log("inside haandleSubmit");
     e.preventDefault();
-
-    const name = e.target.name.value;
-    const surname = e.target.surname.value;
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-    const confirmPassword = e.target.confirmPassword.value;
-    const civility = e.target.civility.value;
-
-    if (password !== confirmPassword) {
-      setError("Les mots de passe ne correspondent pas.");
-      return;
+    if (
+      // !info.civility ||
+      !info.email ||
+      !info.password ||
+      !info.name ||
+      !info.surname
+    ) {
+      setError("Doit fournir toutes les informations d'identification");
     }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
     try {
+      setPending(true);
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          civility,
-          name,
-          surname,
-          email,
-          password: hashedPassword,
-        }),
+        body: JSON.stringify(info),
       });
-
-      if (res.status === 201) {
-        // Rediriger vers le tableau de bord après inscription réussie
-        router.push("/dashboard");
+      if (res.ok) {
+        setPending(false);
+        const form = e.target;
+        form.reset();
+        router.push("/login")
+        console.log("user registered");
       } else {
-        setError("Une erreur s'est produite lors de la création du compte.");
+        const errorData = await res.json();
+        setError(errorData.message);
+        setPending(false);
       }
-    } catch (err) {
-      setError(err.message);
-      console.log(err);
+    } catch (error) {
+      setPending(false);
+      setError("quelque chose ne fonctionne pas");
     }
-  };
-
+  }
+  // console.log({info});
   return (
     <div className={styles.container}>
       <form autoComplete="on" className={styles.form} onSubmit={handleSubmit}>
@@ -72,20 +74,33 @@ const Register = () => {
             id="civilityMme"
             name="civility"
             value="Mme"
-            onChange={(e) => console.log(e.target.value)} />
+          />
 
-          <label className={styles.label} htmlFor="civilityMme">Mme</label>
+          <label className={styles.label} htmlFor="civilityMme">
+            Mme
+          </label>
 
           <input type="radio" id="civilityM" name="civility" value="M." />
-          <label className={styles.label} htmlFor="civilityM">M.</label>
+          <label className={styles.label} htmlFor="civilityM">
+            M.
+          </label>
 
-          <input type="radio" id="civilityMmeEtM" name="civility" value="Mme et M." />
-          <label className={styles.label} htmlFor="civilityMmeEtM">Mme et M.</label>
+          <input
+            type="radio"
+            id="civilityMmeEtM"
+            name="civility"
+            value="Mme et M."
+          />
+          <label className={styles.label} htmlFor="civilityMmeEtM">
+            Mme et M.
+          </label>
         </div>
+
         <input
           type="text"
           placeholder="Nom"
           className={styles.input}
+          onChange={(e) => handleInput(e)}
           name="name"
           autoComplete="name"
           required
@@ -93,6 +108,7 @@ const Register = () => {
         <input
           type="text"
           placeholder="Prénom"
+          onChange={(e) => handleInput(e)}
           className={styles.input}
           name="surname"
           required
@@ -100,6 +116,7 @@ const Register = () => {
         <input
           type="email"
           placeholder="Email"
+          onChange={(e) => handleInput(e)}
           className={styles.input}
           name="email"
           autoComplete="email"
@@ -109,6 +126,7 @@ const Register = () => {
         <input
           type="password"
           placeholder="Mot de passe"
+          onChange={(e) => handleInput(e)}
           className={styles.input}
           name="password"
           autoComplete="new-password"
@@ -123,19 +141,23 @@ const Register = () => {
           autoComplete="new-password"
           required
         />
-        <button className={styles.button}>S'inscrire</button>
+        {error && <p className="message">{error}</p>}
+        <button className={styles.button}
+        disabled={pending?true:false}
+        >   
+          {pending?"Registering":"S'inscrire"}</button>
       </form>
       <span>ou</span>
-      <button
+      {/* <button
         type="button"
         onClick={() => {
           signIn("google");
         }}
         className={styles.button + " " + styles.google}
       >
-        S'inscrire avec votre compte Google
+        Sinscrire avec votre compte Google
       </button>
-      {error && <p>{error}</p>}
+      {error && <p>{error}</p>} */}
     </div>
   );
 };

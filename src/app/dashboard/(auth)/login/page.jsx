@@ -6,49 +6,87 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 
 const Login = () => {
-  // Récupération de la session en cours
   const session = useSession();
-   // Récupération du routeur et des paramètres de recherche
   const router = useRouter();
-  const params = useSearchParams();
+  const [info, setInfo] = useState({
+    email: "", password: "",
+  });
+
+  // const params = useSearchParams();
+
   // États pour gérer les messages d'erreur et de succès
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
+  const [pending, setPending] = useState(false);
 
-  useEffect(() => {
-    // Mettre à jour les états des erreurs et des succès à partir des paramètres de recherche
-    setError(params.get("error"));
-    setSuccess(params.get("success"));
-  }, [params]);
-// Si la session est en cours de chargement, afficher "Chargement..."
-  if (session.status === "loading") {
-    return <p>Loading...</p>;
-  }
-// Si l'utilisateur est authentifié, rediriger vers "/dashboard"
-  if (session.status === "authenticated") {
-    console.log("Redirection vers le tableau de bord...")
-    router?.push("/dashboard");
+  function handleInput(e) {
+    setInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
-  const handleSubmit = (e) => {
+  async function handleSubmit(e) {
+    // console.log("inside haandleSubmit");
     e.preventDefault();
-    const email = e.target[0].value;
-    const password = e.target[1].value;
-    // Affichage des informations saisies dans le formulaire
-    console.log("Email soumis :", email);
-    console.log("Mot de passe soumis :", password);
+    if (
+      !info.email ||
+      !info.password
+    ) {
+      setError("Doit fournir toutes les informations d'identification");
+    }
+    // console.log(info);
+    
+    try {
+      setPending(true);
+      const res = await signIn('credentials',{
+        email:info.email,
+        password: info.password,
+        redirect: false
+      })
+      if(res.error){
+        setError("Invalid Credentials.")
+        setPending(false)
+        return;
+      }
+      router.replace("/")
+              
+    } catch (error) {
+      setPending(false);
+      setError("quelque chose ne fonctionne pas");
+    }
+  }
+  // console.log({info});
+  //   useEffect(() => {
+  //     // Mettre à jour les états des erreurs et des succès à partir des paramètres de recherche
+  //     setError(params.get("error"));
+  //     setSuccess(params.get("success"));
+  //   }, [params]);
+  // // Si la session est en cours de chargement, afficher "Chargement..."
+  //   if (session.status === "loading") {
+  //     return <p>Loading...</p>;
+  //   }
+  // // Si l'utilisateur est authentifié, rediriger vers "/dashboard"
+  //   if (session.status === "authenticated") {
+  //     console.log("Redirection vers le tableau de bord...")
+  //     router?.push("/dashboard");
+  //   }
 
-    // Connexion avec les informations saisies
-    signIn("credentials", {
-      email,
-      password,
-    });
-  };
+  //   const handleSubmit = (e) => {
+  //     e.preventDefault();
+  //     const email = e.target[0].value;
+  //     const password = e.target[1].value;
+  //     // Affichage des informations saisies dans le formulaire
+  //     console.log("Email soumis :", email);
+  //     console.log("Mot de passe soumis :", password);
+
+  //     // Connexion avec les informations saisies
+  //     signIn("credentials", {
+  //       email,
+  //       password,
+  //     });
+  //   };
 
   return (
     <div className={styles.container}>
       {/* Formulaire de connexion */}
-      <h1 className={styles.title}>{success ? success : "Welcome Back"}</h1>
+      {/* <h1 className={styles.title}>{success ? success : "Welcome Back"}</h1> */}
       <h2 className={styles.subtitle}>Please sign in to see the dashboard.</h2>
       <form className={styles.form} onSubmit={handleSubmit}>
         <h2>Connectez-vous</h2>
@@ -57,6 +95,7 @@ const Login = () => {
           type="email"
           placeholder="Email"
           className={styles.input}
+          onChange={(e) => handleInput(e)}
           name="email"
           required
           autoComplete="email"
@@ -65,18 +104,18 @@ const Login = () => {
           type="password"
           placeholder="password"
           className={styles.input}
+          onChange={(e) => handleInput(e)}
           name="password"
           required
           autoComplete="current-password"
         />
-        <button type="submit" className={styles.button}>
-          Connexion
-        </button>
-        {/* Affichage du message si l'utilisateur n'est pas enregistré */}
-        {error && error}
+        {error && <p className="message">{error}</p>}
+        <button className={styles.button}
+        disabled={pending?true:false}
+        >   
+          {pending?"logging in ":"Connexion"}</button>
       </form>
       <span>ou</span>
-
       <button
         onClick={() => {
           signIn("google");

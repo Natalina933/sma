@@ -7,63 +7,71 @@ import connect from "@/utils/db";
 
 
 const handler = NextAuth({
+  pages:{
+    signIn:"/login"
+  },
   providers: [
-
     CredentialsProvider({
-      id: "credentials",
       name: "Credentials",
+      credentials: {},
       async authorized(credentials) {
         // Vérifier si l'utilisateur existe.
         try {
-          await connect();
-          const user = await User.findOne({
-            email: credentials.email
-          });
-          if (!user) {
-            return Promise.reject(new Error("Utilisateur non trouvé !"));
-          }
+          const user=await Login(credentials)
+          console.log("Cet Utilisateur est=",user);
+          return user;
+          // console.log({credentials});
+          // await connect();
+          // const user = await User.findOne({
+          //   email: credentials.email
+          // });
+          // if (!user) {
+          //   return Promise.reject(new Error("Utilisateur non trouvé !"));
+          // }
 
           // Vérifier le mot de passe
-          const isPasswordCorrect = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
+          // const isPasswordCorrect = await bcrypt.compare(
+          //   credentials.password,
+          //   user.password
+          // );
 
-          if (isPasswordCorrect) {
-            // Generate a JWT token
-            const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+          // if (isPasswordCorrect) {
+          //   // Generate a JWT token
+          //   const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
 
-            // Stocker le token dans la session
-            const session = {
-              user: {
-                id: user._id,
-                email: user.email,
-              },
-              token,
-            };
+          //   // Stocker le token dans la session
+          //   const session = {
+          //     user: {
+          //       id: user._id,
+          //       email: user.email,
+          //     },
+          //     token,
+          //   };
 
-            return session;
-          } else {
-            throw new Error("Invalid credentials!");
-          }
-        } catch (err) {
-          throw new Error(err);
+          //   return session;
+          // } else {
+          //   throw new Error("Invalid credentials!");
+          // }
+        } catch (error) {
+          console.log("Error=",error);
+          return null
+          // throw new Error(err);
         }
       },
     }),
 
-GoogleProvider({
-  clientId: process.env.GOOGLE_CLIENT_ID,
-  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-}),
+    GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
   ],
 
 
 
-pages: {
-  // Redirigez vers la page de connexion en cas d'erreur
-  error: "/dashboard/login",
-  }
+  // pages: {
+  //   // Redirigez vers la page de connexion en cas d'erreur
+  //   error: "/dashboard/login",
+  // }
 });
 
 export { handler as GET, handler as POST };
