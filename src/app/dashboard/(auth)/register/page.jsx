@@ -37,11 +37,11 @@ const Register = () => {
     ) {
       setError("Veuillez remplir tous les champs");
     }
-// si les mots de passe ne correspondent pas
-if (info.password !== info.password) {
-  setError("Les mots de passe ne correspondent pas");
-  return;
-}
+    // si les mots de passe ne correspondent pas
+    if (info.password !== info.password) {
+      setError("Les mots de passe ne correspondent pas");
+      return;
+    }
 
     try {
       setPending(true);
@@ -150,9 +150,9 @@ if (info.password !== info.password) {
         />
         {error && <p className="message">{error}</p>}
         <button className={styles.button}
-        disabled={pending?true:false}
-        >   
-          {pending?"Registering":"S'inscrire"}</button>
+          disabled={pending ? true : false}
+        >
+          {pending ? "Registering" : "S'inscrire"}</button>
       </form>
       <span>ou</span>
       <button
