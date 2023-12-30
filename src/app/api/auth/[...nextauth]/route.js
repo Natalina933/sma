@@ -4,68 +4,55 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 import connect from "@/utils/db";
-
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 const handler = NextAuth({
-  pages:{
-    signIn:"/login"
+  pages: {
+    signIn: "/login",
   },
   providers: [
     CredentialsProvider({
       name: "Credentials",
       credentials: {},
       async authorized(credentials) {
+        console.log({ credentials });
+
         // Vérifier si l'utilisateur existe.
-        try {
-          const user=await Login(credentials)
-          console.log("Cet Utilisateur est=",user);
-          return user;
-          // console.log({credentials});
-          // await connect();
-          // const user = await User.findOne({
-          //   email: credentials.email
-          // });
-          // if (!user) {
-          //   return Promise.reject(new Error("Utilisateur non trouvé !"));
-          // }
+        const userId = await User.findOne({ email: credentials.email });
 
-          // Vérifier le mot de passe
-          // const isPasswordCorrect = await bcrypt.compare(
-          //   credentials.password,
-          //   user.password
-          // );
+        if (!userId) {
+          throw new Error("Utilisateur non trouvé !");
+        }
 
-          // if (isPasswordCorrect) {
-          //   // Generate a JWT token
-          //   const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
+        const isPasswordCorrect = await bcrypt.compare(
+          credentials.password,
+          await User.findOne({ _id: userId }).then(user => user.password)
+        );
 
-          //   // Stocker le token dans la session
-          //   const session = {
-          //     user: {
-          //       id: user._id,
-          //       email: user.email,
-          //     },
-          //     token,
-          //   };
+        if (isPasswordCorrect) {
+          const token = jwt.sign({ userId: userId }, process.env.JWT_SECRET);
 
-          //   return session;
-          // } else {
-          //   throw new Error("Invalid credentials!");
-          // }
-        } catch (error) {
-          console.log("Error=",error);
-          return null
-          // throw new Error(err);
+          const session = {
+            user: {
+              id: userId,
+              email: credentials.email,
+            },
+            token,
+          };
+
+          return session;
+        } else {
+          throw new Error("Invalid credentials!");
         }
       },
     }),
 
     GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      clientId: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
     }),
   ],
-
 
 
   // pages: {
