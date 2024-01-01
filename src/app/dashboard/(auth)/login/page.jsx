@@ -12,7 +12,7 @@ const Login = () => {
     email: "", password: "",
   });
 
-  // const params = useSearchParams();
+  const params = useSearchParams();
 
   // États pour gérer les messages d'erreur et de succès
   const [error, setError] = useState("");
@@ -23,7 +23,8 @@ const Login = () => {
   }
 
   async function handleSubmit(e) {
-    // console.log("inside haandleSubmit");
+    // Vérifie si tous les champs sont remplis
+    // console.log("inside handleSubmit");
     e.preventDefault();
     if (
       !info.email ||
@@ -31,22 +32,22 @@ const Login = () => {
     ) {
       setError("Doit fournir toutes les informations d'identification");
     }
-    // console.log(info);
-    
+    console.log(info);
+
     try {
       setPending(true);
-      const res = await signIn('credentials',{
-        email:info.email,
+      const res = await signIn('credentials', {
+        email: info.email,
         password: info.password,
         redirect: false
       })
-      if(res.error){
+      if (res.error) {
         setError("Invalid Credentials.")
         setPending(false)
         return;
       }
-      router.replace("/")
-              
+      router.replace("/dashboard")
+
     } catch (error) {
       setPending(false);
       setError("quelque chose ne fonctionne pas");
@@ -111,9 +112,9 @@ const Login = () => {
         />
         {error && <p className="message">{error}</p>}
         <button className={styles.button}
-        disabled={pending?true:false}
-        >   
-          {pending?"logging in ":"Connexion"}</button>
+          disabled={pending ? true : false}
+        >
+          {pending ? "logging in " : "Connexion"}</button>
       </form>
       <span>ou</span>
       <button

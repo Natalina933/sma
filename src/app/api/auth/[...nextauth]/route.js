@@ -13,37 +13,33 @@ const handler = NextAuth({
   },
   providers: [
     CredentialsProvider({
+      id: "credentials",
       name: "Credentials",
-      credentials: {},
-      async authorized(credentials) {
-        console.log({ credentials });
+      async authorize(credentials) {
+        //Check if the user exists.
+        await connect();
 
-        // Vérifier si l'utilisateur existe.
-        const userId = await User.findOne({ email: credentials.email });
+        try {
+          const user = await User.findOne({
+            email: credentials.email,
+          });
 
-        if (!userId) {
-          throw new Error("Utilisateur non trouvé !");
-        }
+          if (user) {
+            const isPasswordCorrect = await bcrypt.compare(
+              credentials.password,
+              user.password
+            );
 
-        const isPasswordCorrect = await bcrypt.compare(
-          credentials.password,
-          await User.findOne({ _id: userId }).then(user => user.password)
-        );
-
-        if (isPasswordCorrect) {
-          const token = jwt.sign({ userId: userId }, process.env.JWT_SECRET);
-
-          const session = {
-            user: {
-              id: userId,
-              email: credentials.email,
-            },
-            token,
-          };
-
-          return session;
-        } else {
-          throw new Error("Invalid credentials!");
+            if (isPasswordCorrect) {
+              return user;
+            } else {
+              throw new Error("Wrong Credentials!");
+            }
+          } else {
+            throw new Error("User not found!");
+          }
+        } catch (err) {
+          throw new Error(err);
         }
       },
     }),
