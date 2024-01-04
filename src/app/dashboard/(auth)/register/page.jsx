@@ -21,6 +21,8 @@ const Register = () => {
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
 
+
+
   function handleInput(e) {
     setInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
@@ -28,7 +30,7 @@ const Register = () => {
   async function handleSubmit(e) {
     // console.log("inside handleSubmit");
     e.preventDefault();
-    // si tous les champs ne sont pas rempli
+    // Vérifie si tous les champs sont bien rempli
     if (
       !info.email ||
       !info.password ||
@@ -42,9 +44,12 @@ const Register = () => {
       setError("Les mots de passe ne correspondent pas");
       return;
     }
-
+    // Hachage du mot de passe
+    const hashedPassword = await bcrypt.hash(info.password, 10);
+    // Envoi des données au serveur   
     try {
       setPending(true);
+
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
@@ -56,13 +61,14 @@ const Register = () => {
         setPending(false);
         const form = e.target;
         form.reset();
-        router.push("/login")
+        router.push("/dashboard/login")
         console.log("user registered");
       } else {
         const errorData = await res.json();
         setError(errorData.message);
         setPending(false);
       }
+
     } catch (error) {
       setPending(false);
       setError("quelque chose ne fonctionne pas");

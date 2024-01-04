@@ -8,7 +8,7 @@ import Image from "next/legacy/image";
 
 //devra etre plus modulable
 
-/*data fetching - récupération des données*/
+
 
 const Dashboard = () => {
   //*ancienne structure
@@ -31,11 +31,17 @@ const Dashboard = () => {
   //     getData()
   //   }, []);
   const session = useSession();
-
   const router = useRouter();
 
-  //client-side data fetching avec swr
+  // Gestion des erreurs
+  // const [erreurs, setErreurs] = useState([]);
+
+  // const handleError = (erreur) => {
+  //   setErreurs([erreur]);
+  // };
+  /*data fetching - récupération des données  avec swr*/
   const fetcher = (url) => fetch(url).then((res) => res.json());
+  // Gestion des formulaires
   const { data, mutate, error, isLoading } = useSWR(
     "/api/posts?username=${session?.data?.user?.name}",
     fetcher
