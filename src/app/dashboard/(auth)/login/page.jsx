@@ -24,8 +24,8 @@ const Login = () => {
 
   async function handleSubmit(e) {
     // Vérifie si tous les champs sont remplis
-    // console.log("inside handleSubmit");
     e.preventDefault();
+    // console.log("inside handleSubmit");
     if (
       !info.email ||
       !info.password
@@ -116,15 +116,22 @@ const Login = () => {
         >
           {pending ? "logging in " : "Connexion"}</button>
       </form>
-      <span>ou</span>
-      <button
-        onClick={() => {
-          signIn("google");
+      {/* <span>ou</span> */}
+      {/* <button
+        onClick={async () => {
+          const res = await signIn('google');
+          console.log("Appel de signIn('google') avec l'adresse e-mail :", info.email);
+          if (res.error) {
+            setError("Invalid Credentials.");
+            console.log("Réponse de signIn('google') :", res);
+          } else {
+            router.replace("/dashboard");
+          }
         }}
         className={styles.button + " " + styles.google}
       >
         Connectez-vous avec votre compte Google
-      </button>
+      </button> */}
 
       {/* {showResetPassword && (
   <div>

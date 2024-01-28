@@ -40,7 +40,7 @@ export const POST = async (request) => {
     console.log(Object.keys(mongoose.models));
 
     await newPost.save()
-    console.log("Nouvelle publication enregistrée:", newPosts);
+    console.log("Nouvelle publication enregistrée:", newPost);
 
     const responseBody = JSON.stringify(newPost);
     return new NextResponse(responseBody, { status: 201 });

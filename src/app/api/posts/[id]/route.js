@@ -32,7 +32,7 @@ export const DELETE = async (request, { params }) => {
         console.log("Tentative de connexion à la base de données...");
         await connect();
         console.log("Connexion à la base de données établie.");
-        console.log(mongoose.models);
+        // console.log(mongoose.models);
 
         await Post.findByIdAndDelete(id);
 
