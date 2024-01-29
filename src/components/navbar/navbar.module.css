@@ -20,10 +20,12 @@
   align-items: center;
 
 }
+
 .logoImage {
   border-radius: 50%;
-  border:2px solid rgba(255, 137, 2, 0.338);
+  border: 2px solid rgba(255, 137, 2, 0.338);
 }
+
 .logoText {
   margin-left: 10px;
   font-weight: bold;
@@ -62,6 +64,7 @@
   transform: scaleX(0);
   transition: transform 0.3s;
 }
+
 /* Styles pour le bouton de déconnexion */
 .logout {
   padding: 5px 10px;

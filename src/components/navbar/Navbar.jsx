@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import styles from "./navbar.module.css";
+// import NavItem from '@components/navItem/NavItem'; à revoir (si le lien est actif)
 import Image from "next/legacy/image";
 import { Navlinks } from "@/components/navLinks/Navlinks";
 import DarkModeToggle from "@/components/darkModeToggle/DarkModeToggle";
@@ -10,9 +11,12 @@ import { signOut, useSession } from "next-auth/react";
 /* eslint-disable react/no-unescaped-entities */
 
 const Navbar = () => {
+  // Utilise useSession pour obtenir les informations sur la session de l'utilisateur
   const { data: session } = useSession();
   return (
     <div className={styles.container}>
+
+      {/* Section du logo */}
       <section className={styles.logoContainer}>
         <Link href="/" className={styles.logoLink}>
           <Image
@@ -27,13 +31,17 @@ const Navbar = () => {
         </Link>
       </section>
       <section className={styles.links}>
+
         <DarkModeToggle />
+
+        {/* Section link */}
         {Navlinks.map((link) => (
           <Link key={link.id} href={link.url} className={styles.link}>
             <div className={styles.linkIcon}>{link.icon}</div>
             <div className={styles.linkTitle}>{link.title}</div>
           </Link>
         ))}
+        {/* Si l'utilisateur n'est pas connecté, affichez les boutons de connexion et d'inscription */}
         {!session ? (
           <>
             <Link href="/dashboard/login">
@@ -44,13 +52,11 @@ const Navbar = () => {
             </Link>
           </>
         ) : (
+          // Si l'utilisateur est connecté, affichez le bouton de déconnexion
           <button className={styles.logout} onClick={() => signOut()}>
             Déconnexion
           </button>
-
-        ) 
-        
-        }
+        )}
       </section>
     </div>
   );

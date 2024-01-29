@@ -1,8 +1,8 @@
 "use client"
 import styles from "./page.module.css";
-import Banner from "../components/banner/Banner";
-import MyCarousel from "../components/carousel/MyCarousel";
-import Header from "../components/public/header/Header";
+import Banner from "@/components/banner/Banner";
+import MyCarousel from "@/components/carousel/MyCarousel";
+import Header from "@/components/public/header/Header";
 import Image from "next/legacy/image";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
