@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import styles from "./navbar.module.css";
-// import NavItem from '@components/navItem/NavItem'; à revoir (si le lien est actif)
 import Image from "next/legacy/image";
 import { Navlinks } from "@/components/navLinks/Navlinks";
 import DarkModeToggle from "@/components/darkModeToggle/DarkModeToggle";
