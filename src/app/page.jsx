@@ -3,7 +3,7 @@ import Body from "@/components/body/Body";
 import styles from "./page.module.css";
 import Banner from "@/components/banner/Banner";
 import MyCarousel from "@/components/carousel/MyCarousel";
-import Header from "@/components/public/header/Header";
+import Header from "@/components/layout/header/Header";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
 /**

@@ -1,9 +1,9 @@
-import Navbar from "@/components/navbar/Navbar";
+import Navbar from "@/components/layout/navbar/Navbar";
 import "./globals.css"; // Fichier de styles globaux
 import { Inter } from "next/font/google"; // Import de la police Inter depuis Google Fonts
-import Footer from "@/components/footer/Footer";
+import Footer from "@/components/layout/footer/Footer";
 import { ThemeProvider } from "@/context/ThemeContext"; // Import du fournisseur de thème
-import AuthProvider from "@/components/authProvider/AuthProvider"; // Import du fournisseur d'authentification
+import AuthProvider from "@/components/auth/authProvider/AuthProvider"; // Import du fournisseur d'authentification
 
 // Définition de la police Inter avec un sous-ensemble latin
 const inter = Inter({ subsets: ["latin"] });

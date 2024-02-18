@@ -1,7 +1,7 @@
 
 import Image from 'next/image';
 import styles from './blogPostDetail.module.css';
-import Button from '@/components/button/Button';
+import Button from '@/components/common/button/Button';
 const BlogPostDetail = ({ data }) => (
   <div className={styles.container}>
     <div className={styles.top}>

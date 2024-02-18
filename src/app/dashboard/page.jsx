@@ -109,7 +109,7 @@ const Dashboard = () => {
             ))}
         </div>
         <form className={styles.new} onSubmit={handleSubmit}>
-          <h1>Add New Post</h1>
+          <h1>Ajouter une nouvelle activité</h1>
           <input type="text" placeholder="Title" id="postTitleInput" className={styles.input} />
           <input type="text" placeholder="Desc" id="postDescInput" className={styles.input} />
           <input type="text" placeholder="Image" id="postImgInput" className={styles.input} />
@@ -120,7 +120,7 @@ const Dashboard = () => {
             cols="30"
             rows="10"
           ></textarea>
-          <button className={styles.button}>Send</button>
+          <button className={styles.button}>Enregistrer</button>
         </form>
       </div>
     );

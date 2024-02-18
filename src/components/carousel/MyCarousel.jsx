@@ -5,11 +5,11 @@ import 'react-multi-carousel/lib/styles.css';
 import styles from "../carousel/mycarousel.module.css";
 import Image from "next/legacy/image";
 import activityData from "../../app/datas/activitys/activitys.json"
-import {responsiveConfig}from "../responsiveConfig/responsiveConfig"
+import { responsiveConfig } from "../responsiveConfig/responsiveConfig"
 
 
 const MyCarousel = () => {
-  
+
   const [expandedActivity, setExpandedActivity] = useState(null);
 
   const handleToggleDescription = (activityId) => {
@@ -21,12 +21,11 @@ const MyCarousel = () => {
   return (
     <section className={styles.carouselContainer}>
       <h1 className={styles.carouselTitle}>Découvrez un monde d'activités passionnantes</h1>
-      <Carousel  responsive={responsiveConfig} className={styles.carousel}>
+      <Carousel responsive={responsiveConfig} className={styles.carousel}>
         {activityData.map(activity => (
           <div
-            className={`${styles.card} ${
-              expandedActivity === activity.id ? styles.cardExpanded : ''
-            }`}
+            className={`${styles.card} ${expandedActivity === activity.id ? styles.cardExpanded : ''
+              }`}
             key={activity.id}
           >
             <Image src={activity.img} width={300} height={130} alt={activity.title} />
