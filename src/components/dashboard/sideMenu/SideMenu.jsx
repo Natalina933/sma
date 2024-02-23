@@ -1,38 +1,45 @@
 import Link from 'next/link';
-import styles from './SideMenu.module.css';
+import styles from './sideMenu.module.css';
 import { SidebarLinks } from '@/components/dashboard/sidebarLinks/SidebarLinks';
-import { FaCog } from 'react-icons/fa'; // Import de l'icône des paramètres
+import { FaCog, FaChevronDown } from 'react-icons/fa'; // Import des icônes
+import { useState } from 'react'; // Import du hook useState
 
 const SideMenu = () => {
-    
+    const [openSubMenuIndex, setOpenSubMenuIndex] = useState(null); // État pour gérer l'ouverture des sous-menus
+
+    const toggleSubMenu = (index) => {
+        setOpenSubMenuIndex(openSubMenuIndex === index ? null : index); // Si le même sous-menu est cliqué, fermez-le
+    };
+
     return (
         <div className={styles.sideMenu}>
             <ul className={styles.menuList}>
                 {/* Affichage des liens de la sidebar */}
-                {SidebarLinks.map((link) => (
-                    <li key={link.id}>
-                        {/* Si le lien a une liste d'éléments, affichez-le avec des sous-liens */}
-                        {link.subLinks ? (
-                            <>
-                                <span className={styles.linkIcon}>{link.icon}</span>
-                                <span>{link.title}</span>
-                                <ul className={styles.subMenu}>
-                                    {link.subLinks.map((subLink) => (
-                                        <li key={subLink.id}>
-                                            <Link href={subLink.url}>{subLink.title}</Link>
-                                        </li>
-                                    ))}
-                                </ul>
-                            </>
-                        ) : (
-                            // Sinon, affichez simplement le lien
-                            <Link href={link.url}>{link.title}</Link>
+                {SidebarLinks.map((link, index) => (
+                    <li key={link.id} className={link.subLinks ? styles.hasSubmenu : ''}>
+                        {/* Lien principal */}
+                        <a href="#" onClick={() => toggleSubMenu(index)} className={openSubMenuIndex === index ? styles.active : ''}>
+                            <span className={styles.linkIcon}>{link.icon}</span>
+                            <span>{link.title}</span>
+                            {link.subLinks && <FaChevronDown className={`${styles.submenuIcon}`} />}
+                        </a>
+
+                        {/* Sous-menu */}
+                        {link.subLinks && openSubMenuIndex === index && (
+                            <ul className={`${styles.subMenu}`}>
+                                {link.subLinks.map((subLink) => (
+                                    <li key={subLink.id}>
+                                        <Link href={subLink.url}>{subLink.title}</Link>
+                                    </li>
+                                ))}
+                            </ul>
                         )}
                     </li>
                 ))}
+
                 {/* Icône pour les paramètres */}
                 <li className={`${styles.settingsLink} ${styles.settings}`}>
-                    <FaCog /> {/* Icône des paramètres */}
+                    <FaCog />
                     <span>Paramètres</span>
                 </li>
             </ul>
@@ -41,4 +48,3 @@ const SideMenu = () => {
 };
 
 export default SideMenu;
-

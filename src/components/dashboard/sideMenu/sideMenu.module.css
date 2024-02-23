@@ -1,11 +1,11 @@
 .sideMenu {
-    background-color: #33333382;
+    background-color: #333;
     width: 200px;
     padding: 20px;
+    position: relative;
 }
 
 .menuList {
-
     list-style: none;
     padding: 0;
     margin: 0;
@@ -17,33 +17,28 @@
 }
 
 .menuList li a {
-    color: #040404;
+    color: #fff;
     text-decoration: none;
-    display: block;
-    padding: 8px 10px;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.menuList li a:hover {
-    background-color: #555;
-    color: hsl(0, 0%, 0%);
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
     border-radius: 5px;
+    transition: background-color 0.2s ease-in-out;
 }
 
-.menuList li span {
-    color: #030303;
-    /* Couleur du texte */
+.menuList li:hover a {
+    background-color: #222;
+    display: flex;
 }
 
 .subMenu {
     margin-top: 5px;
     padding-left: 15px;
     display: none;
-    width: 100%;
     position: absolute;
-    top: 100%;
     left: 0;
-    background-color: #444;
+    top: 100%;
+    background-color: #333;
     border-radius: 5px;
     padding: 10px;
     z-index: 1;
@@ -72,26 +67,27 @@
 }
 
 .linkIcon {
-    margin-right: 10px;
+    margin-right: 5px;
+    font-size: 18px;
 }
 
 .settingsLink {
-    /* position: absolute; */
     bottom: 0;
     width: 100%;
     display: flex;
     align-items: center;
     padding: 10px;
-    /* background-color: #f0f0f0; */
     border-top: 1px solid #ccc;
 }
 
 .settingsLink span {
     margin-left: 10px;
     font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    transition: color 0.3s;
+}
+
+.submenuIcon {
+    margin-left: auto; /* Ajout d'espace entre le texte et l'icône */
+    transition: transform 0.3s ease; /* Ajout d'une transition pour la rotation */
 }
 
 .settingsLink:hover span {

@@ -115,7 +115,7 @@ const Dashboard = () => {
             ))}
         </div>
         <SideMenu/>
-        
+        <h1>Liste adhérents</h1>
         <form className={styles.new} onSubmit={handleSubmit}>
           <h1>Ajouter une nouvelle activité</h1>
           <input type="text" placeholder="Title" id="postTitleInput" className={styles.input} />
