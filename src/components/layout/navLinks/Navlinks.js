@@ -23,7 +23,7 @@ export const Navlinks = [
     },
     {
         id: 3,
-        title: "Blog",
+        title: "Programme annuel",
         url: "/blog",
         icon: <FaComments />,
     },

@@ -1,10 +1,11 @@
 "use client";
 // import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";// Import du hook useSession pour gérer la session utilisateur
 import styles from "./page.module.css";
 import useSWR from "swr"; //Bibliothèque de React Hooks pour la récupération de données
 import { useRouter } from "next/navigation";
 import Image from "next/legacy/image";
+import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 
 //devra etre plus modulable
 
@@ -30,15 +31,12 @@ const Dashboard = () => {
   //     };
   //     getData()
   //   }, []);
-  const session = useSession();
+
+  const session = useSession(); // Utilisation du hook useSession pour gérer la session de l'utilisateur
   const router = useRouter();
 
-  // Gestion des erreurs
-  // const [erreurs, setErreurs] = useState([]);
 
-  // const handleError = (erreur) => {
-  //   setErreurs([erreur]);
-  // };
+
   /*data fetching - récupération des données  avec swr*/
   const fetcher = (url) => fetch(url).then((res) => res.json());
   // Gestion des formulaires
@@ -48,11 +46,13 @@ const Dashboard = () => {
   );
 
   if (session.status === "loading") {
-    return <p>Loading...</p>;
+    return <p>en chargement...</p>;
   }
+  // Si l'utilisateur n'est pas authentifié, redirige-le vers la page de connexion
   if (session.status === "unauthenticated") {
-    router?.push("/dashboard/login");
+    router?.push("/dashboard/login");// Empêche le rendu si non authentifié
   }
+  // Gestion de la soumission du formulaire pour ajouter une nouvelle publication
   const handleSubmit = async (e) => {
     e.preventDefault();
     const title = e.target.title.value;
@@ -60,6 +60,7 @@ const Dashboard = () => {
     const img = e.target.img.value;
     const content = e.target.content.value;
     try {
+      // Envoi des données vers l'API pour créer une nouvelle publication
       await fetch("/api/posts", {
         method: "POST",
         body: JSON.stringify({
@@ -70,6 +71,7 @@ const Dashboard = () => {
           username: session.data.user.name,
         }),
       });
+      // Actualisation des données après ajout d'une nouvelle publication
       mutate();
       e.target.reset()
     } catch (error) {
@@ -77,16 +79,20 @@ const Dashboard = () => {
     }
   };
 
+  // Gestion de la suppression d'une publication
   const handleDelete = async (id) => {
     try {
+      // Appel à l'API pour supprimer une publication
       await fetch("/api/posts/${id}", {
         method: "DELETE",
       });
+      // Actualisation des données après suppression d'une publication
       mutate()
     } catch (error) {
       console.log(error);
     }
   };
+  // Affichage du tableau de bord si l'utilisateur est authentifié
   if (session.status === "authenticated") {
     return (
       <div className={styles.container}>
@@ -108,6 +114,8 @@ const Dashboard = () => {
               </div>
             ))}
         </div>
+        <SideMenu/>
+        
         <form className={styles.new} onSubmit={handleSubmit}>
           <h1>Ajouter une nouvelle activité</h1>
           <input type="text" placeholder="Title" id="postTitleInput" className={styles.input} />

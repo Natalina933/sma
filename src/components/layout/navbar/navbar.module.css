@@ -35,15 +35,15 @@
 .links {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 32px;
 }
 
 .link {
   text-decoration: none;
-  font-size: 17px;
+  font-size: 16px;
   transition: color 0.5s, background-color 0.5s;
   position: relative;
-
+  text-align: center;
 }
 
 .link:hover {
@@ -132,16 +132,15 @@
   }
 }
 @media (min-width: 1025px) {
-  .container {
-    padding: 0 20px;
-  }
+
 
   .logoText {
-    font-size: 24px;
+    font-size: 20px;
   }
 
   .link {
-    font-size: 20px;
+    font-size: 18px;
+    justify-content: center;
   }
   .linkIcon{
     display:none;

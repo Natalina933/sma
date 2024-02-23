@@ -3,9 +3,9 @@
     gap: 100px;
 }
 
-.posts {
+/* .posts {
     flex: 1;
-}
+} */
 
 .post {
     display: flex;

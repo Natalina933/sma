@@ -2,10 +2,10 @@
 import React, { useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
-import styles from "../carousel/mycarousel.module.css";
+import styles from "@/components/carousel/mycarousel.module.css";
 import Image from "next/legacy/image";
-import activityData from "../../app/datas/activitys/activitys.json"
-import { responsiveConfig } from "../responsiveConfig/responsiveConfig"
+import activityData from "@/app/datas/activitys/activitys.json"
+import { responsiveConfig } from "@/components/common/responsiveConfig/responsiveConfig"
 
 
 const MyCarousel = () => {
