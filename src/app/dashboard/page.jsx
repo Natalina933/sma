@@ -10,10 +10,7 @@ import { dataAdherents } from "../datas/adherents/dataAdherents";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 
-//devra etre plus modulable
 
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/no-unescaped-entities */
 
 const Dashboard = () => {
   //*ancienne structure
@@ -36,8 +33,8 @@ const Dashboard = () => {
   //     getData()
   //   }, []);
 
-  const [isLoading, setIsLoading] = useState(true); // Ajout d'un état pour gérer le chargement
-  const [error, setError] = useState(null); // Ajout d'un état pour gérer les erreurs
+  // const [isLoading, setIsLoading] = useState(true); 
+  // const [error, setError] = useState(null); 
 
   const session = useSession();
   const router = useRouter();
@@ -51,16 +48,16 @@ const Dashboard = () => {
     fetcher
   );
 
-  useEffect(() => {
-    // Gestion du chargement et des erreurs
-    if (isLoading) {
-      console.log("Chargement des données depuis l'API...");
-    } else if (error) {
-      console.error("Erreur lors de la récupération des données :", error);
-    } else {
-      console.log("Données récupérées :", adherents);
-    }
-  }, [isLoading, error, adherents]);
+  // useEffect(() => {
+  //   // Gestion du chargement et des erreurs
+  //   if (isLoading) {
+  //     console.log("Chargement des données depuis l'API...");
+  //   } else if (error) {
+  //     console.error("Erreur lors de la récupération des données :", error);
+  //   } else {
+  //     console.log("Données récupérées :", adherents);
+  //   }
+  // }, [isLoading, error, adherents]);
 
   if (session.status === "loading") {
     return <p>Chargement...</p>;
@@ -124,17 +121,21 @@ const Dashboard = () => {
                 </div>
                 <div className={styles.actions}>
                   {/* Bouton Modifier */}
-                  <FontAwesomeIcon
-                    icon={faPencilAlt}
-                    className={styles.pencilIcon}
-                    onClick={() => handleEdit(adherent._id)} // Ajoutez la fonction pour gérer la modification
-                  />
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faPencilAlt}
+                      className={styles.pencilIcon}
+                      onClick={() => handleEdit(adherent._id)} // Ajoutez la fonction pour gérer la modification
+                    />
+                  </div>
                   {/* Icône de la poubelle */}
-                  <FontAwesomeIcon
-                    icon={faTrash}
-                    className={styles.trashIcon}
-                    onClick={() => handleDelete(adherent._id)}
-                  />
+                  <div>
+                    <FontAwesomeIcon
+                      icon={faTrash}
+                      className={styles.trashIcon}
+                      onClick={() => handleDelete(adherent._id)}
+                    />
+                  </div>
                 </div>
               </div>
             ))}
