@@ -1,15 +1,19 @@
-"use client";
-// import { useEffect, useState } from "react";
+"use client"
+import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";// Import du hook useSession pour gérer la session utilisateur
 import styles from "./page.module.css";
 import useSWR from "swr"; //Bibliothèque de React Hooks pour la récupération de données
 import { useRouter } from "next/navigation";
 import Image from "next/legacy/image";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
+import { dataAdherents } from "../datas/adherents/dataAdherents";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
 
 //devra etre plus modulable
 
-
+/* eslint-disable react/jsx-no-comment-textnodes */
+/* eslint-disable react/no-unescaped-entities */
 
 const Dashboard = () => {
   //*ancienne structure
@@ -32,103 +36,138 @@ const Dashboard = () => {
   //     getData()
   //   }, []);
 
-  const session = useSession(); // Utilisation du hook useSession pour gérer la session de l'utilisateur
+  const [isLoading, setIsLoading] = useState(true); // Ajout d'un état pour gérer le chargement
+  const [error, setError] = useState(null); // Ajout d'un état pour gérer les erreurs
+
+  const session = useSession();
   const router = useRouter();
 
 
 
   /*data fetching - récupération des données  avec swr*/
   const fetcher = (url) => fetch(url).then((res) => res.json());
-  // Gestion des formulaires
-  const { data, mutate, error, isLoading } = useSWR(
-    "/api/posts?username=${session?.data?.user?.name}",
+  const { data: adherents, mutate } = useSWR(
+    `/api/adherents?name=${session?.data?.user?.name}`,
     fetcher
   );
 
+  useEffect(() => {
+    // Gestion du chargement et des erreurs
+    if (isLoading) {
+      console.log("Chargement des données depuis l'API...");
+    } else if (error) {
+      console.error("Erreur lors de la récupération des données :", error);
+    } else {
+      console.log("Données récupérées :", adherents);
+    }
+  }, [isLoading, error, adherents]);
+
   if (session.status === "loading") {
-    return <p>en chargement...</p>;
+    return <p>Chargement...</p>;
   }
-  // Si l'utilisateur n'est pas authentifié, redirige-le vers la page de connexion
+
   if (session.status === "unauthenticated") {
-    router?.push("/dashboard/login");// Empêche le rendu si non authentifié
+    router.push("/dashboard/login");
   }
-  // Gestion de la soumission du formulaire pour ajouter une nouvelle publication
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const title = e.target.title.value;
-    const desc = e.target.desc.value;
-    const img = e.target.img.value;
-    const content = e.target.content.value;
+    const name = e.target.name.value;
+    const mail = e.target.mail.value;
+    const phone = e.target.phone.value;
+    const adress = e.target.adress.value;
+
     try {
-      // Envoi des données vers l'API pour créer une nouvelle publication
-      await fetch("/api/posts", {
+      await fetch("/api/adherents", {
         method: "POST",
         body: JSON.stringify({
-          title,
-          desc,
-          img,
-          content,
-          username: session.data.user.name,
+          name,
+          mail,
+          phone,
+          adress,
         }),
       });
-      // Actualisation des données après ajout d'une nouvelle publication
       mutate();
-      e.target.reset()
+      e.target.reset();
     } catch (error) {
       console.log(error);
     }
   };
 
-  // Gestion de la suppression d'une publication
   const handleDelete = async (id) => {
     try {
-      // Appel à l'API pour supprimer une publication
-      await fetch("/api/posts/${id}", {
+      await fetch(`/api/adherents/${id}`, {
         method: "DELETE",
       });
-      // Actualisation des données après suppression d'une publication
-      mutate()
+      mutate();
     } catch (error) {
       console.log(error);
     }
   };
-  // Affichage du tableau de bord si l'utilisateur est authentifié
+
+
   if (session.status === "authenticated") {
     return (
       <div className={styles.container}>
-        <div className={styles.posts}>
-          {isLoading
-            ? "loading"
-            : data?.map((post) => (
-              <div className={styles.post} key={post._id}>
-                <div className={styles.imgContainer}>
-                  <Image src={post.img} alt="" width={200} height={100} />
+        <SideMenu />
+        <div>
+          <h1>Liste des adhérents</h1>
+          <div className={styles.adherentsList}>
+            {dataAdherents.map((adherent) => (
+              <div key={adherent._id} className={styles.adherent}>
+                <div className={styles.info}>
+                  <h2>{adherent.name}</h2>
+                  <p>{adherent.mail}</p>
+                  <p>{adherent.phone}</p>
+                  <p>{adherent.adress}</p>
                 </div>
-                <h2 className={styles.postTitle}>{post.title}</h2>
-                <span
-                  className={styles.delete}
-                  onClick={() => handleDelete(post._id)}
-                >
-                  X
-                </span>
+                <div className={styles.actions}>
+                  {/* Bouton Modifier */}
+                  <FontAwesomeIcon
+                    icon={faPencilAlt}
+                    className={styles.pencilIcon}
+                    onClick={() => handleEdit(adherent._id)} // Ajoutez la fonction pour gérer la modification
+                  />
+                  {/* Icône de la poubelle */}
+                  <FontAwesomeIcon
+                    icon={faTrash}
+                    className={styles.trashIcon}
+                    onClick={() => handleDelete(adherent._id)}
+                  />
+                </div>
               </div>
             ))}
+          </div>
         </div>
-        <SideMenu/>
-        <h1>Liste adhérents</h1>
+
         <form className={styles.new} onSubmit={handleSubmit}>
-          <h1>Ajouter une nouvelle activité</h1>
-          <input type="text" placeholder="Title" id="postTitleInput" className={styles.input} />
-          <input type="text" placeholder="Desc" id="postDescInput" className={styles.input} />
-          <input type="text" placeholder="Image" id="postImgInput" className={styles.input} />
-          <textarea
-            placeholder="Content"
-            id="postContentInput"
-            className={styles.textArea}
-            cols="30"
-            rows="10"
-          ></textarea>
-          <button className={styles.button}>Enregistrer</button>
+          <h1>Ajouter un nouvel adhérent</h1>
+          <input
+            type="text"
+            placeholder="Nom"
+            id="nomInput"
+            className={styles.input}
+          />
+          <input
+            type="email"
+            placeholder="Email"
+            id="emailInput"
+            className={styles.input}
+          />
+          <input
+            type="tel"
+            placeholder="Téléphone"
+            id="telephoneInput"
+            className={styles.input}
+          />
+          <input
+            type="text"
+            placeholder="Adresse"
+            id="adresseInput"
+            className={styles.input}
+          />
+          <button className={styles.button}>Ajouter</button>
         </form>
       </div>
     );

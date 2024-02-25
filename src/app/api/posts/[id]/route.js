@@ -1,13 +1,12 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import Post from "@/models/Post";
-import mongoose from "mongoose";
 
 export const GET = async (request, { params }) => {
     const { id } = params;
 
     try {
-        console.log("Tentative de connexion à la base de données...");
+        console.log("Tentative de connexion à la base de données ...");
         await connect();
         console.log("Connexion à la base de données établie.");
         const post = await Post.findById(id);

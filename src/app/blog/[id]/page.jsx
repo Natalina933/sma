@@ -75,8 +75,6 @@ const BlogPost = async ({ params }) => {
     );
   } catch (error) {
     console.error("An error occurred while rendering the component:", error);
-    // Vous pouvez choisir de retourner un composant d'erreur personnalisé ici.
-    // Par exemple, vous pourriez afficher un message d'erreur spécifique.
     return <div>Une erreur s'est produite : {error.message}</div>;
   }
 };

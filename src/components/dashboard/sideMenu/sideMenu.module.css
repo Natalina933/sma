@@ -1,95 +1,102 @@
 .sideMenu {
-    background-color: #333;
-    width: 200px;
-    padding: 20px;
-    position: relative;
+  background-color: #333;
+  width: 200px;
+  padding: 20px;
+  position: relative;
 }
 
 .menuList {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
-
 .menuList li {
-    margin-bottom: 10px;
-    position: relative;
+  margin-bottom: 10px;
+  position: relative;
 }
 
 .menuList li a {
-    color: #fff;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    padding: 10px 15px;
-    border-radius: 5px;
-    transition: background-color 0.2s ease-in-out;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  border-radius: 5px;
+  transition: background-color 0.2s ease-in-out;
 }
 
 .menuList li:hover a {
-    background-color: #222;
-    display: flex;
+  background-color: #222;
 }
 
 .subMenu {
-    margin-top: 5px;
-    padding-left: 15px;
-    display: none;
-    position: absolute;
-    left: 0;
-    top: 100%;
-    background-color: #333;
-    border-radius: 5px;
-    padding: 10px;
-    z-index: 1;
+  text-decoration: none;
+  list-style: none;
+  padding-left: 15px;
+  left: 0;
+  top: 100%;
+  background-color: #333;
+  border-radius: 5px;
+  padding: 10px;
+  z-index: 1;
+  transition: transform 0.3s ease-in-out;
 }
 
 .subMenu li {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
+  justify-content: center;
+
 }
 
 .subMenu li a {
-    color: #ccc;
-    text-decoration: none;
-    display: block;
-    transition: color 0.3s;
+  color: #ccc;
+  display: block;
+  transition: color 0.3s;
 }
 
 .subMenu li a:hover {
-    color: #fff;
+  color: #fff;
+  background-color: orange;
 }
 
 .link {
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    margin-bottom: 5px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
 }
 
 .linkIcon {
-    margin-right: 5px;
-    font-size: 18px;
+  margin-right: 5px;
+  font-size: 18px;
 }
 
 .settingsLink {
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    padding: 10px;
-    border-top: 1px solid #ccc;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-top: 1px solid #ccc;
 }
 
 .settingsLink span {
-    margin-left: 10px;
-    font-size: 16px;
+  margin-left: 10px;
+  font-size: 16px;
 }
 
 .submenuIcon {
-    margin-left: auto; /* Ajout d'espace entre le texte et l'icône */
-    transition: transform 0.3s ease; /* Ajout d'une transition pour la rotation */
+  margin-left: auto;
+  transition: transform 0.3s ease;
 }
 
 .settingsLink:hover span {
-    color: #555;
+  color: #555;
+}
+.subMenu.open {
+  left: 100%;
+  top: 0;
+}
+
+.subMenu.open .submenuIcon {
+  transform: rotate(180deg);
 }

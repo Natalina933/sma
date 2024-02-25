@@ -3,9 +3,7 @@
     gap: 100px;
 }
 
-/* .posts {
-    flex: 1;
-} */
+
 
 .post {
     display: flex;
@@ -56,3 +54,13 @@
     color: #eee;
     font-weight: bold;
 }
+.trashIcon, .pencilIcon {
+    cursor: pointer; /* Définir le curseur comme pointeur pour indiquer l'interaction */
+    color: red; /* Couleur de l'icône (vous pouvez choisir la couleur que vous préférez) */
+    font-size: 20px; /* Taille de l'icône */
+    margin-left: 10px; /* Espacement à gauche de l'icône */
+  }
+  
+  .trashIcon:hover, .pencilIcon:hover {
+    color: darkred; /* Couleur de l'icône au survol (vous pouvez choisir la couleur que vous préférez) */
+  }

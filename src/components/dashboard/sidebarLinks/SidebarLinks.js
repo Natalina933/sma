@@ -41,10 +41,10 @@ export const SidebarLinks = [
     },
     {
         id: 4,
-        title: "Calendrier",
+        title: "Sortie Annuelle",
         icon: <FaCalendarAlt />,
         subLinks: [
-            { id: 1, title: "Voir le calendrier", url: "/program/edit" },
+            { id: 1, title: "Voir toute les sorties", url: "/program/edit" },
             { id: 2, title: "Ajouter", url: "/program/add" },
             { id: 3, title: "Modifier", url: "/program/edit" },
             { id: 4, title: "Archiver", url: "/program/archive" },
