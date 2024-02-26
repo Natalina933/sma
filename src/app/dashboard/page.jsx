@@ -109,6 +109,7 @@ const Dashboard = () => {
       <div className={styles.container}>
         <SideMenu />
         <div>
+          <div><h2>Nombre de visite sur le site :</h2></div>
           <h1>Liste des adhérents</h1>
           <div className={styles.adherentsList}>
             {dataAdherents.map((adherent) => (
