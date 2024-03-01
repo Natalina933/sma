@@ -2,7 +2,14 @@ import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import Adherent from "@/models/Adherent";
 
-export const GET = async (request, { params }) => {
+/**
+ * Function to retrieve data for a specific adherent.
+ *
+ * @param {_request} _request - the request object
+ * @param {Object} params - the parameters object containing the id
+ * @return {NextResponse} the response object with the retrieved data or an error message
+ */
+export const GET = async (_request, { params }) => {
   const { id } = params;
 
   try {
@@ -17,6 +24,7 @@ export const GET = async (request, { params }) => {
     }
 
     const responseBody = JSON.stringify(adherent);
+    
     return new NextResponse(responseBody, { status: 200 });
   } catch (error) {
     console.error("Erreur lors de la récupération des données:", error);
@@ -26,7 +34,7 @@ export const GET = async (request, { params }) => {
   }
 };
 
-export const PUT = async (request, { params, body }) => {
+export const PUT = async (_request, { params, body }) => {
   const { id } = params;
   const data = JSON.parse(body);
 

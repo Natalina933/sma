@@ -3,6 +3,12 @@ import connect from "@/utils/db";
 import Adherent from "@/models/Adherent"; 
 import mongoose from "mongoose";
 
+/**
+ * Perform a GET request to retrieve data from the database.
+ *
+ * @param {Object} request - the request object
+ * @return {NextResponse} the response object
+ */
 export const GET = async (request) => {
   const url = new URL(request.url);
 
