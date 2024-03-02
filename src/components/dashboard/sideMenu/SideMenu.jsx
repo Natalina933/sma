@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import styles from './sideMenu.module.css';
 import { SidebarLinks } from '@/components/dashboard/sidebarLinks/SidebarLinks';
-import { FaCog, FaChevronDown } from 'react-icons/fa'; // Import des icônes
+import { FaCog, FaChevronRight } from 'react-icons/fa'; // Import des icônes
 import { useState } from 'react'; // Import du hook useState
+import cookie from 'cookie';
 
 const SideMenu = () => {
     const [openSubMenuIndex, setOpenSubMenuIndex] = useState(null); // État pour gérer l'ouverture des sous-menus
@@ -18,10 +19,10 @@ const SideMenu = () => {
                 {SidebarLinks.map((link, index) => (
                     <li key={link.id} className={link.subLinks ? styles.hasSubmenu : ''}>
                         {/* Lien principal */}
-                        <a href="#" onClick={() => toggleSubMenu(index)} className={openSubMenuIndex === index ? styles.active : ''}>
+                        <a onClick={() => toggleSubMenu(index)} className={openSubMenuIndex === index ? styles.active : ''}>
                             <span className={styles.linkIcon}>{link.icon}</span>
                             <span>{link.title}</span>
-                            {link.subLinks && <FaChevronDown className={`${styles.submenuIcon}`} />}
+                            {link.subLinks && <FaChevronRight className={`${styles.submenuIcon}`} />}
                         </a>
 
                         {/* Sous-menu */}

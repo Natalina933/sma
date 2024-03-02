@@ -1,15 +1,16 @@
 "use client"
-import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";// Import du hook useSession pour gérer la session utilisateur
 import styles from "./page.module.css";
 import useSWR from "swr"; //Bibliothèque de React Hooks pour la récupération de données
 import { useRouter } from "next/navigation";
-import Image from "next/legacy/image";
+import { useState } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { dataAdherents } from "../datas/adherents/dataAdherents";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
-
+import cookie from 'cookie';
+/* eslint-disable react/jsx-no-comment-textnodes */
+/* eslint-disable react/no-unescaped-entities */
 
 
 const Dashboard = () => {
@@ -38,6 +39,10 @@ const Dashboard = () => {
 
   const session = useSession();
   const router = useRouter();
+  const initialAdherentsCount = dataAdherents.length;
+
+  // Use state with the initial count
+  const [nombreAdherents, setNombreAdherents] = useState(initialAdherentsCount);
 
 
 
@@ -47,6 +52,8 @@ const Dashboard = () => {
     `/api/adherents?name=${session?.data?.user?.name}`,
     fetcher
   );
+
+
 
   // useEffect(() => {
   //   // Gestion du chargement et des erreurs
@@ -84,11 +91,19 @@ const Dashboard = () => {
           phone,
           adress,
         }),
+        // Définition des en-têtes pour les cookies
+        headers: {
+          'Content-Type': 'application/json',
+          'Set-Cookie': cookie.serialize('your_cookie_name', 'cookie_value', {
+            sameSite: 'None', // Définir SameSite sur None
+            secure: true // Définir Secure sur true pour les connexions HTTPS
+          })
+        }
       });
       mutate();
       e.target.reset();
     } catch (error) {
-      console.log(error);
+      console.error("Erreur lors de la récupération des adhérents :", error);
     }
   };
 
@@ -103,14 +118,18 @@ const Dashboard = () => {
     }
   };
 
-
+  // Fonction handleEdit manquante
+  const handleEdit = (id) => {
+    // Implémentez la logique de modification ici
+  };
   if (session.status === "authenticated") {
     return (
       <div className={styles.container}>
         <SideMenu />
         <div>
-          <div><h2>Nombre de visite sur le site :</h2></div>
-          <h1>Liste des adhérents</h1>
+          <div>
+          </div>
+          <h1>Nombre d'adhérents : {nombreAdherents}</h1>
           <div className={styles.adherentsList}>
             {dataAdherents.map((adherent) => (
               <div key={adherent._id} className={styles.adherent}>
@@ -142,34 +161,40 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
-
         <form className={styles.new} onSubmit={handleSubmit}>
           <h1>Ajouter un nouvel adhérent</h1>
           <input
             type="text"
             placeholder="Nom"
-            id="nomInput"
+            name="name"
+            id="name"
+            autoComplete="name"
             className={styles.input}
           />
           <input
             type="email"
             placeholder="Email"
-            id="emailInput"
-            className={styles.input}
+            name="mail"
+            id="mail"
+            autoComplete="email"
           />
           <input
             type="tel"
             placeholder="Téléphone"
-            id="telephoneInput"
+            name="phone"
+            id="phone"
+            autoComplete="tel"
             className={styles.input}
           />
           <input
             type="text"
             placeholder="Adresse"
-            id="adresseInput"
+            name="adress"
+            id="adress"
+            autoComplete="street-address"
             className={styles.input}
           />
-          <button className={styles.button}>Ajouter</button>
+          <button type="submit" className={styles.button}>Ajouter</button>
         </form>
       </div>
     );
