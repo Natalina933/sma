@@ -91,14 +91,14 @@ const Dashboard = () => {
           phone,
           adress,
         }),
-        // Définition des en-têtes pour les cookies
-        headers: {
-          'Content-Type': 'application/json',
-          'Set-Cookie': cookie.serialize('your_cookie_name', 'cookie_value', {
-            sameSite: 'None', // Définir SameSite sur None
-            secure: true // Définir Secure sur true pour les connexions HTTPS
-          })
-        }
+        // // Définition des en-têtes pour les cookies
+        // headers: {
+        //   'Content-Type': 'application/json',
+        //   'Set-Cookie': cookie.serialize('your_cookie_name', 'cookie_value', {
+        //     sameSite: 'None', // Définir SameSite sur None
+        //     secure: true // Définir Secure sur true pour les connexions HTTPS
+        //   })
+        // }
       });
       mutate();
       e.target.reset();
