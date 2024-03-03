@@ -13,6 +13,7 @@ import cookie from 'cookie';
 /* eslint-disable react/no-unescaped-entities */
 
 
+
 const Dashboard = () => {
   //*ancienne structure
   //   const [err, setErr] = useState([false]);
@@ -70,9 +71,7 @@ const Dashboard = () => {
     return <p>Chargement...</p>;
   }
 
-  if (session.status === "unauthenticated") {
-    router.push("/dashboard/login");
-  }
+  
 
 
   const handleSubmit = async (e) => {
@@ -103,7 +102,8 @@ const Dashboard = () => {
       mutate();
       e.target.reset();
     } catch (error) {
-      console.error("Erreur lors de la récupération des adhérents :", error);
+      console.log(error);
+      alert("Une erreur est survenue lors de l'ajout de l'adhérent.");
     }
   };
 
@@ -122,17 +122,19 @@ const Dashboard = () => {
   const handleEdit = (id) => {
     // Implémentez la logique de modification ici
   };
+
+  if (session.status === "unauthenticated") {
+    router.push("/dashboard/login");
+  }
   if (session.status === "authenticated") {
     return (
       <div className={styles.container}>
         <SideMenu />
         <div>
-          <div>
-          </div>
-          <h1>Nombre d'adhérents : {nombreAdherents}</h1>
-          <div className={styles.adherentsList}>
+          <h2>Nombre d'adhérents : {nombreAdherents}</h2>
+          <ul className={styles.adherentsList}>
             {dataAdherents.map((adherent) => (
-              <div key={adherent._id} className={styles.adherent}>
+              <li key={adherent._id} className={styles.adherent}>
                 <div className={styles.info}>
                   <h2>{adherent.name}</h2>
                   <p>{adherent.mail}</p>
@@ -157,9 +159,9 @@ const Dashboard = () => {
                     />
                   </div>
                 </div>
-              </div>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
         <form className={styles.new} onSubmit={handleSubmit}>
           <h1>Ajouter un nouvel adhérent</h1>

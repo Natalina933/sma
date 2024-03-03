@@ -41,7 +41,12 @@ const Navbar = () => {
           </Link>
         ))}
         {/* Si l'utilisateur n'est pas connecté, affichez les boutons de connexion et d'inscription */}
-        {!session ? (
+        {/* Affichage conditionnel des boutons de connexion/inscription/déconnexion */}
+        {session ? (
+          <button className={styles.logout} onClick={() => signOut()}>
+            Déconnexion
+          </button>
+        ) : (
           <>
             <Link href="/dashboard/login">
               <button className={styles.login}>Connexion</button>
@@ -50,11 +55,6 @@ const Navbar = () => {
               <button className={styles.signup}>S'inscrire</button>
             </Link>
           </>
-        ) : (
-          // Si l'utilisateur est connecté, affichez le bouton de déconnexion
-          <button className={styles.logout} onClick={() => signOut()}>
-            Déconnexion
-          </button>
         )}
       </section>
     </div>

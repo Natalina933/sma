@@ -3,7 +3,6 @@ import styles from './sideMenu.module.css';
 import { SidebarLinks } from '@/components/dashboard/sidebarLinks/SidebarLinks';
 import { FaCog, FaChevronRight } from 'react-icons/fa'; // Import des icônes
 import { useState } from 'react'; // Import du hook useState
-import cookie from 'cookie';
 
 const SideMenu = () => {
     const [openSubMenuIndex, setOpenSubMenuIndex] = useState(null); // État pour gérer l'ouverture des sous-menus
