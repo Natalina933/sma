@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { dataAdherents } from "../datas/adherents/dataAdherents";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
-import cookie from "cookie";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
+import cookie from 'cookie';
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
 
@@ -39,9 +39,9 @@ const Dashboard = () => {
   const session = useSession();
   const router = useRouter();
   const initialAdherentsCount = dataAdherents.length;
-
-  // Use state with the initial count
   const [nombreAdherents, setNombreAdherents] = useState(initialAdherentsCount);
+
+
 
   /*data fetching - récupération des données  avec swr*/
   const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -151,6 +151,7 @@ const Dashboard = () => {
             ))}
           </ul>
         </div>
+        {/* <ActivityInfo {...dataActivitys}/> */}
         <form className={styles.new} onSubmit={handleSubmit}>
           <h1>Ajouter un nouvel adhérent</h1>
           <input
