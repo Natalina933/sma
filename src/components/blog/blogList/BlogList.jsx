@@ -2,7 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import styles from './BlogList.module.css';
 
-import ActivityCard from '../../activityCard/ActivityCard.js.jsx';
+import ActivityCard from '../../activityInfo/ActivityInfo.jsx';
 
 const BlogList = ({ data }) => (
   <div className={styles.mainContainer}>
