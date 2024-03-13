@@ -1,0 +1,65 @@
+/*Palette de couleurs chaleureuses et apaisantes */
+body {
+    background-color: #F5F5DC; /* Beige doux */
+    color: #2C3E50; /* Gris foncé */
+}
+
+h1, h2, h3 {
+    color: #AED6F1; /* Bleu ciel */
+}
+
+a {
+    color: #D7BDE2; /* Mauve clair */
+}
+
+button {
+    background-color: #FAD7A0; /* Saumon */
+    color: #2C3E50; /* Gris foncé */
+}
+
+/*ou*/
+/*Palette de couleurs vives et énergiques */
+body {
+    background-color: #1ABC9C; /* Turquoise */
+    color: #2C3E50; /* Gris foncé */
+}
+
+h1, h2, h3 {
+    color: #FFA500; /* Orange vif */
+}
+
+a {
+    color: #F4D03F; /* Jaune citron */
+}
+
+button {
+    background-color: #2C3E50; /* Gris foncé */
+    color: #FFFFFF; /* Blanc */
+}
+/*ou*/
+/*Palette de couleurs vives et énergiques avec 2 couleurs en plus*/
+body {
+    background-color: #E0E0E0; /* Gris clair */
+    color: #2C3E50; /* Gris foncé */
+}
+
+h1, h2, h3 {
+    color: #5DADE2; /* Bleu clair */
+}
+
+a {
+    color: #82E0AA; /* Vert doux */
+}
+
+button {
+    background-color: #FFFFFF; /* Blanc */
+    color: #2C3E50; /* Gris foncé */
+}
+
+span.rose-pale {
+    color: #F9EBEA; /* Rose pâle */
+}
+
+span.jaune-pale {
+    color: #F7DC6F; /* Jaune pâle */
+}

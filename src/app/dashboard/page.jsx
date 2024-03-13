@@ -1,18 +1,16 @@
-"use client"
-import { useSession } from "next-auth/react";// Import du hook useSession pour gérer la session utilisateur
+"use client";
+import { useSession } from "next-auth/react"; // Import du hook useSession pour gérer la session utilisateur
 import styles from "./page.module.css";
 import useSWR from "swr"; //Bibliothèque de React Hooks pour la récupération de données
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { dataAdherents } from "../datas/adherents/dataAdherents";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash, faPencilAlt } from '@fortawesome/free-solid-svg-icons'
-import cookie from 'cookie';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import cookie from "cookie";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
-
-
 
 const Dashboard = () => {
   //*ancienne structure
@@ -35,8 +33,8 @@ const Dashboard = () => {
   //     getData()
   //   }, []);
 
-  // const [isLoading, setIsLoading] = useState(true); 
-  // const [error, setError] = useState(null); 
+  // const [isLoading, setIsLoading] = useState(true);
+  // const [error, setError] = useState(null);
 
   const session = useSession();
   const router = useRouter();
@@ -45,16 +43,14 @@ const Dashboard = () => {
   // Use state with the initial count
   const [nombreAdherents, setNombreAdherents] = useState(initialAdherentsCount);
 
-
-
   /*data fetching - récupération des données  avec swr*/
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const { data: adherents, mutate } = useSWR(
-    `/api/adherents?name=${session?.data?.user?.name}`,
+    session?.data?.user?.name
+      ? `/api/adherents?name=${session.data.user.name}`
+      : null,
     fetcher
   );
-
-
 
   // useEffect(() => {
   //   // Gestion du chargement et des erreurs
@@ -67,19 +63,9 @@ const Dashboard = () => {
   //   }
   // }, [isLoading, error, adherents]);
 
-  if (session.status === "loading") {
-    return <p>Chargement...</p>;
-  }
-
-  
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const name = e.target.name.value;
-    const mail = e.target.mail.value;
-    const phone = e.target.phone.value;
-    const adress = e.target.adress.value;
+    const { name, mail, phone, adress } = e.target.elements;
 
     try {
       await fetch("/api/adherents", {
@@ -123,14 +109,18 @@ const Dashboard = () => {
     // Implémentez la logique de modification ici
   };
 
+  if (session.status === "loading") {
+    return <p>Chargement...</p>;
+  }
   if (session.status === "unauthenticated") {
     router.push("/dashboard/login");
+    return null;
   }
   if (session.status === "authenticated") {
     return (
       <div className={styles.container}>
         <SideMenu />
-        <div>
+        <div className={styles.dashboardContent}>
           <h2>Nombre d'adhérents : {nombreAdherents}</h2>
           <ul className={styles.adherentsList}>
             {dataAdherents.map((adherent) => (
@@ -142,15 +132,13 @@ const Dashboard = () => {
                   <p>{adherent.adress}</p>
                 </div>
                 <div className={styles.actions}>
-                  {/* Bouton Modifier */}
                   <div>
                     <FontAwesomeIcon
                       icon={faPencilAlt}
                       className={styles.pencilIcon}
-                      onClick={() => handleEdit(adherent._id)} // Ajoutez la fonction pour gérer la modification
+                      onClick={() => handleEdit(adherent._id)}
                     />
                   </div>
-                  {/* Icône de la poubelle */}
                   <div>
                     <FontAwesomeIcon
                       icon={faTrash}
