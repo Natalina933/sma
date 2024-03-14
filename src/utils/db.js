@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 // Connexion à MongoDB
 const connect = async () => {
     try {
+        mongoose.set('strictQuery', false);
         await mongoose.connect(process.env.MONGO);
         console.log("Connecté à MongoDB");
     } catch (error) {
