@@ -52,16 +52,6 @@ const Dashboard = () => {
     fetcher
   );
 
-  // useEffect(() => {
-  //   // Gestion du chargement et des erreurs
-  //   if (isLoading) {
-  //     console.log("Chargement des données depuis l'API...");
-  //   } else if (error) {
-  //     console.error("Erreur lors de la récupération des données :", error);
-  //   } else {
-  //     console.log("Données récupérées :", adherents);
-  //   }
-  // }, [isLoading, error, adherents]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -124,7 +114,7 @@ const Dashboard = () => {
           <h2>Nombre d'adhérents : {nombreAdherents}</h2>
           <ul className={styles.adherentsList}>
             {dataAdherents.map((adherent) => (
-              <li key={adherent._id} className={styles.adherent}>
+              <li key={adherent.id} className={styles.adherent}>
                 <div className={styles.info}>
                   <h2>{adherent.name}</h2>
                   <p>{adherent.mail}</p>
