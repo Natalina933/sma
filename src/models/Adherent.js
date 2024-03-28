@@ -8,7 +8,7 @@ const adherentSchema = new Schema(
       type: String,
       required: true,
     },
-    surmane: {
+    surname: {
       type: String,
       required: true,
     },
@@ -23,16 +23,16 @@ const adherentSchema = new Schema(
     adress: {
       type: String,
     },
-    adress2: {
+    complement: {
       type: String,
     },
-    CP: {
+    cp: {
       type: String,
     },
     city: {
       type: String,
     },
-     },
+  },
   {
     timestamps: true, // Mongoose ajoutera deux propriétés de type Date : createdAt et updatedAt
   }

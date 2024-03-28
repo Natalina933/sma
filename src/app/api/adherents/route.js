@@ -3,24 +3,17 @@ import connect from "@/utils/db";
 import Adherent from "@/models/Adherent"; 
 import mongoose from "mongoose";
 
-/**
- * Perform a GET request to retrieve data from the database.
- *
- * @param {Object} request - the request object
- * @return {NextResponse} the response object
- */
 export const GET = async (request) => {
   const url = new URL(request.url);
-
-  const name = url.searchParams.get("name");
-
   try {
-    console.log("Tentative de connexion à la base de données adhérents...");
+    console.log("Tentative de connexion à la base de données...");
     await connect();
-    console.log("Connexion à la base de données adhérents établie.");
-    console.log(Object.keys(mongoose.models));
+    console.log("Connexion à la base de données établie.");
 
-    const adherents = await Adherent.find(name && { name }); // Recherche d'adhérents
+    const name = url.searchParams.get("name");
+    console.log("Requête de recherche par nom :", name);
+
+    const adherents = await Adherent.find(name && { name });
     console.log("Données récupérées avec succès:", adherents);
 
     const responseBody = JSON.stringify(adherents);
@@ -33,20 +26,13 @@ export const GET = async (request) => {
   }
 };
 
+
 export const POST = async (request) => {
-  const body = await request.json();
-
-  const newAdherent = new Adherent(body); // Création d'un nouvel adhérent
-
   try {
-    console.log("Tentative de connexion à la base de données adhérents...");
+    const body = await request.json();
     await connect();
-    console.log("Connexion à la base de données adhérents établie.");
-    console.log(Object.keys(mongoose.models));
-
-    await newAdherent.save(); // Enregistrement d'un nouvel adhérent
-    console.log("Nouvel adhérent enregistré:", newAdherent);
-
+    const newAdherent = new Adherent(body);
+    await newAdherent.save();
     const responseBody = JSON.stringify(newAdherent);
     return new NextResponse(responseBody, { status: 201 });
   } catch (error) {

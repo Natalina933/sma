@@ -1,21 +1,31 @@
 .container {
   display: flex;
-  gap: 100px;
+}
+
+.dashboardContent {
+  flex: 1;
+  padding: 20px;
+}
+
+.adherentsList {
+  list-style: none;
+  padding: 0;
 }
 
 .adherent {
-  border: 1px solid #ccc; /* Bordure autour de chaque adhérent */
-  border-radius: 5px; /* Rayon de bordure pour arrondir les coins */
-  padding: 10px; /* Ajout d'un espace intérieur */
-  margin-bottom: 10px; /* Espacement entre chaque adhérent */
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
 }
 
 .info {
-  flex: 1; /* Le contenu de l'info prend autant d'espace que possible */
+  margin-bottom: 10px;
 }
 
 .actions {
-  display: flex; /* Affichage en ligne des icônes */
+  display: flex;
+  justify-content: space-between;
 }
 
 .trashIcon, .pencilIcon {
@@ -32,15 +42,13 @@
   color: darkred; /* Couleur de l'icône au survol (vous pouvez choisir la couleur que vous préférez) */
   border-color: darkred; /* Changement de couleur de la bordure au survol */
 }
-
-.formContainer {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: #f7f7f7;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.input {
+  width: calc(100% - 20px);
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 10px;
 }
 
 .formTitle {
@@ -54,34 +62,40 @@
   margin-bottom: 20px;
 }
 
-.formLabel {
-  display: block;
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 8px;
+
+
+.input:focus {
+  outline: none;
+  /* Supprime la bordure de focus par défaut */
+  border-color: #007bff;
+  /* Change la couleur de la bordure lorsque l'input est en focus */
+}
+.cityGroup {
+  display: flex;
 }
 
-.formInput {
-  width: 100%;
-  padding: 10px;
-  font-size: 16px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+.cityGroup input {
+  flex: 1;
+  margin-right: 10px; /* Ajoute un espacement entre les champs */
 }
 
-.formButton {
-  width: 100%;
-  padding: 12px;
-  background-color: #53c28b;
-  border: none;
-  border-radius: 4px;
+/* Style pour les boutons */
+.button {
+  background-color: #007bff;
   color: #fff;
-  font-size: 18px;
-  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 20px;
+  /* Augmentez le padding pour un meilleur espacement */
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.formButton:hover {
-  background-color: #3d8f67;
+.button:hover {
+  background-color: #0056b3;
+}
+
+.button:focus {
+  outline: none;
+  /* Supprime la bordure de focus par défaut */
 }
