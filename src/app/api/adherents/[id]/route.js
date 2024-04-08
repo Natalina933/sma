@@ -20,7 +20,6 @@ export const GET = async (_request, { params }) => {
 
     const responseBody = JSON.stringify(adherent);
     console.log("GET Adherent - Réponse créée avec succès");
-
     return new NextResponse(responseBody, { status: 200 });
   } catch (error) {
     console.error("GET Adherent - Erreur lors de la récupération des données:", error);

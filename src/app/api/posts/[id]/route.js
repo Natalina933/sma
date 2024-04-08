@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import Post from "@/models/Post";
 
-export const GET = async (request, { params }) => {
+export const GET = async (_request, { params }) => {
     const { id } = params;
 
     try {
@@ -14,6 +14,8 @@ export const GET = async (request, { params }) => {
         if (!post) {
             return new NextResponse("Publication non trouvée", { status: 404 });
         }
+
+
         const responseBody = JSON.stringify(post);
         return new NextResponse(responseBody, { status: 200 });
     } catch (error) {
@@ -24,7 +26,7 @@ export const GET = async (request, { params }) => {
         });
     }
 };
-export const DELETE = async (request, { params }) => {
+export const DELETE = async (_request, { params }) => {
     const { id } = params;
 
     try {
