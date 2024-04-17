@@ -1,45 +1,50 @@
+// Import des modules
 import mongoose from "mongoose";
 
-const { Schema } = mongoose;
+// Définition du schéma pour la collection Adherent
+const adherentSchema = new mongoose.Schema({
+  id: {
+    type: Number,
+    required: true,
+    unique: true
 
-const adherentSchema = new Schema(
-  {
-    name: {
-      type: String,
-      required: true,
-    },
-    surname: {
-      type: String,
-      required: true,
-    },
-    mail: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    phone: {
-      type: String,
-    },
-    adress: {
-      type: String,
-    },
-    complement: {
-      type: String,
-    },
-    cp: {
-      type: String,
-    },
-    city: {
-      type: String,
-    },
   },
-  {
-    timestamps: true, // Mongoose ajoutera deux propriétés de type Date : createdAt et updatedAt
-  }
-);
+  name: {
+    type: String,
+    required: true
+  },
+  surname: {
+    type: String,
+    required: true
+  },
+  mail: {
+    type: String,
+    required: true,
+    unique: true
+  },
+  phone: {
+    type: Number,
+    required: true,
 
-// Si la collection Adherent n'existe pas, créez-en une nouvelle.
-const AdherentModel = mongoose.models.Adherent || mongoose.model("Adherent", adherentSchema);
-console.log("Le modèle Adherent (AdherentModel) est le suivant : ", AdherentModel);
+  },
+  address: {
+    type: String
+  },
+  complement: {
+    type: String
+  },
+  CP: {
+    type: Number
+  },
 
-export default AdherentModel;
+  city: { type: String }
+}, {
+  timestamps: true // Ajoute les propriétés createdAt et updatedAt
+});
+
+// Création du modèle Adherent à partir du schéma
+const Adherent = mongoose.model("Adherent", adherentSchema);
+
+
+// Exporation du modèle Adherent
+export default Adherent;

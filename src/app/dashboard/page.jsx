@@ -5,7 +5,7 @@ import useSWR from "swr"; //Bibliothèque de React Hooks pour la récupération 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
-import { dataAdherents } from "../datas/adherents/dataAdherents";
+// import { dataAdherents } from "../datas/adherents/dataAdherents";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 import { VisitorCounter } from "@/components/visitorCounter/VisitorCounter";
@@ -39,8 +39,8 @@ const Dashboard = () => {
 
   const session = useSession();
   const router = useRouter();
-  const initialAdherentsCount = dataAdherents.length;
-  const [nombreAdherents, setNombreAdherents] = useState(initialAdherentsCount);
+  // const initialAdherentsCount = dataAdherents.length;
+  // const [nombreAdherents, setNombreAdherents] = useState(initialAdherentsCount);
   const [formData, setFormData] = useState({
     name: "",
     surname: "",
@@ -92,7 +92,7 @@ const Dashboard = () => {
         cp: "",
         city: "",
       });
-      setNombreAdherents((prevNombreAdherents) => prevNombreAdherents + 1);
+      // setNombreAdherents((prevNombreAdherents) => prevNombreAdherents + 1);
     } catch (error) {
       console.error(error);
       alert(error.message || "Une erreur est survenue lors de l'ajout de l'adhérent.");
@@ -164,7 +164,7 @@ const Dashboard = () => {
         <>
           <SideMenu />
           <div className={styles.dashboardContent}>
-            <h2>Nombre d'adhérents : {nombreAdherents}</h2>
+            <h2>Nombre d'adhérents : </h2>
             {renderAdherents()}
             <form className={styles.new} onSubmit={handleSubmit}>
               <h1>Ajouter un nouvel adhérent</h1>
