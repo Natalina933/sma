@@ -11,13 +11,13 @@ import Header from "@/components/layout/header/Header";
  * Ce composant affiche la bannière, une image d'introduction, des informations sur l'association,
  * et un carrousel d'activités.
  */
-const Home = () => (
+const Home = () => {
   <div className={styles.item}>
     <Header />
     <Banner />
     <Body />
     <MyCarousel />
   </div>
-);
+};
 
 export default Home;
