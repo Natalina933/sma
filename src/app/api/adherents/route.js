@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
-import Adherent from "@/models/Adherent"; 
+import Adherent from "@/models/Adherent";
 import mongoose from "mongoose";
 
 export const GET = async (request, { params }) => {

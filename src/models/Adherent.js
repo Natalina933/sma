@@ -7,7 +7,6 @@ const adherentSchema = new mongoose.Schema({
     type: Number,
     required: true,
     unique: true
-
   },
   name: {
     type: String,
@@ -24,8 +23,7 @@ const adherentSchema = new mongoose.Schema({
   },
   phone: {
     type: Number,
-    required: true,
-
+    required: true
   },
   address: {
     type: String
@@ -36,7 +34,6 @@ const adherentSchema = new mongoose.Schema({
   CP: {
     type: Number
   },
-
   city: { type: String }
 }, {
   timestamps: true // Ajoute les propriétés createdAt et updatedAt
@@ -45,6 +42,5 @@ const adherentSchema = new mongoose.Schema({
 // Création du modèle Adherent à partir du schéma
 const Adherent = mongoose.model("Adherent", adherentSchema);
 
-
-// Exporation du modèle Adherent
+// Exportation du modèle Adherent
 export default Adherent;
