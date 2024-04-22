@@ -1,6 +1,6 @@
 import Navbar from "@/components/layout/navbar/Navbar";
 import "./globals.css"; // Fichier de styles globaux
-import { Inter } from "next/font/google"; // Import de la police Inter depuis Google Fonts
+import { Inter, Roboto } from "next/font/google"; // Import de la police Inter depuis Google Fonts
 import Footer from "@/components/layout/footer/Footer";
 import { ThemeProvider } from "@/context/ThemeContext"; // Import du fournisseur de thème
 import AuthProvider from "@/components/auth/authProvider/AuthProvider"; // Import du fournisseur d'authentification

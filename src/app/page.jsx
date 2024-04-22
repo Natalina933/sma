@@ -4,6 +4,8 @@ import styles from "./page.module.css";
 import Banner from "@/components/banner/Banner";
 import MyCarousel from "@/components/carousel/MyCarousel";
 import Header from "@/components/layout/header/Header";
+// import '@/styles/github-markdown.css';
+
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
 /**
@@ -11,13 +13,15 @@ import Header from "@/components/layout/header/Header";
  * Ce composant affiche la bannière, une image d'introduction, des informations sur l'association,
  * et un carrousel d'activités.
  */
-const Home = () => {
+const Home = () => (
   <div className={styles.item}>
     <Header />
     <Banner />
     <Body />
     <MyCarousel />
   </div>
-};
+)
+
+  ;
 
 export default Home;

@@ -16,6 +16,7 @@ const Contact = () => {
         <div className={styles.imgContainer}>
           <Image
             src="/contact.jpg"
+          
             width={400}
             height={300}
             alt="photo"
@@ -23,15 +24,15 @@ const Contact = () => {
           />
         </div>
         <form className={styles.form}>
-          <input type="text" placeholder="name" className={styles.input} />
-          <input type="text" placeholder="email" className={styles.input} />
+        <input type="text" placeholder="Nom" className={styles.input} />
+          <input type="text" placeholder="Email" className={styles.input} />
           <textarea
             className={styles.textArea}
-            placeholder="message"
+            placeholder="Message"
             cols="30"
             rows="10"
           ></textarea>
-          <Button url="#" text="Send" />
+          <Button url="#" text="Envoyer" />
         </form>
       </div>
     </div>

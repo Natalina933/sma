@@ -1,13 +1,14 @@
-
 import styles from "./footer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+
 const Footer = () => {
   return (
     <div className={styles.container}>
       <div className={styles.footerContent}>
         <div className={styles.iconContainer}>
-        <FontAwesomeIcon  width={25} height={25} icon={faLocationDot} className={styles.locationIcon} />
+          <FontAwesomeIcon width={25} height={25} icon={faLocationDot} className={styles.locationIcon} />
           <h3>Permanences Tous les mardis de 14h30 à 17h</h3>
         </div>
         <p>
@@ -15,13 +16,17 @@ const Footer = () => {
           vous accueillir à la salle polyvalente :
         </p>
         <div className={styles.iconContainer}>
-         <FontAwesomeIcon width={25} height={25} icon={faEnvelope} className={styles.envelopeIcon} /> 
-         <p>
-          CENTRE CRESCO - Salle Bruno Cremer, 4 avenue Pasteur à Saint-Mandé.
-        </p>   
+          <FontAwesomeIcon width={25} height={25} icon={faEnvelope} className={styles.envelopeIcon} />
+          <p>
+            CENTRE CRESCO - Salle Bruno Cremer, 4 avenue Pasteur à Saint-Mandé.
+          </p>
         </div>
-       
-      
+        <div className={styles.iconContainer}>
+          <FontAwesomeIcon width={25} height={25} icon={faFacebook} className={styles.facebookIcon} />
+          <p>
+            Suivez-nous sur Facebook
+          </p>
+        </div>
         <small>
           © Copyright 2023 | Saint-Mandé Accueil | All Rights Reserved
         </small>

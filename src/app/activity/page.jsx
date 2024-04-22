@@ -3,6 +3,7 @@ import styles from "./page.module.css";
 import Link from "next/link";
 
 
+
 //devra etre plus modulable
 
 const Activity = () => {

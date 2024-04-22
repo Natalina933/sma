@@ -1,8 +1,10 @@
-// Import des modules
+// Fichier: models/Adherent.js
 import mongoose from "mongoose";
 
+const { Schema } = mongoose;
+
 // Définition du schéma pour la collection Adherent
-const adherentSchema = new mongoose.Schema({
+const adherentSchema = new Schema({
   id: {
     type: Number,
     required: true,
@@ -39,8 +41,8 @@ const adherentSchema = new mongoose.Schema({
   timestamps: true // Ajoute les propriétés createdAt et updatedAt
 });
 
-// Création du modèle Adherent à partir du schéma
-const Adherent = mongoose.model("Adherent", adherentSchema);
+const AdherentModel = mongoose.models.Adherent || mongoose.model("Adherent", adherentSchema);
+console.log("Le modèle de publication (AdherentModel) est le suivant : ", AdherentModel);
 
 // Exportation du modèle Adherent
-export default Adherent;
+export default AdherentModel;

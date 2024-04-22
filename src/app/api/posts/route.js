@@ -7,7 +7,6 @@ import mongoose from "mongoose";
 
 export const GET = async (request) => {
   const url = new URL(request.url)
-
   const username = url.searchParams.get("username");
   try {
     console.log("Tentative de connexion à la base de données...");

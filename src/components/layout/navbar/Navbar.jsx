@@ -3,7 +3,7 @@
 import Link from "next/link";
 import styles from "./navbar.module.css";
 import Image from "next/legacy/image";
-import { Navlinks } from "@/components/layout/navLinks/Navlinks";
+import { Navlinks } from "@/components/navLinks/Navlinks";
 import DarkModeToggle from "@/components/darkModeToggle/DarkModeToggle";
 import { signOut, useSession } from "next-auth/react";
 /* eslint-disable react/jsx-no-comment-textnodes */

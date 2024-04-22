@@ -1,53 +1,49 @@
+
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
-import Adherent from "@/models/Adherent";
+import Adherent from "@/models/Adherent"; 
 import mongoose from "mongoose";
 
-export const GET = async (request, { params }) => {
-  const { id } = params;
+export const GET = async (request) => {
+  const url = new URL(request.url);
+  const id = url.searchParams.get("id");
 
   try {
-    console.log("GET Adherent - Tentative de connexion à la base de données...");
+    console.log("Tentative de connexion à la base de données...");
     await connect();
-    console.log("GET Adherent - Connexion à la base de données établie.");
+    console.log("Connexion à la base de données établie.");
+    console.log(Object.keys(mongoose.models));
 
-    const adherent = await Adherent.findById(id);
+    const adherents = await Adherent.findById(id);
+    console.log("adhérent récupéré avec succès:", adherents);
 
-    if (!adherent) {
-      console.log("GET Adherent - Adhérent non trouvé");
-      return new NextResponse("Adhérent non trouvé", { status: 404 });
-    }
-
-    console.log("GET Adherent - Données récupérées avec succès:", adherent);
-    const responseBody = JSON.stringify(adherent);
-    console.log("GET Adherent - Réponse créée avec succès");
+    const responseBody = JSON.stringify(adherents);
     return new NextResponse(responseBody, { status: 200 });
+
   } catch (error) {
-    console.error("GET Adherent - Erreur lors de la récupération des données:", error);
+    console.error("Erreur lors de la récupération des données:", error);
     return new NextResponse("Erreur lors de la récupération des données", { status: 500 });
-  } finally {
-    await mongoose.disconnect();
   }
 };
 
 export const POST = async (request) => {
+  const body = await request.json();
+
+  const newAdherent = new Adherent(body);
   try {
-    console.log("POST Adherent - Tentative de connexion à la base de données...");
+    console.log("Tentative de connexion à la base de données adhérent...");
     await connect();
-    console.log("POST Adherent - Connexion à la base de données établie.");
+    console.log("Connexion à la base de données établie.");
+    console.log(Object.keys(mongoose.models));
 
-    const body = await request.json();
-    const newAdherent = new Adherent(body);
     await newAdherent.save();
+    console.log("Nouvel adhérent enregistré:", newAdherent);
 
-    console.log("POST Adherent - Adhérent enregistré avec succès:", newAdherent);
     const responseBody = JSON.stringify(newAdherent);
-    console.log("POST Adherent - Réponse créée avec succès");
     return new NextResponse(responseBody, { status: 201 });
+
   } catch (error) {
-    console.error("POST Adherent - Erreur lors de l'enregistrement de l'adhérent:", error);
+    console.error("Erreur lors de l'enregistrement de l'adhérent:", error);
     return new NextResponse("Erreur lors de l'enregistrement de l'adhérent", { status: 500 });
-  } finally {
-    await mongoose.disconnect();
   }
 };
