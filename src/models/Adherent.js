@@ -41,7 +41,7 @@ const adherentSchema = new Schema({
   timestamps: true // Ajoute les propriétés createdAt et updatedAt
 });
 
-const AdherentModel = mongoose.models.Adherent || mongoose.model("Adherent", adherentSchema);
+const AdherentModel = mongoose.model("Adherent", adherentSchema);
 console.log("Le modèle de publication (AdherentModel) est le suivant : ", AdherentModel);
 
 // Exportation du modèle Adherent

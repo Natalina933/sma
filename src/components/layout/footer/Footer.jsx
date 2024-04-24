@@ -1,7 +1,7 @@
 import styles from "./footer.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEnvelope, faLocationDot } from '@fortawesome/free-solid-svg-icons';
-import { faFacebook } from '@fortawesome/free-brands-svg-icons';
+// import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 
 const Footer = () => {
   return (
@@ -22,7 +22,7 @@ const Footer = () => {
           </p>
         </div>
         <div className={styles.iconContainer}>
-          <FontAwesomeIcon width={25} height={25} icon={faFacebook} className={styles.facebookIcon} />
+          {/* <FontAwesomeIcon width={25} height={25} icon={faFacebook} className={styles.facebookIcon} /> */}
           <p>
             Suivez-nous sur Facebook
           </p>
