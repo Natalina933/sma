@@ -4,21 +4,16 @@ import connect from "@/utils/db";
 import Adherent from "@/models/Adherent"; 
 import mongoose from "mongoose";
 
-export const GET = async (request) => {
-  const url = new URL(request.url);
-  const id = url.searchParams.get("id");
-
+export const GET = async () => {
   try {
     console.log("Tentative de connexion à la base de données...");
     await connect();
     console.log("Connexion à la base de données établie.");
-    console.log(Object.keys(mongoose.models));
 
-    const adherents = await Adherent.findById(id);
-    console.log("adhérent récupéré avec succès:", adherents);
+    const adherents = await Adherent.find();
+    console.log("Liste des adhérents récupérée avec succès:", adherents);
 
-    const responseBody = JSON.stringify(adherents);
-    return new NextResponse(responseBody, { status: 200 });
+    return new NextResponse(JSON.stringify(adherents), { status: 200 });
 
   } catch (error) {
     console.error("Erreur lors de la récupération des données:", error);

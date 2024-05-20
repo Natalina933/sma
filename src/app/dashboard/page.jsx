@@ -50,10 +50,13 @@ const Dashboard = () => {
   // const [isLoading, setIsLoading] = useState(true);
   // const [error, setError] = useState(null);
 
+  // Session and router
   const { data: session, status } = useSession();
   const router = useRouter();
   // const initialAdherentsCount = dataAdherents.length;
   // const [nombreAdherents, setNombreAdherents] = useState(initialAdherentsCount);
+   
+  // Adherent management state
   const [modalIsOpen, setModalIsOpen] = useState(false); // État pour gérer l'ouverture de la modale
   const [formData, setFormData] = useState({
     id: "",
@@ -61,7 +64,7 @@ const Dashboard = () => {
     surname: "",
     mail: "",
     phone: "",
-    adress: "",
+    address: "",
     complement: "",
     cp: "",
     city: "",
@@ -69,13 +72,13 @@ const Dashboard = () => {
 
   /*data fetching - récupération des données  avec swr*/
   const fetcher = (url) => fetch(url).then((res) => res.json());
+  // Utilisez une valeur par défaut si les données de session ne sont pas encore disponibles
+  const initialAdherents = session?.data?.adherents?.name ? [] : null;
   const { data: adherents, mutate } = useSWR(
-    session?.data?.adherents?.name
-      ? `/api/adherents?name=${session.data.adherents.name}`
-      : null,
-    fetcher
+    "/api/adherents", // Récupérez tous les adhérents, quelles que soient les données de session
+    fetcher,
+    { initialData: initialAdherents } // Fournir un tableau vide initial si aucune donnée pour le moment
   );
-
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
@@ -87,7 +90,7 @@ const Dashboard = () => {
       const response = await fetch("/api/adherents", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
       });
@@ -95,45 +98,46 @@ const Dashboard = () => {
       if (!response.ok) {
         throw new Error("Erreur lors de l'ajout de l'adhérent.");
       }
-
+      // Réactualiser les données après l'ajout
       mutate();
+      // Réinitialiser le formulaire et fermer la modale
       setFormData({
         id: "",
         name: "",
         surname: "",
         mail: "",
         phone: "",
-        adress: "",
+        address: "",
         complement: "",
         cp: "",
         city: "",
       });
-      closeModal(); // Fermer la modale après la soumission
-      // setNombreAdherents((prevNombreAdherents) => prevNombreAdherents + 1);
+      closeModal();
     } catch (error) {
       console.error(error);
       alert(error.message || "Une erreur est survenue lors de l'ajout de l'adhérent.");
     }
   };
 
+  // Fonction pour supprimer un adhérent
   const handleDelete = async (id) => {
     try {
       await fetch(`/api/adherents/${id}`, {
         method: "DELETE",
       });
+      // Réactualiser les données après la suppression
       mutate();
-      setNombreAdherents((prevNombreAdherents) => prevNombreAdherents - 1);
     } catch (error) {
       console.error(error);
     }
   };
 
-  // const handleEdit = (id) => {
-  //   // Logic for editing
-  // };
+  // Fonction pour afficher la liste des adhérents
   const renderAdherents = () => {
-    if (!adherents) return <p>Chargement...</p>;
-    if (adherents.length === 0) return <p>Aucun adhérent trouvé.</p>;
+    if (!adherents || adherents.length === 0) {
+      return <p>Aucun adhérent trouvé.</p>;
+    }
+  
     return (
       <ul className={styles.adherentsList}>
         {adherents.map((adherent) => (
@@ -143,7 +147,7 @@ const Dashboard = () => {
               <h2>{adherent.name} {adherent.surname}</h2>
               <p>{adherent.mail}</p>
               <p>{adherent.phone}</p>
-              <p>{adherent.adress}</p>
+              <p>{adherent.address}</p>
               <p>{adherent.complement}</p>
               <p>{adherent.cp} {adherent.city}</p>
             </div>
@@ -168,6 +172,7 @@ const Dashboard = () => {
       </ul>
     );
   };
+  
 
   const renderContent = () => {
     if (status === "loading") {
@@ -196,7 +201,7 @@ const Dashboard = () => {
               <h1>Ajouter un nouvel adhérent</h1>
               <form className={styles.new} onSubmit={handleSubmit}>
                 <div className={styles.inputGroup}>
-                  <input type="text" placeholder="ID" name="id" value={formData.id} onChange={handleChange} className={styles.input } />
+                  <input type="text" placeholder="ID" name="id" value={formData.id} onChange={handleChange} className={styles.input} />
                   <input
                     type="text"
                     placeholder="Nom"
