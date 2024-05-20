@@ -1,4 +1,3 @@
-// Fichier: models/Adherent.js
 import mongoose from "mongoose";
 
 const { Schema } = mongoose;
@@ -7,7 +6,6 @@ const { Schema } = mongoose;
 const adherentSchema = new Schema({
   id: {
     type: Number,
-    required: true,
     unique: true
   },
   name: {
@@ -41,8 +39,7 @@ const adherentSchema = new Schema({
   timestamps: true // Ajoute les propriétés createdAt et updatedAt
 });
 
-const AdherentModel = mongoose.model("Adherent", adherentSchema);
-console.log("Le modèle de publication (AdherentModel) est le suivant : ", AdherentModel);
+// Vérifiez si le modèle existe déjà avant de le définir
+const Adherent = mongoose.models.Adherent || mongoose.model('Adherent', adherentSchema);
 
-// Exportation du modèle Adherent
-export default AdherentModel;
+export default Adherent;

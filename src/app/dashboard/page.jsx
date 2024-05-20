@@ -5,13 +5,26 @@ import useSWR from "swr"; //Bibliothèque de React Hooks pour la récupération 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
-// import { dataAdherents } from "../datas/adherents/dataAdherents";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPencilAlt, faPlus } from "@fortawesome/free-solid-svg-icons";
+import Modal from "react-modal"; // Import de react-modal
 import { VisitorCounter } from "@/components/visitorCounter/VisitorCounter";
-import Adherent from "@/models/Adherent";
+// import Adherent from "@/models/Adherent";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
+
+// Style de la modale
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+  },
+};
+
 
 const Dashboard = () => {
   //*ancienne structure
@@ -37,11 +50,13 @@ const Dashboard = () => {
   // const [isLoading, setIsLoading] = useState(true);
   // const [error, setError] = useState(null);
 
-  const session = useSession();
+  const { data: session, status } = useSession();
   const router = useRouter();
   // const initialAdherentsCount = dataAdherents.length;
   // const [nombreAdherents, setNombreAdherents] = useState(initialAdherentsCount);
+  const [modalIsOpen, setModalIsOpen] = useState(false); // État pour gérer l'ouverture de la modale
   const [formData, setFormData] = useState({
+    id: "",
     name: "",
     surname: "",
     mail: "",
@@ -55,8 +70,8 @@ const Dashboard = () => {
   /*data fetching - récupération des données  avec swr*/
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const { data: adherents, mutate } = useSWR(
-    session?.data?.user?.name
-      ? `/api/adherents?name=${session.data.user.name}`
+    session?.data?.adherents?.name
+      ? `/api/adherents?name=${session.data.adherents.name}`
       : null,
     fetcher
   );
@@ -66,8 +81,8 @@ const Dashboard = () => {
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       const response = await fetch("/api/adherents", {
         method: "POST",
@@ -83,6 +98,7 @@ const Dashboard = () => {
 
       mutate();
       setFormData({
+        id: "",
         name: "",
         surname: "",
         mail: "",
@@ -92,6 +108,7 @@ const Dashboard = () => {
         cp: "",
         city: "",
       });
+      closeModal(); // Fermer la modale après la soumission
       // setNombreAdherents((prevNombreAdherents) => prevNombreAdherents + 1);
     } catch (error) {
       console.error(error);
@@ -111,17 +128,18 @@ const Dashboard = () => {
     }
   };
 
-  const handleEdit = (id) => {
-    // Logic for editing
-  };
-
+  // const handleEdit = (id) => {
+  //   // Logic for editing
+  // };
   const renderAdherents = () => {
-    if (!adherents) return null;
+    if (!adherents) return <p>Chargement...</p>;
+    if (adherents.length === 0) return <p>Aucun adhérent trouvé.</p>;
     return (
       <ul className={styles.adherentsList}>
         {adherents.map((adherent) => (
           <li key={adherent._id} className={styles.adherent}>
             <div className={styles.info}>
+              <h1>{adherent.id}</h1>
               <h2>{adherent.name} {adherent.surname}</h2>
               <p>{adherent.mail}</p>
               <p>{adherent.phone}</p>
@@ -152,94 +170,108 @@ const Dashboard = () => {
   };
 
   const renderContent = () => {
-    if (session.status === "loading") {
+    if (status === "loading") {
       return <p>Chargement...</p>;
     }
-    if (session.status === "unauthenticated") {
+    if (status === "unauthenticated") {
       router.push("/dashboard/login");
       return null;
     }
-    if (session.status === "authenticated") {
+    if (status === "authenticated") {
       return (
         <>
           <SideMenu />
           <div className={styles.dashboardContent}>
-            <h2>Nombre d'adhérents : </h2>
+            <h2>Nombre d'adhérents : {adherents ? adherents.length : 0}</h2>
+            <button className={styles.addButton} onClick={() => setModalIsOpen(true)}>
+              <FontAwesomeIcon icon={faPlus} /> Ajouter
+            </button>
             {renderAdherents()}
-            <form className={styles.new} onSubmit={handleSubmit}>
+            <Modal
+              isOpen={modalIsOpen}
+              onRequestClose={() => setModalIsOpen(false)}
+              style={customStyles}
+              contentLabel="Ajouter un adhérent"
+            >
               <h1>Ajouter un nouvel adhérent</h1>
-              <div className={styles.inputGroup}>
-                <input
-                  type="text"
-                  placeholder="Nom"
-                  name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  className={styles.input}
-                />
-                <input
-                  type="text"
-                  placeholder="Prénom"
-                  name="surname"
-                  value={formData.surname}
-                  onChange={handleChange}
-                  className={styles.input}
-                />
-                <input
-                  type="email"
-                  placeholder="Email"
-                  name="mail"
-                  value={formData.mail}
-                  onChange={handleChange}
-                  className={styles.input}
-                />
-                <input
-                  type="tel"
-                  placeholder="Téléphone"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  className={styles.input}
-                />
-                <input
-                  type="text"
-                  placeholder="Adresse"
-                  name="adress"
-                  value={formData.adress}
-                  onChange={handleChange}
-                  className={styles.input}
-                />
-                <input
-                  type="text"
-                  placeholder="Complément"
-                  name="complement"
-                  value={formData.complement}
-                  onChange={handleChange}
-                  className={styles.input}
-                />
-                <div className={styles.cityGroup}>
+              <form className={styles.new} onSubmit={handleSubmit}>
+                <div className={styles.inputGroup}>
+                  <input type="text" placeholder="ID" name="id" value={formData.id} onChange={handleChange} className={styles.input } />
                   <input
                     type="text"
-                    placeholder="Code Postal"
-                    name="cp"
-                    value={formData.cp}
+                    placeholder="Nom"
+                    name="name"
+                    value={formData.name}
                     onChange={handleChange}
                     className={styles.input}
                   />
                   <input
                     type="text"
-                    placeholder="Ville"
-                    name="city"
-                    value={formData.city}
+                    placeholder="Prénom"
+                    name="surname"
+                    value={formData.surname}
                     onChange={handleChange}
                     className={styles.input}
                   />
+                  <input
+                    type="email"
+                    placeholder="Email"
+                    name="mail"
+                    value={formData.mail}
+                    onChange={handleChange}
+                    className={styles.input}
+                  />
+                  <input
+                    type="tel"
+                    placeholder="Téléphone"
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    className={styles.input}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Adresse"
+                    name="adress"
+                    value={formData.adress}
+                    onChange={handleChange}
+                    className={styles.input}
+                  />
+                  <input
+                    type="text"
+                    placeholder="Complément"
+                    name="complement"
+                    value={formData.complement}
+                    onChange={handleChange}
+                    className={styles.input}
+                  />
+                  <div className={styles.cityGroup}>
+                    <input
+                      type="text"
+                      placeholder="Code Postal"
+                      name="cp"
+                      value={formData.cp}
+                      onChange={handleChange}
+                      className={styles.input}
+                    />
+                    <input
+                      type="text"
+                      placeholder="Ville"
+                      name="city"
+                      value={formData.city}
+                      onChange={handleChange}
+                      className={styles.input}
+                    />
+                  </div>
                 </div>
-              </div>
-              <button type="submit" className={styles.button}>
-                Ajouter
+                <button type="submit" className={styles.button}>
+                  Ajouter
+                </button>
+              </form>
+              <button onClick={() => setModalIsOpen(false)} className={styles.button}>
+                Fermer
               </button>
-            </form>
+            </Modal>
           </div>
         </>
       );
