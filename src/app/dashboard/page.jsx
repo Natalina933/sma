@@ -7,13 +7,14 @@ import { useState } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencilAlt, faPlus } from "@fortawesome/free-solid-svg-icons";
-import Modal from "react-modal"; // Import de react-modal
-import { useRef } from "react";
+import Modal from 'react-modal'; // Import de react-modal
 
 import { VisitorCounter } from "@/components/visitorCounter/VisitorCounter";
 // import Adherent from "@/models/Adherent";
 /* eslint-disable react/jsx-no-comment-textnodes */
 /* eslint-disable react/no-unescaped-entities */
+
+
 
 // Style de la modale
 const customStyles = {
@@ -26,7 +27,6 @@ const customStyles = {
     transform: 'translate(-50%, -50%)',
   },
 };
-
 
 const Dashboard = () => {
   //*ancienne structure
@@ -57,9 +57,8 @@ const Dashboard = () => {
   const router = useRouter();
   // const initialAdherentsCount = dataAdherents.length;
   // const [nombreAdherents, setNombreAdherents] = useState(initialAdherentsCount);
-   
-  
-  // Données du formulaire
+
+  // Gestion des formulaires et des erreurs
   const [formData, setFormData] = useState({
     id: "",
     name: "",
@@ -71,30 +70,7 @@ const Dashboard = () => {
     cp: "",
     city: "",
   });
-  // ID de l'adhérent en cours d'édition (facultatif)
-  const [currentId, setCurrentId] = useState(null);
-  // Déclaration du state et du setter pour la modale
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const modalRef = useRef(null);
-  // Déclaration du state pour les erreurs de validation
-  const [errors, setErrors] = useState({});
-
-  /*data fetching - récupération des données avec swr*/
-  const fetcher = (url) => fetch(url).then((res) => res.json());
-  // Utilisez une valeur par défaut si les données de session ne sont pas encore disponibles
-  const initialAdherents = session?.data?.adherents?.name ? [] : null;
-  const { data: adherents, mutate } = useSWR(
-    "/api/adherents", // Récupérez tous les adhérents, quelles que soient les données de session
-    fetcher,
-    { initialData: initialAdherents } // Fournir un tableau vide initial si aucune donnée pour le moment
-  );
-
-  // Gestion des données du formulaire
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
-  };
-
+  const [errors, setErrors] = useState({}); // État pour les erreurs de validation
   // Validation des données du formulaire
   const validateForm = () => {
     const newErrors = {};
@@ -117,26 +93,53 @@ const Dashboard = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+  //**Gestion de la modale**
+  // const modalRef = useRef(null);// Référence au composant Modal (facultatif, selon l'utilisation)
+  // Déclaration du state et du setter pour la modale
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const handleOpenModal = () => setModalIsOpen(true);
+  const handleCloseModal = () => setModalIsOpen(false);
+
+  // ID de l'adhérent en cours d'édition (facultatif)
+  const [currentId, setCurrentId] = useState(null);
+
+  /*data fetching - récupération des données avec swr*/
+  const fetcher = (url) => fetch(url).then((res) => res.json());
+  // Utilisez une valeur par défaut si les données de session ne sont pas encore disponibles
+  const initialAdherents = session?.data?.adherents?.name ? [] : null;
+  const { data: adherents, mutate } = useSWR(
+    "/api/adherents", // Récupérez tous les adhérents, quelles que soient les données de session
+    fetcher,
+    { initialData: initialAdherents } // Fournir un tableau vide initial si aucune donnée pour le moment
+  );
+
+  // Gestion des données du formulaire
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevFormData) => ({ ... prevFormData, [name]: value }));
+  };
+
+
+
   // Soumission du formulaire avec méthode basée sur currentId
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
       return;
     }
-    const method = currentId ? "PUT" : "POST";
-    const url = currentId ? `/api/adherents?id=${currentId}` : "/api/adherents";
-
+  
+    const method = currentId ? 'PUT' : 'POST';
+    const url = currentId ? `/api/adherents?id=${currentId}` : '/api/adherents';
+  
     try {
       console.log("Sending request to:", url); // Journalisation de l'URL
       console.log("FormData:", formData); // Journalisation des données du formulaire
       const response = await fetch(url, {
         method,
-        headers: {
-          "Content-Type": "application/json"
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-
+  
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Erreur d'enregistrement: ${errorText}`);
@@ -146,24 +149,22 @@ const Dashboard = () => {
       mutate();
       // Réinitialiser le formulaire et fermer la modale
       setFormData({
-        id: "",
-        name: "",
-        surname: "",
-        mail: "",
-        phone: "",
-        address: "",
-        complement: "",
-        cp: "",
-        city: "",
+        id: '',
+        name: '',
+        surname: '',
+        mail: '',
+        phone: '',
+        address: '',
+        complement: '',
+        cp: '',
+        city: '',
       });
       setCurrentId(null);
-      setModalIsOpen(false);
     } catch (error) {
-      console.error("Error during form submission:", error); // Journalisation de l'erreur
-      alert(error.message || "Une erreur est survenue lors de l'ajout de l'adhérent.");
+      console.error('Error during form submission:', error);
+      alert(error.message || 'Une erreur est survenue lors de l\'ajout de l\'adhérent.');
     }
   };
-
   // Gestion de la modification pour remplir les données du formulaire et ouvrir la modale
   const handleEdit = (adherent) => {
     setFormData(adherent);
@@ -186,7 +187,7 @@ const Dashboard = () => {
     if (!adherents || adherents.length === 0) {
       return <p>Aucun adhérent trouvé.</p>;
     }
-  
+
     return (
       <ul className={styles.adherentsList}>
         {adherents.map((adherent) => (
@@ -242,9 +243,10 @@ const Dashboard = () => {
             {renderAdherents()}
             <Modal
               isOpen={modalIsOpen}
-              onRequestClose={() => setModalIsOpen(false)}
+               onRequestClose={handleCloseModal}
               style={customStyles}
               contentLabel="enregistrer un adhérent"
+              // ref={modalRef}
             >
               <h1>{currentId ? "Modifier" : "Ajouter"} un adhérent</h1>
               <form className={styles.new} onSubmit={handleSubmit}>
