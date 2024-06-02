@@ -6,21 +6,21 @@ export const GET = async (_request, { params }) => {
   const { id } = params;
 
   try {
-    logWithDetails(`GET Adhérent - Tentative de connexion à la base de données pour l'adhérent ID: ${id}`);
+    console.log(`GET Adhérent - Tentative de connexion à la base de données pour l'adhérent ID: ${id}`);
     await connect();
-    logWithDetails("GET Adhérent - Connexion à la base de données établie.");
+    console.log("GET Adhérent - Connexion à la base de données établie.");
 
     const adherent = await Adherent.findById(id);
-    logWithDetails(`GET Adhérent - Données récupérées pour l'adhérent ID: ${id}`, adherent);
+    console.log(`GET Adhérent - Données récupérées pour l'adhérent ID: ${id}`, adherent);
 
     if (!adherent) {
-      logWithDetails(`GET Adhérent - Adhérent non trouvé pour ID: ${id}`);
+      console.log(`GET Adhérent - Adhérent non trouvé pour ID: ${id}`);
       return new NextResponse("Adhérent non trouvé", { status: 404 });
     }
 
     return new NextResponse(JSON.stringify(adherent), { status: 200 });
   } catch (error) {
-    logWithDetails(`GET Adhérent - Erreur lors de la récupération des données pour l'adhérent ID: ${id}`, error);
+    console.error(`GET Adhérent - Erreur lors de la récupération des données pour l'adhérent ID: ${id}`, error);
     return new NextResponse("Erreur lors de la récupération des données", { status: 500 });
   }
 };
@@ -30,12 +30,12 @@ export const PUT = async (request, { params }) => {
   const data = await request.json();
 
   try {
-    logWithDetails(`PUT Adhérent - Tentative de mise à jour pour l'adhérent ID: ${id} avec les données:`, data);
+    console.log(`PUT Adhérent - Tentative de mise à jour pour l'adhérent ID: ${id} avec les données:`, data);
     await connect();
-    logWithDetails("PUT Adhérent - Connexion à la base de données établie.");
+    console.log("PUT Adhérent - Connexion à la base de données établie.");
 
     const updatedAdherent = await Adherent.findByIdAndUpdate(id, data, { new: true });
-    logWithDetails(`PUT Adhérent - Adhérent mis à jour pour ID: ${id}`, updatedAdherent);
+    console.log(`PUT Adhérent - Adhérent mis à jour pour ID: ${id}`, updatedAdherent);
 
     if (!updatedAdherent) {
       console.log(`PUT Adherent - Adhérent non trouvé pour ID: ${id}`);
@@ -49,12 +49,11 @@ export const PUT = async (request, { params }) => {
   }
 };
 
-export const DELETE = async (request, { params }) => {
+export const DELETE = async (_request, { params }) => {
   const { id } = params;
 
-  console.log(`DELETE Adherent - Tentative de suppression pour l'adhérent ID: ${id}`);
-
   try {
+    console.log(`DELETE Adherent - Tentative de suppression pour l'adhérent ID: ${id}`);
     await connect();
     console.log("DELETE Adherent - Connexion à la base de données établie.");
 

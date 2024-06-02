@@ -76,6 +76,9 @@ const Dashboard = () => {
   // Déclaration du state et du setter pour la modale
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const modalRef = useRef(null);
+  // Déclaration du state pour les erreurs de validation
+  const [errors, setErrors] = useState({});
+
   /*data fetching - récupération des données avec swr*/
   const fetcher = (url) => fetch(url).then((res) => res.json());
   // Utilisez une valeur par défaut si les données de session ne sont pas encore disponibles
@@ -85,18 +88,47 @@ const Dashboard = () => {
     fetcher,
     { initialData: initialAdherents } // Fournir un tableau vide initial si aucune donnée pour le moment
   );
+
   // Gestion des données du formulaire
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
- // Soumission du formulaire avec méthode basée sur currentId
+
+  // Validation des données du formulaire
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formData.name) newErrors.name = "Le nom est requis";
+    if (!formData.surname) newErrors.surname = "Le prénom est requis";
+    if (!formData.mail) {
+      newErrors.mail = "L'email est requis";
+    } else if (!/\S+@\S+\.\S+/.test(formData.mail)) {
+      newErrors.mail = "L'email est invalide";
+    }
+    if (!formData.phone) {
+      newErrors.phone = "Le téléphone est requis";
+    } else if (!/^\d{10}$/.test(formData.phone)) {
+      newErrors.phone = "Le téléphone est invalide";
+    }
+    if (formData.cp && !/^\d{5}$/.test(formData.cp)) {
+      newErrors.cp = "Le code postal est invalide";
+    }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  // Soumission du formulaire avec méthode basée sur currentId
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
     const method = currentId ? "PUT" : "POST";
     const url = currentId ? `/api/adherents?id=${currentId}` : "/api/adherents";
 
     try {
+      console.log("Sending request to:", url); // Journalisation de l'URL
+      console.log("FormData:", formData); // Journalisation des données du formulaire
       const response = await fetch(url, {
         method,
         headers: {
@@ -106,10 +138,12 @@ const Dashboard = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Erreur d'enregistrement...@@ oHHHH!!!");
+        const errorText = await response.text();
+        throw new Error(`Erreur d'enregistrement: ${errorText}`);
       }
-         // Mettre à jour les données après une création/mise à jour réussie
-            mutate();
+
+      // Mettre à jour les données après une création/mise à jour réussie
+      mutate();
       // Réinitialiser le formulaire et fermer la modale
       setFormData({
         id: "",
@@ -123,18 +157,20 @@ const Dashboard = () => {
         city: "",
       });
       setCurrentId(null);
-      closeModal();
+      setModalIsOpen(false);
     } catch (error) {
-      console.error(error);
+      console.error("Error during form submission:", error); // Journalisation de l'erreur
       alert(error.message || "Une erreur est survenue lors de l'ajout de l'adhérent.");
     }
   };
+
   // Gestion de la modification pour remplir les données du formulaire et ouvrir la modale
   const handleEdit = (adherent) => {
     setFormData(adherent);
     setCurrentId(adherent._id);
     setModalIsOpen(true);
   };
+
   // Fonction de suppression avec gestion des erreurs
   const handleDelete = async (id) => {
     try {
@@ -166,7 +202,7 @@ const Dashboard = () => {
             </div>
             <div className={styles.actions}>
               <div>
-              <FontAwesomeIcon
+                <FontAwesomeIcon
                   icon={faPencilAlt}
                   className={styles.pencilIcon}
                   onClick={() => handleEdit(adherent)}
@@ -185,7 +221,6 @@ const Dashboard = () => {
       </ul>
     );
   };
-  
 
   const renderContent = () => {
     if (status === "loading") {
@@ -202,7 +237,7 @@ const Dashboard = () => {
           <div className={styles.dashboardContent}>
             <h2>Nombre d'adhérents : {adherents ? adherents.length : 0}</h2>
             <button className={styles.addButton} onClick={() => setModalIsOpen(true)}>
-              <FontAwesomeIcon icon={faPlus} /> enregistrer
+              <FontAwesomeIcon icon={faPlus} /> Ajouter
             </button>
             {renderAdherents()}
             <Modal
@@ -211,10 +246,17 @@ const Dashboard = () => {
               style={customStyles}
               contentLabel="enregistrer un adhérent"
             >
-              <h1>Modifier un adhérent</h1>
+              <h1>{currentId ? "Modifier" : "Ajouter"} un adhérent</h1>
               <form className={styles.new} onSubmit={handleSubmit}>
                 <div className={styles.inputGroup}>
-                  <input type="text" placeholder="ID" name="id" value={formData.id} onChange={handleChange} className={styles.input} />
+                  <input
+                    type="text"
+                    placeholder="ID"
+                    name="id"
+                    value={formData.id}
+                    onChange={handleChange}
+                    className={styles.input}
+                  />
                   <input
                     type="text"
                     placeholder="Nom"
@@ -222,7 +264,9 @@ const Dashboard = () => {
                     value={formData.name}
                     onChange={handleChange}
                     className={styles.input}
+                    required
                   />
+                  {errors.name && <p className={styles.error}>{errors.name}</p>}
                   <input
                     type="text"
                     placeholder="Prénom"
@@ -230,7 +274,9 @@ const Dashboard = () => {
                     value={formData.surname}
                     onChange={handleChange}
                     className={styles.input}
+                    required
                   />
+                  {errors.surname && <p className={styles.error}>{errors.surname}</p>}
                   <input
                     type="email"
                     placeholder="Email"
@@ -238,7 +284,9 @@ const Dashboard = () => {
                     value={formData.mail}
                     onChange={handleChange}
                     className={styles.input}
+                    required
                   />
+                  {errors.mail && <p className={styles.error}>{errors.mail}</p>}
                   <input
                     type="tel"
                     placeholder="Téléphone"
@@ -246,12 +294,15 @@ const Dashboard = () => {
                     value={formData.phone}
                     onChange={handleChange}
                     className={styles.input}
+                    required
+                    pattern="\d{10}"
                   />
+                  {errors.phone && <p className={styles.error}>{errors.phone}</p>}
                   <input
                     type="text"
                     placeholder="Adresse"
-                    name="adress"
-                    value={formData.adress}
+                    name="address"
+                    value={formData.address}
                     onChange={handleChange}
                     className={styles.input}
                   />
@@ -271,7 +322,9 @@ const Dashboard = () => {
                       value={formData.cp}
                       onChange={handleChange}
                       className={styles.input}
+                      pattern="\d{5}"
                     />
+                    {errors.cp && <p className={styles.error}>{errors.cp}</p>}
                     <input
                       type="text"
                       placeholder="Ville"
