@@ -52,6 +52,13 @@ const Dashboard = () => {
   // const [isLoading, setIsLoading] = useState(true);
   // const [error, setError] = useState(null);
 
+
+  // Utilisation de useEffect pour définir l'élément racine pour react-modal
+  // useEffect(() => {
+  //   Modal.setAppElement('#__next'); // ou document.getElementById('__next') selon votre structure
+  // }, []);
+
+
   // Session and router
   const { data: session, status } = useSession();
   const router = useRouter();
@@ -94,7 +101,6 @@ const Dashboard = () => {
   };
 
   //**Gestion de la modale**
-  // const modalRef = useRef(null);// Référence au composant Modal (facultatif, selon l'utilisation)
   // Déclaration du state et du setter pour la modale
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const handleOpenModal = () => setModalIsOpen(true);
@@ -116,7 +122,7 @@ const Dashboard = () => {
   // Gestion des données du formulaire
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevFormData) => ({ ... prevFormData, [name]: value }));
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
 
@@ -127,19 +133,23 @@ const Dashboard = () => {
     if (!validateForm()) {
       return;
     }
-  
+    // Déterminer la méthode HTTP en fonction de currentId (POST pour nouveau, PUT pour mise à jour)
     const method = currentId ? 'PUT' : 'POST';
+
+    // Construire l'URL du point d'accès API    
     const url = currentId ? `/api/adherents?id=${currentId}` : '/api/adherents';
-  
+
     try {
-      console.log("Sending request to:", url); // Journalisation de l'URL
-      console.log("FormData:", formData); // Journalisation des données du formulaire
+      // console.log("Sending request to:", url); // Journalisation de l'URL
+      // console.log("FormData:", formData); // Journalisation des données du formulaire
+
+      // Envoyer les données du formulaire à l'API
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-  
+      // Vérifier la réussite de la réponse
       if (!response.ok) {
         const errorText = await response.text();
         throw new Error(`Erreur d'enregistrement: ${errorText}`);
@@ -160,12 +170,14 @@ const Dashboard = () => {
         city: '',
       });
       setCurrentId(null);
+      setModalIsOpen(false);
+      alert('Adhérent enregistré avec succès!');
     } catch (error) {
       console.error('Error during form submission:', error);
       alert(error.message || 'Une erreur est survenue lors de l\'ajout de l\'adhérent.');
     }
   };
-  // Gestion de la modification pour remplir les données du formulaire et ouvrir la modale
+  // Gestion de la modification
   const handleEdit = (adherent) => {
     setFormData(adherent);
     setCurrentId(adherent._id);
@@ -175,8 +187,10 @@ const Dashboard = () => {
   // Fonction de suppression avec gestion des erreurs
   const handleDelete = async (id) => {
     try {
+      // Envoyer la requête DELETE à l'API
       await fetch(`/api/adherents/${id}`, { method: "DELETE" });
-      mutate(); // Mettre à jour les données après la suppression
+     // Mettre à jour les données après la suppression
+      mutate(); 
     } catch (error) {
       console.error(error);
     }
@@ -243,10 +257,9 @@ const Dashboard = () => {
             {renderAdherents()}
             <Modal
               isOpen={modalIsOpen}
-               onRequestClose={handleCloseModal}
+              onRequestClose={handleCloseModal}
               style={customStyles}
               contentLabel="enregistrer un adhérent"
-              // ref={modalRef}
             >
               <h1>{currentId ? "Modifier" : "Ajouter"} un adhérent</h1>
               <form className={styles.new} onSubmit={handleSubmit}>

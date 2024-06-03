@@ -1,30 +1,36 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import Adherent from "@/models/Adherent";
-
 export const GET = async (_request, { params }) => {
   const { id } = params;
 
   try {
-    console.log(`GET Adhérent - Tentative de connexion à la base de données pour l'adhérent ID: ${id}`);
+    console.log(`GET Adhérent - Tentative de connexion à la base de données...`);
     await connect();
     console.log("GET Adhérent - Connexion à la base de données établie.");
 
-    const adherent = await Adherent.findById(id);
-    console.log(`GET Adhérent - Données récupérées pour l'adhérent ID: ${id}`, adherent);
+    if (id) {
+      // Gérer la récupération d'un seul adhérent par ID
+      const adherent = await Adherent.findById(id);
+      console.log(`GET Adhérent - Données récupérées pour l'adhérent ID: ${id}`, adherent);
 
-    if (!adherent) {
-      console.log(`GET Adhérent - Adhérent non trouvé pour ID: ${id}`);
-      return new NextResponse("Adhérent non trouvé", { status: 404 });
+      if (!adherent) {
+        console.log(`GET Adhérent - Adhérent non trouvé pour ID: ${id}`);
+        return new NextResponse("Adhérent non trouvé", { status: 404 });
+      }
+
+      return new NextResponse(JSON.stringify(adherent), { status: 200 });
+    } else {
+      // Gérer la récupération de tous les adhérents
+      const adherents = await Adherent.find();
+      console.log(`GET Adhérent - Tous les adhérents récupérés:`, adherents);
+      return new NextResponse(JSON.stringify(adherents), { status: 200 });
     }
-
-    return new NextResponse(JSON.stringify(adherent), { status: 200 });
   } catch (error) {
-    console.error(`GET Adhérent - Erreur lors de la récupération des données pour l'adhérent ID: ${id}`, error);
+    console.error(`GET Adhérent - Erreur lors de la récupération des données:`, error);
     return new NextResponse("Erreur lors de la récupération des données", { status: 500 });
   }
 };
-
 export const PUT = async (request, { params }) => {
   const { id } = params;
   const data = await request.json();
