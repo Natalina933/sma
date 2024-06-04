@@ -1,6 +1,17 @@
 import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import Adherent from "@/models/Adherent";
+
+// Middleware to generate an incremental ID
+Adherent.schema.pre('save', async function (next) {
+  if (this.isNew) {
+    const lastAdherent = await Adherent.findOne().sort({ id: -1 });
+    this.id = lastAdherent ? lastAdherent.id + 1 : 1;
+  }
+  next();
+});
+
+
 export const GET = async (_request, { params }) => {
   const { id } = params;
 

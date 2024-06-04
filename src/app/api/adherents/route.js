@@ -2,6 +2,8 @@ import { NextResponse } from "next/server";
 import connect from "@/utils/db";
 import Adherent from "@/models/Adherent";
 
+
+
 export const GET = async () => {
   try {
     console.log("Tentative de connexion à la base de données...");
@@ -23,6 +25,7 @@ export const POST = async (request) => {
 
   // Validation des données d'entrée
   if (!adherentData.name || !adherentData.surname || !adherentData.mail) {
+    console.log("POST Adhérent - Données de formulaire invalides", adherentData);
     return new NextResponse(
       JSON.stringify({
         error: "Nom, prénom et email requis.",
@@ -33,17 +36,17 @@ export const POST = async (request) => {
   }
 
   try {
-    console.log("Tentative de connexion à la base de données adhérent...");
+    console.log("POST Adhérent - Tentative de connexion à la base de données adhérent...");
     await connect();
-    console.log("Connexion à la base de données établie.");
+    console.log("POST Adhérent - Connexion à la base de données établie.");
 
     const newAdherent = new Adherent(adherentData);
     await newAdherent.save();
-    console.log("Nouvel adhérent enregistré:", newAdherent);
+    console.log("POST Adhérent - Nouvel adhérent enregistré:", newAdherent);
 
     return new NextResponse(JSON.stringify(newAdherent), { status: 201 });
   } catch (error) {
-    console.error("Erreur lors de l'enregistrement de l'adhérent:", error);
+    console.error("POST Adhérent - Erreur lors de l'enregistrement de l'adhérent:", error);
     return new NextResponse("Erreur lors de l'enregistrement de l'adhérent", { status: 500 });
   }
 };

@@ -133,48 +133,28 @@ const Dashboard = () => {
     if (!validateForm()) {
       return;
     }
-    // Déterminer la méthode HTTP en fonction de currentId (POST pour nouveau, PUT pour mise à jour)
-    const method = currentId ? 'PUT' : 'POST';
 
-    // Construire l'URL du point d'accès API    
-    const url = currentId ? `/api/adherents?id=${currentId}` : '/api/adherents';
+    const method = currentId ? 'PUT' : 'POST';
+    const url = currentId ? `/api/adherents/${currentId}` : '/api/adherents';
 
     try {
-      // console.log("Sending request to:", url); // Journalisation de l'URL
-      // console.log("FormData:", formData); // Journalisation des données du formulaire
-
-      // Envoyer les données du formulaire à l'API
       const response = await fetch(url, {
         method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
       });
-      // Vérifier la réussite de la réponse
+
       if (!response.ok) {
-        const errorText = await response.text();
-        throw new Error(`Erreur d'enregistrement: ${errorText}`);
+        throw new Error(`Erreur lors de la soumission du formulaire: ${response.statusText}`);
       }
 
-      // Mettre à jour les données après une création/mise à jour réussie
+      const result = await response.json();
       mutate();
-      // Réinitialiser le formulaire et fermer la modale
-      setFormData({
-        id: '',
-        name: '',
-        surname: '',
-        mail: '',
-        phone: '',
-        address: '',
-        complement: '',
-        cp: '',
-        city: '',
-      });
-      setCurrentId(null);
-      setModalIsOpen(false);
-      alert('Adhérent enregistré avec succès!');
+      handleCloseModal();
+      alert('Soumission réussie');
     } catch (error) {
-      console.error('Error during form submission:', error);
-      alert(error.message || 'Une erreur est survenue lors de l\'ajout de l\'adhérent.');
+      console.error("Erreur lors de la soumission du formulaire:", error);
+      alert('Erreur lors de la soumission du formulaire');
     }
   };
   // Gestion de la modification
