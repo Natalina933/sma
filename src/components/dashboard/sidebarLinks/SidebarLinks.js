@@ -11,7 +11,7 @@ export const SidebarLinks = [
         title: "Adhérents",
         icon: <FaUsers />,
         subLinks: [
-            { id: 1, title: "Liste Adhérents", url: "/members" },
+            { id: 1, title: "Liste Adhérents", url: "/dashboard" },
             { id: 2, title: "Ajouter", url: "/members/add" },
             { id: 3, title: "Modifier", url: "/members/edit" },
             { id: 4, title: "Supprimer", url: "/members/delete" },
@@ -22,7 +22,7 @@ export const SidebarLinks = [
         title: "Nos Activités",
         icon: <FaUser />,
         subLinks: [
-            { id: 1, title: "Liste Activités", url: "/activities/add" },
+            { id: 1, title: "Liste Activités", url: "/dashboard/activity" },
             { id: 2, title: "Ajouter", url: "/activities/add" },
             { id: 3, title: "Modifier", url: "/activities/edit" },
             { id: 4, title: "Archiver", url: "/activities/archive" },
