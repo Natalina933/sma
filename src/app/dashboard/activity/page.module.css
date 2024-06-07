@@ -1,0 +1,101 @@
+.container {
+  display: flex;
+}
+
+.dashboardContent {
+  flex: 1;
+  padding: 20px;
+}
+
+.adherentsList {
+  list-style: none;
+  padding: 0;
+}
+
+.adherent {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.info {
+  margin-bottom: 10px;
+}
+
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.trashIcon, .pencilIcon {
+  cursor: pointer; /* Définir le curseur comme pointeur pour indiquer l'interaction */
+  color: rgb(245, 241, 241); /* Couleur de l'icône (vous pouvez choisir la couleur que vous préférez) */
+  font-size: 20px; /* Taille de l'icône */
+  margin-left: 10px; /* Espacement à gauche de l'icône */
+  border: 1px solid transparent; /* Ajout d'une bordure */
+  border-radius: 50%; /* Rayon de la bordure pour créer une forme circulaire */
+  transition: all 0.3s ease; /* Animation de transition pour l'effet au survol */
+}
+
+.trashIcon:hover, .pencilIcon:hover {
+  color: darkred; /* Couleur de l'icône au survol (vous pouvez choisir la couleur que vous préférez) */
+  border-color: darkred; /* Changement de couleur de la bordure au survol */
+}
+.input {
+  width: calc(100% - 20px);
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 10px;
+}
+
+.formTitle {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.formGroup {
+  margin-bottom: 20px;
+}
+
+
+
+.input:focus {
+  outline: none;
+  /* Supprime la bordure de focus par défaut */
+  border-color: #007bff;
+  /* Change la couleur de la bordure lorsque l'input est en focus */
+}
+.cityGroup {
+  display: flex;
+}
+
+.cityGroup input {
+  flex: 1;
+  margin-right: 10px; /* Ajoute un espacement entre les champs */
+}
+
+/* Style pour les boutons */
+.button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 12px 20px;
+  /* Augmentez le padding pour un meilleur espacement */
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.button:focus {
+  outline: none;
+  /* Supprime la bordure de focus par défaut */
+}

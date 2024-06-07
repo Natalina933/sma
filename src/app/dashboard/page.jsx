@@ -78,6 +78,7 @@ const Dashboard = () => {
     city: "",
   });
   const [errors, setErrors] = useState({}); // État pour les erreurs de validation
+
   // Validation des données du formulaire
   const validateForm = () => {
     const newErrors = {};
@@ -101,13 +102,29 @@ const Dashboard = () => {
   };
 
   //**Gestion de la modale**
-  // Déclaration du state et du setter pour la modale
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const handleOpenModal = () => setModalIsOpen(true);
-  const handleCloseModal = () => setModalIsOpen(false);
+  const handleCloseModal = () => {
+    setModalIsOpen(false);
+    setFormData({
+      id: "",
+      name: "",
+      surname: "",
+      mail: "",
+      phone: "",
+      address: "",
+      complement: "",
+      cp: "",
+      city: "",
+    });
+    setCurrentId(null);
+  };
 
   // ID de l'adhérent en cours d'édition (facultatif)
   const [currentId, setCurrentId] = useState(null);
+
+
+  
 
   /*data fetching - récupération des données avec swr*/
   const fetcher = (url) => fetch(url).then((res) => res.json());
@@ -145,16 +162,16 @@ const Dashboard = () => {
       });
 
       if (!response.ok) {
-        throw new Error(`Erreur lors de la soumission du formulaire: ${response.statusText}`);
+        throw new Error(`Erreur lors de la modification du formulaire: ${response.statusText}`);
       }
 
       const result = await response.json();
       mutate();
       handleCloseModal();
-      alert('Soumission réussie');
+      alert('Modification réussie !');
     } catch (error) {
-      console.error("Erreur lors de la soumission du formulaire:", error);
-      alert('Erreur lors de la soumission du formulaire');
+      console.error("Erreur lors de la modification du formulaire:", error);
+      alert('Erreur lors de la modification du formulaire');
     }
   };
   // Gestion de la modification
@@ -163,14 +180,39 @@ const Dashboard = () => {
     setCurrentId(adherent._id);
     setModalIsOpen(true);
   };
-
+  // Fonction pour générer un nouvel ID
+  const generateNewId = () => {
+    if (!adherents || adherents.length === 0) {
+      return 1;
+    }
+    const maxId = Math.max(...adherents.map((adherent) => parseInt(adherent.id, 10) || 0));
+    return maxId + 1;
+  };
+  const handleAdd = () => {
+    const newId = generateNewId();
+    setFormData({
+      id: newId.toString(),
+      name: "",
+      surname: "",
+      mail: "",
+      phone: "",
+      address: "",
+      complement: "",
+      cp: "",
+      city: "",
+    });
+    setCurrentId(null);
+    handleOpenModal();
+  };
+  
+  
   // Fonction de suppression avec gestion des erreurs
   const handleDelete = async (id) => {
     try {
       // Envoyer la requête DELETE à l'API
       await fetch(`/api/adherents/${id}`, { method: "DELETE" });
-     // Mettre à jour les données après la suppression
-      mutate(); 
+      // Mettre à jour les données après la suppression
+      mutate();
     } catch (error) {
       console.error(error);
     }
@@ -231,7 +273,8 @@ const Dashboard = () => {
           <SideMenu />
           <div className={styles.dashboardContent}>
             <h2>Nombre d'adhérents : {adherents ? adherents.length : 0}</h2>
-            <button className={styles.addButton} onClick={() => setModalIsOpen(true)}>
+            <button className={styles.addButton} onClick={handleAdd}>
+
               <FontAwesomeIcon icon={faPlus} /> Ajouter
             </button>
             {renderAdherents()}
@@ -251,6 +294,7 @@ const Dashboard = () => {
                     value={formData.id}
                     onChange={handleChange}
                     className={styles.input}
+                    readOnly
                   />
                   <input
                     type="text"
