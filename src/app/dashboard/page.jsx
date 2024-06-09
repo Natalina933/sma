@@ -8,6 +8,7 @@ import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencilAlt, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Modal from 'react-modal'; // Import de react-modal
+import FiltersAdherent from "@/components/dashboard/filtersAdherent/FiltersAdherent";
 
 import { VisitorCounter } from "@/components/visitorCounter/VisitorCounter";
 // import Adherent from "@/models/Adherent";
@@ -62,9 +63,34 @@ const Dashboard = () => {
   // Session and router
   const { data: session, status } = useSession();
   const router = useRouter();
-  // const initialAdherentsCount = dataAdherents.length;
-  // const [nombreAdherents, setNombreAdherents] = useState(initialAdherentsCount);
-
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [currentId, setCurrentId] = useState(null); // ID de l'adhérent en cours d'édition (facultatif)
+  const [errors, setErrors] = useState({}); // État pour les erreurs de validation
+  const fetcher = (url) => fetch(url).then((res) => res.json());/*data fetching - récupération des données avec swr*/
+  // Utilisez une valeur par défaut si les données de session ne sont pas encore disponibles
+  const initialAdherents = session?.data?.adherents?.name ? [] : null;
+  const { data: adherents, mutate } = useSWR(
+    "/api/adherents", // Récupérez tous les adhérents, quelles que soient les données de session
+    fetcher,
+    { initialData: initialAdherents } // Fournir un tableau vide initial si aucune donnée pour le moment
+  );
+  const [filteredAdherents, setFilteredAdherents] = useState(adherents || []);
+ 
+  const handleFilter = (filterData) => {
+    console.log("Filtre appliqué :", filterData);
+    if (adherents) {
+      const filtered = adherents.filter(adherent => {
+        return Object.keys(filterData).every(key => {
+          if (filterData[key] === '') return true;
+          return adherent[key]?.toString().toLowerCase().includes(filterData[key].toLowerCase());
+        });
+      });
+      setFilteredAdherents(filtered);
+    }
+  };  
+  const handleReset = () => {
+    setFilteredAdherents(adherents || []);
+  };
   // Gestion des formulaires et des erreurs
   const [formData, setFormData] = useState({
     id: "",
@@ -77,7 +103,6 @@ const Dashboard = () => {
     cp: "",
     city: "",
   });
-  const [errors, setErrors] = useState({}); // État pour les erreurs de validation
 
   // Validation des données du formulaire
   const validateForm = () => {
@@ -101,8 +126,9 @@ const Dashboard = () => {
     return Object.keys(newErrors).length === 0;
   };
 
+
+
   //**Gestion de la modale**
-  const [modalIsOpen, setModalIsOpen] = useState(false);
   const handleOpenModal = () => setModalIsOpen(true);
   const handleCloseModal = () => {
     setModalIsOpen(false);
@@ -120,21 +146,10 @@ const Dashboard = () => {
     setCurrentId(null);
   };
 
-  // ID de l'adhérent en cours d'édition (facultatif)
-  const [currentId, setCurrentId] = useState(null);
 
 
-  
 
-  /*data fetching - récupération des données avec swr*/
-  const fetcher = (url) => fetch(url).then((res) => res.json());
-  // Utilisez une valeur par défaut si les données de session ne sont pas encore disponibles
-  const initialAdherents = session?.data?.adherents?.name ? [] : null;
-  const { data: adherents, mutate } = useSWR(
-    "/api/adherents", // Récupérez tous les adhérents, quelles que soient les données de session
-    fetcher,
-    { initialData: initialAdherents } // Fournir un tableau vide initial si aucune donnée pour le moment
-  );
+
 
   // Gestion des données du formulaire
   const handleChange = (e) => {
@@ -204,20 +219,19 @@ const Dashboard = () => {
     setCurrentId(null);
     handleOpenModal();
   };
-  
-  
+
+
   // Fonction de suppression avec gestion des erreurs
   const handleDelete = async (id) => {
-    try {
-      // Envoyer la requête DELETE à l'API
-      await fetch(`/api/adherents/${id}`, { method: "DELETE" });
-      // Mettre à jour les données après la suppression
-      mutate();
-    } catch (error) {
-      console.error(error);
+    if (confirm("Êtes-vous sûr de vouloir supprimer cet adhérent ?")) {
+      try {
+        await fetch(`/api/adherents/${id}`, { method: "DELETE" });
+        mutate(); // Refresh les données
+      } catch (error) {
+        console.error("Erreur lors de la suppression de l'adhérent :", error);
+      }
     }
   };
-
   // Affichage de la liste des adhérents avec logique conditionnelle
   const renderAdherents = () => {
     if (!adherents || adherents.length === 0) {
@@ -269,15 +283,20 @@ const Dashboard = () => {
     }
     if (status === "authenticated") {
       return (
-        <>
+        <main className={styles.container}>
           <SideMenu />
-          <div className={styles.dashboardContent}>
-            <h2>Nombre d'adhérents : {adherents ? adherents.length : 0}</h2>
-            <button className={styles.addButton} onClick={handleAdd}>
-
-              <FontAwesomeIcon icon={faPlus} /> Ajouter
-            </button>
-            {renderAdherents()}
+          <div className={styles.mainContent}>
+          <h1>Tableau de bord</h1>
+            <div className={styles.header}>
+            <FiltersAdherent adherents={adherents} onFilter={handleFilter} onReset={handleReset} />
+            </div>
+            <section className="listSection">
+              <h2>Nombre d'adhérents : {adherents ? adherents.length : 0}</h2>
+              <button className={styles.addButton} onClick={handleAdd}>
+                <FontAwesomeIcon icon={faPlus} /> Ajouter
+              </button>
+              {renderAdherents()}
+            </section>
             <Modal
               isOpen={modalIsOpen}
               onRequestClose={handleCloseModal}
@@ -378,12 +397,12 @@ const Dashboard = () => {
                   Enregistrer
                 </button>
               </form>
-              <button onClick={() => setModalIsOpen(false)} className={styles.button}>
+              <button onClick={handleCloseModal} className={styles.button}>
                 Fermer
               </button>
             </Modal>
           </div>
-        </>
+        </main>
       );
     }
   };

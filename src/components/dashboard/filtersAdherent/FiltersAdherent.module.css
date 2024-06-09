@@ -1,0 +1,78 @@
+/* FiltersAdherent.module.css */
+.filterContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap);
+  margin-bottom: 20px;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: var(--padding);
+  background-color: var(--background-color);
+}
+
+.searchBox input {
+  border: none;
+  outline: none;
+  flex-grow: 1;
+  padding: 5px;
+  font-size: var(--font-size);
+}
+
+.searchIcon {
+  color: var(--text-color);
+}
+
+.filterBox {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.filterBox select,
+.filterBox input {
+  padding: var(--padding);
+  border: 1px solid var(--input-border-color);
+  border-radius: var(--border-radius);
+  background-color: var(--background-color);
+  font-size: var(--font-size);
+}
+
+.button {
+  background-color: var(--primary-color);
+  color: var(--background-color);
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color var(--transition-duration) ease;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.button:hover {
+  background-color: var(--primary-hover-color);
+}
+
+.resetButton {
+  background-color: var(--primary-color);
+}
+
+.resetButton:hover {
+  background-color: var(--primary-hover-color);
+}
+
+.resetButton svg {
+  margin-right: 5px;
+}
+
+.notFoundMessage {
+  color: red;
+  font-size: var(--font-size);
+  margin-top: 10px;
+}

@@ -1,12 +1,11 @@
-"use client"// DashboardAddActivity.js
+// DashboardAddActivity.js
+"use client";
 
 import React, { useState } from "react";
 import styles from "./page.module.css";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencilAlt, faPlus } from "@fortawesome/free-solid-svg-icons";
-// Constantes pour les noms des icônes
-const ADD_ICON = faPlus;
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 const DashboardAddActivity = () => {
   const [formData, setFormData] = useState({
@@ -32,7 +31,6 @@ const DashboardAddActivity = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      // Logique pour soumettre le formulaire et ajouter une activité
       console.log(formData);
       setFormData({
         title: "",
@@ -54,10 +52,9 @@ const DashboardAddActivity = () => {
       alert("Failed to add activity");
     }
   };
+
   const handleAdd = () => {
-    // Code pour ajouter la nouvelle activité
-    console.log(formData); // Vous pouvez remplacer cette ligne par la logique d'ajout réelle
-    // Une fois l'activité ajoutée, vous pouvez réinitialiser le formulaire et afficher un message de confirmation
+    console.log(formData);
     setFormData({
       title: "",
       desc: "",
@@ -72,7 +69,6 @@ const DashboardAddActivity = () => {
       <SideMenu />
       <div className={styles.formContainer}>
         <h1 className={styles.formTitle}>Ajouter une nouvelle activité</h1>
-
         <form className={styles.formGroup} onSubmit={handleSubmit}>
           <input
             type="text"
@@ -183,8 +179,8 @@ const DashboardAddActivity = () => {
           </button>
         </form>
       </div>
-      </div>
-      );
+    </div>
+  );
 };
 
-      export default DashboardAddActivity;
+export default DashboardAddActivity;

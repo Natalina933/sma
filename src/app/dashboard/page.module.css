@@ -1,10 +1,38 @@
+/* src/app/dashboard/page.module.css */
 .container {
   display: flex;
+  min-height: 100vh;
+  background-color: #f4f5f7;
 }
 
-.dashboardContent {
-  flex: 1;
+.mainContent {
+  flex-grow: 1;
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.addButton {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.3s ease;
+}
+
+.addButton:hover {
+  background-color: #0056b3;
 }
 
 .adherentsList {
@@ -13,80 +41,69 @@
 }
 
 .adherent {
-  margin-bottom: 20px;
-  border: 1px solid #ccc;
+  background-color: #fff;
+  margin-bottom: 10px;
+  border: 1px solid #ddd;
   border-radius: 5px;
-  padding: 10px;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .info {
-  margin-bottom: 10px;
+  flex-grow: 1;
 }
 
 .actions {
   display: flex;
-  justify-content: space-between;
+  gap: 10px;
 }
 
-.trashIcon, .pencilIcon {
-  cursor: pointer; /* Définir le curseur comme pointeur pour indiquer l'interaction */
-  color: rgb(245, 241, 241); /* Couleur de l'icône (vous pouvez choisir la couleur que vous préférez) */
-  font-size: 20px; /* Taille de l'icône */
-  margin-left: 10px; /* Espacement à gauche de l'icône */
-  border: 1px solid transparent; /* Ajout d'une bordure */
-  border-radius: 50%; /* Rayon de la bordure pour créer une forme circulaire */
-  transition: all 0.3s ease; /* Animation de transition pour l'effet au survol */
+.actions svg {
+  cursor: pointer;
+  color: #6c757d;
+  transition: color 0.3s ease;
 }
 
-.trashIcon:hover, .pencilIcon:hover {
-  color: darkred; /* Couleur de l'icône au survol (vous pouvez choisir la couleur que vous préférez) */
-  border-color: darkred; /* Changement de couleur de la bordure au survol */
-}
-.input {
-  width: calc(100% - 20px);
-  margin-bottom: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 16px;
-  padding: 10px;
-}
-
-.formTitle {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  text-align: center;
+.actions svg:hover {
+  color: #007bff;
 }
 
 .formGroup {
-  margin-bottom: 20px;
+  margin-bottom: 15px;
 }
 
+.formGroup label {
+  display: block;
+  margin-bottom: 5px;
+}
 
+.formGroup input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-sizing: border-box;
+}
 
-.input:focus {
-  outline: none;
-  /* Supprime la bordure de focus par défaut */
+.formGroup input:focus {
   border-color: #007bff;
-  /* Change la couleur de la bordure lorsque l'input est en focus */
-}
-.cityGroup {
-  display: flex;
+  outline: none;
 }
 
-.cityGroup input {
-  flex: 1;
-  margin-right: 10px; /* Ajoute un espacement entre les champs */
+.error {
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
 }
 
-/* Style pour les boutons */
 .button {
   background-color: #007bff;
   color: #fff;
   border: none;
   border-radius: 5px;
-  padding: 12px 20px;
-  /* Augmentez le padding pour un meilleur espacement */
+  padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
@@ -97,5 +114,4 @@
 
 .button:focus {
   outline: none;
-  /* Supprime la bordure de focus par défaut */
 }

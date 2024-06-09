@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import styles from './sideMenu.module.css';
-import { SidebarLinks } from '@/components/dashboard/sidebarLinks/SidebarLinks';
+import { SidebarLinks } from '../sidebarLinks/SidebarLinks';
 import { FaCog, FaChevronRight } from 'react-icons/fa'; // Import des icônes
 import { useState } from 'react'; // Import du hook useState
 
