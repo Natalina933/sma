@@ -1,4 +1,3 @@
-// DashboardAddActivity.js
 "use client";
 
 import React, { useState } from "react";
@@ -7,7 +6,8 @@ import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-const DashboardAddActivity = () => {
+
+const DashboardActivities = () => {
   const [formData, setFormData] = useState({
     title: "",
     desc: "",
@@ -31,37 +31,39 @@ const DashboardAddActivity = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(formData);
-      setFormData({
-        title: "",
-        desc: "",
-        date: "",
-        img: "",
-        content: "",
-        username: "",
-        place: "",
-        price: 0,
-        category: "",
-        rating: "",
-        programme: "",
-        keywords: "",
+      const response = await fetch("/api/addActivity", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
-      alert("Activity added successfully!");
+
+      if (response.ok) {
+        console.log("Activity added successfully");
+        setFormData({
+          title: "",
+          desc: "",
+          date: "",
+          img: "",
+          content: "",
+          username: "",
+          place: "",
+          price: 0,
+          category: "",
+          rating: "",
+          programme: "",
+          keywords: "",
+        });
+        alert("Activity added successfully!");
+      } else {
+        console.error("Failed to add activity");
+        alert("Failed to add activity");
+      }
     } catch (error) {
       console.error("Error adding activity:", error);
       alert("Failed to add activity");
     }
-  };
-
-  const handleAdd = () => {
-    console.log(formData);
-    setFormData({
-      title: "",
-      desc: "",
-      date: "",
-      img: "",
-    });
-    alert("Nouvelle activité ajoutée avec succès !");
   };
 
   return (
@@ -102,7 +104,7 @@ const DashboardAddActivity = () => {
             value={formData.img}
             onChange={handleChange}
             className={styles.input}
-            required
+           
           />
           <textarea
             name="content"
@@ -110,7 +112,7 @@ const DashboardAddActivity = () => {
             value={formData.content}
             onChange={handleChange}
             className={styles.input}
-            required
+
           ></textarea>
           <input
             type="text"
@@ -119,7 +121,7 @@ const DashboardAddActivity = () => {
             value={formData.username}
             onChange={handleChange}
             className={styles.input}
-            required
+           
           />
           <input
             type="text"
@@ -128,7 +130,7 @@ const DashboardAddActivity = () => {
             value={formData.place}
             onChange={handleChange}
             className={styles.input}
-            required
+            
           />
           <input
             type="number"
@@ -137,7 +139,7 @@ const DashboardAddActivity = () => {
             value={formData.price}
             onChange={handleChange}
             className={styles.input}
-            required
+            
           />
           <input
             type="text"
@@ -146,7 +148,7 @@ const DashboardAddActivity = () => {
             value={formData.category}
             onChange={handleChange}
             className={styles.input}
-            required
+            
           />
           <input
             type="text"
@@ -155,7 +157,7 @@ const DashboardAddActivity = () => {
             value={formData.rating}
             onChange={handleChange}
             className={styles.input}
-            required
+            
           />
           <textarea
             name="programme"
@@ -163,7 +165,7 @@ const DashboardAddActivity = () => {
             value={formData.programme}
             onChange={handleChange}
             className={styles.input}
-            required
+            
           ></textarea>
           <input
             type="text"
@@ -172,7 +174,7 @@ const DashboardAddActivity = () => {
             value={formData.keywords}
             onChange={handleChange}
             className={styles.input}
-            required
+            
           />
           <button type="submit" className={styles.button}>
             Ajouter
@@ -183,4 +185,4 @@ const DashboardAddActivity = () => {
   );
 };
 
-export default DashboardAddActivity;
+export default DashboardActivities;
