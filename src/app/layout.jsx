@@ -16,13 +16,13 @@ export const metadata = {
 
 
 const RootLayout = ({ children }) => (
-  <html lang="fr">
+  <html lang="fr" suppressHydrationWarning={true}>
     <head>
       <title>{metadata.title}</title>
       <meta name="description" content={metadata.description} />
-      
+
     </head>
-    <body className={inter.className}>
+    <body className={inter.className} suppressHydrationWarning={true}>
       <ThemeProvider>
         <AuthProvider>
           <div className="container">

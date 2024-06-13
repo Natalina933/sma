@@ -19,29 +19,11 @@ const FiltersAdherent = ({ adherents, onFilter }) => {
     status: '' 
   });
   const [notFound, setNotFound] = useState(false);
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
-
   const handleFilterChange = (e) => {
-    setFilters({ ...filters, [e.target.name]: e.target.value });
+    const newFilters = { ...filters, [e.target.name]: e.target.value };
+    setFilters(newFilters);
+    onFilter(newFilters);
   };
-
-  const handleSearch = () => {
-    const hasFilters = Object.values(filters).some(value => value !== '');
-    console.log("Search initiated. Filters:", filters, "Search Term:", searchTerm);
-    if (hasFilters || searchTerm) {
-      const result = onFilter({ ...filters, searchTerm });
-      console.log("Filter result:", result);
-      if (!result || result.length === 0) {
-        setNotFound(true);
-      } else {
-        setNotFound(false);
-      }
-    }
-  };
-
   const handleReset = () => {
     setSearchTerm('');
     setFilters({ id: '', name: '', surname: '', mail: '', phone: '', address: '', complement: '', CP: '', city: '', status: '' });
@@ -52,15 +34,7 @@ const FiltersAdherent = ({ adherents, onFilter }) => {
 
   return (
     <div className={styles.filterContainer}>
-      <div className={styles.searchBox}>
-        <input
-          type="text"
-          placeholder="Rechercher..."
-          value={searchTerm}
-          onChange={handleSearchChange}
-        />
-        <FontAwesomeIcon icon={faSearch} className={styles.searchIcon} />
-      </div>
+
       <div className={styles.filterBox}>
         <input
           type="text"
@@ -147,10 +121,7 @@ const FiltersAdherent = ({ adherents, onFilter }) => {
           <option value="active">Actif</option>
           <option value="inactive">Inactif</option>
         </select>
-        <button onClick={handleSearch} className={`${styles.button} ${styles.searchButton}`}>
-          <FontAwesomeIcon icon={faSearch} />
-          Rechercher
-        </button>
+
         <button onClick={handleReset} className={`${styles.button} ${styles.resetButton}`}>
           <FontAwesomeIcon icon={faFilter} />
           Réinitialiser

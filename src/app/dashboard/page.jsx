@@ -3,11 +3,11 @@ import { useSession } from "next-auth/react"; // Import du hook useSession pour 
 import styles from "./page.module.css";
 import useSWR from "swr"; //Bibliothèque de React Hooks pour la récupération de données
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencilAlt, faPlus } from "@fortawesome/free-solid-svg-icons";
-import Modal from 'react-modal'; // Import de react-modal
+import Modal from 'react-modal';
 import FiltersAdherent from "@/components/dashboard/filtersAdherent/FiltersAdherent";
 
 import { VisitorCounter } from "@/components/visitorCounter/VisitorCounter";
@@ -54,10 +54,7 @@ const Dashboard = () => {
   // const [error, setError] = useState(null);
 
 
-  // Utilisation de useEffect pour définir l'élément racine pour react-modal
-  // useEffect(() => {
-  //   Modal.setAppElement('#__next'); // ou document.getElementById('__next') selon votre structure
-  // }, []);
+
 
 
   // Session and router
@@ -75,9 +72,18 @@ const Dashboard = () => {
     { initialData: initialAdherents } // Fournir un tableau vide initial si aucune donnée pour le moment
   );
   const [filteredAdherents, setFilteredAdherents] = useState(adherents || []);
- 
+
+  // useEffect(() => {
+  //   Modal.setAppElement('#__next'); // ou document.getElementById('__next') selon votre structure
+  // }, []);
+  
+  useEffect(() => {
+    if (adherents) {
+      setFilteredAdherents(adherents);
+    }
+  }, [adherents]);
+
   const handleFilter = (filterData) => {
-    console.log("Filtre appliqué :", filterData);
     if (adherents) {
       const filtered = adherents.filter(adherent => {
         return Object.keys(filterData).every(key => {
@@ -87,10 +93,9 @@ const Dashboard = () => {
       });
       setFilteredAdherents(filtered);
     }
-  };  
-  const handleReset = () => {
-    setFilteredAdherents(adherents || []);
   };
+  
+
   // Gestion des formulaires et des erreurs
   const [formData, setFormData] = useState({
     id: "",
@@ -146,11 +151,6 @@ const Dashboard = () => {
     setCurrentId(null);
   };
 
-
-
-
-
-
   // Gestion des données du formulaire
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -189,6 +189,8 @@ const Dashboard = () => {
       alert('Erreur lors de la modification du formulaire');
     }
   };
+
+
   // Gestion de la modification
   const handleEdit = (adherent) => {
     setFormData(adherent);
@@ -232,10 +234,13 @@ const Dashboard = () => {
       }
     }
   };
+
+
+
   // Affichage de la liste des adhérents avec logique conditionnelle
   const renderAdherents = () => {
-    if (!adherents || adherents.length === 0) {
-      return <p>Aucun adhérent trouvé.</p>;
+    if (!filteredAdherents || filteredAdherents.length === 0) {
+      return <p>Aucun adhérent trouvé</p>;
     }
 
     return (
@@ -284,11 +289,13 @@ const Dashboard = () => {
     if (status === "authenticated") {
       return (
         <main className={styles.container}>
-          <SideMenu />
+          <div className={styles.sideMenu}>
+            <SideMenu />
+          </div>
           <div className={styles.mainContent}>
-          <h1>Tableau de bord</h1>
+            <h1>Tableau de bord</h1>
             <div className={styles.header}>
-            <FiltersAdherent adherents={adherents} onFilter={handleFilter} onReset={handleReset} />
+              <FiltersAdherent adherents={adherents} onFilter={handleFilter}  />
             </div>
             <section className="listSection">
               <h2>Nombre d'adhérents : {adherents ? adherents.length : 0}</h2>

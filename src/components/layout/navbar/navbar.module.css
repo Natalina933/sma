@@ -73,7 +73,7 @@
   color: #fff;
   cursor: pointer;
   border-radius: 3px;
-  font-size: 16px;
+  font-size: 14px;
   transition: background-color 0.5s, color 0.5s;
 }
 
@@ -88,15 +88,15 @@
   }
 
   .logoText {
-    font-size: 18px;
+    font-size: 12px;
   }
 
   .link {
-    font-size: 16px;
+    font-size: 12px;
   }
 
   .logout {
-    font-size: 14px;
+    font-size: 12px;
   }
   .linkTitle {
     display: none;
@@ -121,7 +121,7 @@
   }
 
   .link {
-    font-size: 18px;
+    font-size: 14px;
   }
 
   .logout {
@@ -139,7 +139,7 @@
   }
 
   .link {
-    font-size: 18px;
+    font-size: 16px;
     justify-content: center;
   }
   .linkIcon{

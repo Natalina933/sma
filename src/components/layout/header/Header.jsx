@@ -17,6 +17,7 @@ const Header = () => {
                     width={1900}
                     className={styles.img}
                     alt="Activités passionnantes"
+                    priority
                 />
                 <div className={styles.headerText}>
                     <h1 className={styles.title}>
