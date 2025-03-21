@@ -1,155 +1,121 @@
 .banner {
   position: relative;
   width: 100%;
-  height: 100vh;
-  min-height: 500px;
+  height: 80vh;
+  min-height: 600px;
   overflow: hidden;
-  background-color: var(--background-color);
-}
-
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: linear-gradient(45deg, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0.1) 100%);
-  z-index: 1;
+  background-color: #f8f9fa;
 }
 
 .contentContainer {
-  position: relative;
-  z-index: 2;
-  height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  height: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 2rem;
+  align-items: center;
 }
 
 .textContainer {
-  max-width: 1200px;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-@media (min-width: 768px) {
-  .textContainer {
-    flex-direction: row;
-    text-align: left;
-    justify-content: space-between;
-  }
-}
-
-.text {
   flex: 1;
-  padding: 2rem;
-  background-color: rgba(255, 255, 255, 0.9);
-  border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  z-index: 2;
 }
 
-.text:hover {
-  transform: translateY(-5px);
-}
-
-.text h2 {
-  font-size: 2.5rem;
-  color: var(--primary-color);
+.title {
+  font-size: 3rem;
+  color: #333;
   margin-bottom: 1rem;
 }
 
-.text p {
+.subtitle {
   font-size: 1.2rem;
-  color: var(--text-color);
-  line-height: 1.6;
+  color: #666;
+  margin-bottom: 2rem;
 }
 
-.img {
+.cta {
+  display: inline-block;
+  padding: 0.8rem 1.5rem;
+  background-color: #007bff;
+  color: white;
+  text-decoration: none;
+  border-radius: 30px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.cta:hover {
+  background-color: #0056b3;
+}
+
+.imageContainer {
   flex: 1;
-  max-width: 500px;
-  margin-top: 2rem;
-}
-
-@media (min-width: 768px) {
-  .img {
-    margin-top: 0;
-    margin-left: 2rem;
-  }
+  position: relative;
+  height: 100%;
 }
 
 .image {
   border-radius: 10px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-.image:hover {
-  transform: scale(1.05);
-}
-
-.arrowsContainer {
+.decorationContainer {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 1;
+  overflow: hidden;
   pointer-events: none;
 }
 
-.arrow {
+.circle,
+.square,
+.triangle {
   position: absolute;
-  border-style: solid;
-  border-color: rgba(255, 255, 255, 0.1);
-  opacity: 0.5;
-  transition: all 0.5s ease;
+  opacity: 0.1;
 }
 
-.arrow1 {
-  width: 100px;
-  height: 100px;
-  top: 10%;
-  left: 5%;
-  border-width: 0 0 2px 2px;
+.circle {
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background-color: #007bff;
+  top: -100px;
+  right: -100px;
+}
+
+.square {
+  width: 200px;
+  height: 200px;
+  background-color: #28a745;
+  bottom: -50px;
+  left: 10%;
   transform: rotate(45deg);
 }
 
-.arrow2 {
-  width: 150px;
-  height: 150px;
-  bottom: 15%;
-  right: 10%;
-  border-width: 2px 2px 0 0;
-  transform: rotate(45deg);
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 100px solid transparent;
+  border-right: 100px solid transparent;
+  border-bottom: 173px solid #dc3545;
+  top: 20%;
+  left: 50%;
 }
 
-.arrow3 {
-  width: 80px;
-  height: 80px;
-  top: 40%;
-  right: 20%;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-}
-
-@media (min-width: 1024px) {
-  .arrow1 {
-    width: 150px;
-    height: 150px;
+@media (max-width: 768px) {
+  .contentContainer {
+    flex-direction: column;
   }
 
-  .arrow2 {
-    width: 200px;
-    height: 200px;
+  .textContainer,
+  .imageContainer {
+    width: 100%;
   }
 
-  .arrow3 {
-    width: 120px;
-    height: 120px;
+  .imageContainer {
+    height: 300px;
+    margin-top: 2rem;
   }
 }

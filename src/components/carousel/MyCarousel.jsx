@@ -1,54 +1,75 @@
-/* eslint-disable react/no-unescaped-entities */
 import React, { useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import styles from "@/components/carousel/mycarousel.module.css";
-import Image from "next/legacy/image";
-import activityData from "@/app/datas/activitys/activitys.json"
-import { responsiveConfig } from "@/components/common/responsiveConfig/responsiveConfig"
-
+import Image from "next/image";
+import activityData from "@/app/datas/activitys/activitys.json";
+import { responsiveConfig } from "@/components/common/responsiveConfig/responsiveConfig";
 
 const MyCarousel = () => {
-
   const [expandedActivity, setExpandedActivity] = useState(null);
 
   const handleToggleDescription = (activityId) => {
-    setExpandedActivity(prevExpandedActivity =>
-      prevExpandedActivity === activityId ? null : activityId
-    );
+    setExpandedActivity(prev => (prev === activityId ? null : activityId));
   };
 
   return (
-    <section className={styles.carouselContainer}>
-      <h1 className={styles.carouselTitle}>Découvrez un monde d'activités passionnantes</h1>
-      <Carousel responsive={responsiveConfig} className={styles.carousel}>
-        {activityData.map(activity => (
-          <div
-            className={`${styles.card} ${expandedActivity === activity.id ? styles.cardExpanded : ''
-              }`}
+    <section className={styles.carouselSection}>
+      <h2 className={styles.sectionTitle}>Nos Activités</h2>
+      <Carousel
+        responsive={responsiveConfig}
+        className={styles.carousel}
+        infinite
+        autoPlay
+        autoPlaySpeed={5000}
+        transitionDuration={500}
+        removeArrowOnDeviceType={["mobile"]}
+      >
+        {activityData.map((activity) => (
+          <article 
+            className={styles.card}
             key={activity.id}
           >
-            <Image src={activity.img} width={300} height={130} alt={activity.title} />
-            <div className={styles.cardContent}>
-              <h2 className={styles.activityTitle}>{activity.title}</h2>
-              <p className={styles.description}>{activity.desc}</p>
-
-              <div className={styles.details}>
-                <p className={styles.schedule}>{activity.schedule}</p>
-                <p className={styles.place}>{activity.place}</p>
-                <p className={styles.price}>
-                  {activity.price === "gratuit" ? "Gratuit" : `${activity.price} €`}
-                </p>
-                <button
-                  className={styles.addButton}
-                  type="button"
-                  onClick={() => handleToggleDescription(activity.id)}
-                >
-                  {expandedActivity === activity.id ? 'Réduire' : 'En savoir plus'}
-                </button>
-              </div>
+            <div className={styles.imageContainer}>
+              <Image
+                src={activity.img}
+                alt={activity.title}
+                width={400}
+                height={250}
+                layout="responsive"
+                className={styles.image}
+              />
             </div>
-          </div>
+            
+            <div className={styles.cardContent}>
+              <h3 className={styles.cardTitle}>{activity.title}</h3>
+              
+              <div className={styles.cardBody}>
+                <p className={styles.description}>
+                  {expandedActivity === activity.id 
+                    ? activity.desc 
+                    : `${activity.desc.substring(0, 100)}...`}
+                </p>
+
+                <div className={styles.metaInfo}>
+                  <p className={styles.infoItem}>{activity.schedule}</p>
+                  <p className={styles.infoItem}>{activity.place}</p>
+                  <p className={styles.priceTag}>
+                    {typeof activity.price === 'string' && activity.price.toLowerCase() === "gratuit" 
+                      ? "Gratuit" 
+                      : `${activity.price} €`}
+                  </p>
+                </div>
+              </div>
+
+              <button
+                className={styles.toggleButton}
+                onClick={() => handleToggleDescription(activity.id)}
+              >
+                {expandedActivity === activity.id ? 'Moins de détails' : 'Plus de détails'}
+              </button>
+            </div>
+          </article>
         ))}
       </Carousel>
     </section>

@@ -1,37 +1,31 @@
 import styles from './banner.module.css';
 import HeroImage from 'public/hero.jpg';
-import Image from "next/legacy/image";
-
-
-// devra etre plus modulable
+import Image from "next/image";
 
 const Banner = () => {
   return (
     <section className={styles.banner}>
-      <div className={styles.overlay}></div>
-      <div className={styles.arrowsContainer}>
-        <div className={`${styles.arrow} ${styles.arrow1}`}></div>
-        <div className={`${styles.arrow} ${styles.arrow2}`}></div>
-        <div className={`${styles.arrow} ${styles.arrow3}`}></div>
-      </div>
       <div className={styles.contentContainer}>
         <div className={styles.textContainer}>
-          <div className={styles.text}>
-            <h2>Des moments inoubliables</h2>
-            <p>Explorez nos activités passionnantes et rejoignez-nous.</p>
-          </div>
-          <div className={styles.img}>
-            <Image
-              src={HeroImage}
-              width={300}
-              height={200}
-              style={{ borderRadius: '10px' }}
-              layout="responsive"
-              className={styles.image}
-              alt="Activités passionnantes"
-            />
-          </div>
+          <h2 className={styles.title}>Des moments inoubliables</h2>
+          <p className={styles.subtitle}>Explorez nos activités passionnantes et rejoignez-nous.</p>
+          <a href="#activities" className={styles.cta}>Découvrir nos activités</a>
         </div>
+        <div className={styles.imageContainer}>
+          <Image
+            src={HeroImage}
+            fill
+            style={{ objectFit: 'cover' }}
+            className={styles.image}
+            alt="Activités passionnantes"
+            priority
+          />
+        </div>
+      </div>
+      <div className={styles.decorationContainer}>
+        <div className={styles.circle}></div>
+        <div className={styles.square}></div>
+        <div className={styles.triangle}></div>
       </div>
     </section>
   );
