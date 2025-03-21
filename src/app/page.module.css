@@ -1,18 +1,23 @@
 .desc {
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
-  color: #201b1b;
+  color: var(--text-color);
   margin: 20px 0;
-  background-color: #f5f5f5;
+  background-color: var(--secondary-color);
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius);
+  box-shadow: 0px 2px 5px var(--box-shadow);
+  transition: box-shadow var(--transition-duration);
+}
+
+.desc:hover {
+  box-shadow: 0px 4px 10px var(--hover-box-shadow);
 }
 
 .h2 {
-  font-size: 20px;
+  font-size: 12px;
   margin-bottom: 10px;
-  color: #0e0505;
+  color: var(--heading-color);
 }
 
 .p {
@@ -26,7 +31,7 @@
   margin-bottom: 20px;
 }
 
-/*triangles*/
+/* Triangles */
 .backgroundArrow {
   z-index: 1;
 }
@@ -38,8 +43,7 @@
   height: 0;
   border-style: solid;
   border-width: 127px 0 147px 162px;
-  border-color: transparent transparent transparent #1523bc36;
-  /* position: absolute; */
+  border-color: transparent transparent transparent rgba(21, 35, 188, 0.21);
 }
 
 .image {
@@ -51,10 +55,14 @@
   max-width: 300px;
   display: block;
   margin: 0 auto;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 4px 10px var(--box-shadow);
   border-radius: 60%;
-  /* animation: move 3s infinite ease alternate; */
   object-fit: cover;
+  transition: box-shadow var(--transition-duration);
+}
+
+.img:hover {
+  box-shadow: 0px 8px 20px var(--hover-box-shadow);
 }
 
 @keyframes move {
@@ -64,23 +72,11 @@
 
   to {
     transform: translate(10px);
-
   }
-}
-
-.img:hover {
-  box-shadow: 0px 8px 20px rgba(198, 21, 21, 0.2);
 }
 
 /* Media query pour tablettes */
 @media (min-width: 768px) {
-  /* .container {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-  } */
-
-
   .desc {
     text-align: left;
   }
@@ -89,6 +85,7 @@
 /* Media query pour écrans de bureau */
 @media (min-width: 1024px) {
   .container {
+    display: flex;
     gap: 3rem;
     padding: 40px;
   }
@@ -99,7 +96,7 @@
     margin: 10px;
     height: 183px;
     padding-top: 41px;
-    background: linear-gradient(135deg, #1523bc, hsl(32, 100%, 53%));
+    background: linear-gradient(135deg, var(--primary-color), hsl(32, 100%, 53%));
     background-clip: text;
     color: transparent;
   }
@@ -107,9 +104,7 @@
   .img {
     max-width: 350px;
     object-fit: contain;
-    /*l'image conserve son rapport hauteur/largeur, mais est redimensionnée pour s'adapter à la dimension donnée */
     border-radius: 50%;
-
   }
 
   .desc {

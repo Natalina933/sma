@@ -3,6 +3,7 @@
   display: flex;
   min-height: 100vh;
   background-color: #f4f5f7;
+  font-family: 'Roboto', sans-serif;
 }
 
 .mainContent {
@@ -10,6 +11,9 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .header {
@@ -17,10 +21,12 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #ddd;
 }
 
 .addButton {
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -32,12 +38,13 @@
 }
 
 .addButton:hover {
-  background-color: #0056b3;
+  background-color: var(--primary-hover-color);
 }
 
 .adherentsList {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
 .adherent {
@@ -49,6 +56,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: box-shadow 0.3s ease;
+}
+
+.adherent:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .info {
@@ -67,7 +79,7 @@
 }
 
 .actions svg:hover {
-  color: #007bff;
+  color: var(--primary-color);
 }
 
 .formGroup {
@@ -77,6 +89,7 @@
 .formGroup label {
   display: block;
   margin-bottom: 5px;
+  font-weight: 500;
 }
 
 .formGroup input {
@@ -85,10 +98,11 @@
   border: 1px solid #ddd;
   border-radius: 5px;
   box-sizing: border-box;
+  transition: border-color 0.3s ease;
 }
 
 .formGroup input:focus {
-  border-color: #007bff;
+  border-color: var(--primary-color);
   outline: none;
 }
 
@@ -99,7 +113,7 @@
 }
 
 .button {
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -109,7 +123,7 @@
 }
 
 .button:hover {
-  background-color: #0056b3;
+  background-color: var(--primary-hover-color);
 }
 
 .button:focus {

@@ -1,7 +1,7 @@
 "use client";
-import { useSession } from "next-auth/react"; // Import du hook useSession pour gérer la session utilisateur
+import { useSession } from "next-auth/react";
 import styles from "./page.module.css";
-import useSWR from "swr"; //Bibliothèque de React Hooks pour la récupération de données
+import useSWR from "swr";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
@@ -9,15 +9,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencilAlt, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Modal from 'react-modal';
 import FiltersAdherent from "@/components/dashboard/filtersAdherent/FiltersAdherent";
-
 import { VisitorCounter } from "@/components/visitorCounter/VisitorCounter";
-// import Adherent from "@/models/Adherent";
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/no-unescaped-entities */
 
-
-
-// Style de la modale
 const customStyles = {
   content: {
     top: '50%',
@@ -30,53 +23,20 @@ const customStyles = {
 };
 
 const Dashboard = () => {
-  //*ancienne structure
-  //   const [err, setErr] = useState([false]);
-  //   const [isLoading, setIsLoading] = useState([false]);
-
-  //   useEffect(() => {
-  //     const getData = async () => {
-  //       setIsLoading(true)
-  //       const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
-  //         cache: "no-store",//dynamic data fetching - récupérera les données de manière dynamique, à chaque demande
-  //       });
-  //       if (!res.ok) {
-  //         setErr(true);
-  //       }
-  //       const data = await res.json()
-  //       setData(data)
-  //       setIsLoading(false)
-  //     };
-  //     getData()
-  //   }, []);
-
-  // const [isLoading, setIsLoading] = useState(true);
-  // const [error, setError] = useState(null);
-
-
-
-
-
-  // Session and router
   const { data: session, status } = useSession();
   const router = useRouter();
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [currentId, setCurrentId] = useState(null); // ID de l'adhérent en cours d'édition (facultatif)
-  const [errors, setErrors] = useState({}); // État pour les erreurs de validation
-  const fetcher = (url) => fetch(url).then((res) => res.json());/*data fetching - récupération des données avec swr*/
-  // Utilisez une valeur par défaut si les données de session ne sont pas encore disponibles
+  const [currentId, setCurrentId] = useState(null);
+  const [errors, setErrors] = useState({});
+  const fetcher = (url) => fetch(url).then((res) => res.json());
   const initialAdherents = session?.data?.adherents?.name ? [] : null;
   const { data: adherents, mutate } = useSWR(
-    "/api/adherents", // Récupérez tous les adhérents, quelles que soient les données de session
+    "/api/adherents",
     fetcher,
-    { initialData: initialAdherents } // Fournir un tableau vide initial si aucune donnée pour le moment
+    { initialData: initialAdherents }
   );
   const [filteredAdherents, setFilteredAdherents] = useState(adherents || []);
 
-  // useEffect(() => {
-  //   Modal.setAppElement('#__next'); // ou document.getElementById('__next') selon votre structure
-  // }, []);
-  
   useEffect(() => {
     if (adherents) {
       setFilteredAdherents(adherents);
@@ -94,9 +54,7 @@ const Dashboard = () => {
       setFilteredAdherents(filtered);
     }
   };
-  
 
-  // Gestion des formulaires et des erreurs
   const [formData, setFormData] = useState({
     id: "",
     name: "",
@@ -109,7 +67,6 @@ const Dashboard = () => {
     city: "",
   });
 
-  // Validation des données du formulaire
   const validateForm = () => {
     const newErrors = {};
     if (!formData.name) newErrors.name = "Le nom est requis";
@@ -131,9 +88,6 @@ const Dashboard = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-
-
-  //**Gestion de la modale**
   const handleOpenModal = () => setModalIsOpen(true);
   const handleCloseModal = () => {
     setModalIsOpen(false);
@@ -151,15 +105,11 @@ const Dashboard = () => {
     setCurrentId(null);
   };
 
-  // Gestion des données du formulaire
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
-
-
-  // Soumission du formulaire avec méthode basée sur currentId
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) {
@@ -190,14 +140,12 @@ const Dashboard = () => {
     }
   };
 
-
-  // Gestion de la modification
   const handleEdit = (adherent) => {
     setFormData(adherent);
     setCurrentId(adherent._id);
     setModalIsOpen(true);
   };
-  // Fonction pour générer un nouvel ID
+
   const generateNewId = () => {
     if (!adherents || adherents.length === 0) {
       return 1;
@@ -205,6 +153,7 @@ const Dashboard = () => {
     const maxId = Math.max(...adherents.map((adherent) => parseInt(adherent.id, 10) || 0));
     return maxId + 1;
   };
+
   const handleAdd = () => {
     const newId = generateNewId();
     setFormData({
@@ -222,22 +171,17 @@ const Dashboard = () => {
     handleOpenModal();
   };
 
-
-  // Fonction de suppression avec gestion des erreurs
   const handleDelete = async (id) => {
     if (confirm("Êtes-vous sûr de vouloir supprimer cet adhérent ?")) {
       try {
         await fetch(`/api/adherents/${id}`, { method: "DELETE" });
-        mutate(); // Refresh les données
+        mutate();
       } catch (error) {
         console.error("Erreur lors de la suppression de l'adhérent :", error);
       }
     }
   };
 
-
-
-  // Affichage de la liste des adhérents avec logique conditionnelle
   const renderAdherents = () => {
     if (!filteredAdherents || filteredAdherents.length === 0) {
       return <p>Aucun adhérent trouvé</p>;
@@ -245,7 +189,7 @@ const Dashboard = () => {
 
     return (
       <ul className={styles.adherentsList}>
-        {adherents.map((adherent) => (
+        {filteredAdherents.map((adherent) => (
           <li key={adherent._id} className={styles.adherent}>
             <div className={styles.info}>
               <h1>{adherent.id}</h1>
@@ -295,13 +239,13 @@ const Dashboard = () => {
           <div className={styles.mainContent}>
             <h1>Tableau de bord</h1>
             <div className={styles.header}>
-              <FiltersAdherent adherents={adherents} onFilter={handleFilter}  />
-            </div>
-            <section className="listSection">
-              <h2>Nombre d'adhérents : {adherents ? adherents.length : 0}</h2>
+              <FiltersAdherent adherents={adherents} onFilter={handleFilter} />
               <button className={styles.addButton} onClick={handleAdd}>
                 <FontAwesomeIcon icon={faPlus} /> Ajouter
               </button>
+            </div>
+            <section className="listSection">
+              <h2>Nombre d&apos;adhérents : {adherents ? adherents.length : 0}</h2>
               {renderAdherents()}
             </section>
             <Modal

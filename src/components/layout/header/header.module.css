@@ -1,46 +1,88 @@
-/* Styles mobile first */
-.headerImage {
-    width: 100%;
+.container {
     position: relative;
-    border-radius: 5px;
+    /* width: 100%;
+    height: 100vh;
+    min-height: 600px;
+    overflow: hidden; */
+}
+
+.headerImage {
+    position: relative;
+    width: 100%;
+    height: 100%;
 }
 
 .img {
     object-fit: cover;
-    border-radius: 5px;
+    object-position: center;
+    filter: brightness(0.7);
+    transition: filter 0.5s ease;
+}
+
+.container:hover .img {
+    filter: brightness(0.8);
 }
 
 .headerText {
     position: absolute;
-    bottom: 20px;
-    background-color: rgba(164, 237, 213, 0.453);
-    box-shadow: -10px 0px 13px -7px #000000, 10px 0px 13px -7px #000000, 5px 5px 15px 5px rgba(0, 0, 0, 0);
-    border-radius: 50px;
-    padding: 20px;
-    font-size:smaller ;
-
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #fff;
+    width: 90%;
+    max-width: 1200px;
+    z-index: 2;
 }
 
 .title {
-    
-    text-align: center;
-    margin: 10px;
-    background: linear-gradient(135deg, #3f76d0, #E49D4D);
-    background-clip: text;
-    color: transparent;
-    text-shadow: 1px 2px 0 #0d0d0d;
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    line-height: 1.2;
 }
-/* Styles pour les tablettes */
+
+.subtitle {
+    font-size: 1.5rem;
+    font-weight: 400;
+    margin-bottom: 2rem;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.textContainer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+    padding: 2rem;
+    color: #fff;
+}
+
 @media (min-width: 768px) {
-    .headerText {
-        left: 215px; /* Ajustez cette valeur pour les écrans plus larges */
+    .title {
+        font-size: 3.5rem;
+    }
 
+    .subtitle {
+        font-size: 2rem;
     }
 }
 
-/* Styles pour les écrans plus larges */
 @media (min-width: 1024px) {
-    .headerText {
-        left: 315px; /* Ajustez cette valeur pour les écrans plus larges */
+    .title {
+        font-size: 4rem;
     }
+
+    .subtitle {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-height: 600px) {
+    .container {
+        height: auto;
+    }
+
 }
