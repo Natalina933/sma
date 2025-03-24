@@ -10,9 +10,9 @@ export const SidebarLinks = [
       {
         id: 2,
         title: "Gérer les groupes",
-        url: "/dashboard/groups",
+        url: "/dashboard/sidebar/groups",
       },
-      { id: 3, title: "Suivi des cotisations", url: "#/dashboard/payments" },
+      { id: 3, title: "Suivi des cotisations", url: "/dashboard/sidebar/cotis" },
       { id: 4, title: "Envoyer un message", url: "#/dashboard/message" },
       { id: 5, title: "Exporter les adhérents", url: "#/dashboard/export" },
     ],
@@ -22,7 +22,7 @@ export const SidebarLinks = [
     title: "Nos Activités",
     icon: <FaUser />,
     subLinks: [
-      { id: 1, title: "Liste Activités", url: "/dashboard/activity" },
+      { id: 1, title: "Liste Activités", url: "/dashboard/sidebar/activity" },
       { id: 2, title: "Ajouter", url: "/activities/add" },
       { id: 3, title: "Modifier", url: "/activities/edit" },
       { id: 4, title: "Archiver", url: "/activities/archive" },
