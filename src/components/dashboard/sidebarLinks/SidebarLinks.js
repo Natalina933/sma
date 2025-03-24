@@ -10,11 +10,11 @@ export const SidebarLinks = [
       {
         id: 2,
         title: "Gérer les groupes",
-        url: "/dashboard/members/groups",
+        url: "/dashboard/groups",
       },
-      { id: 3, title: "Suivi des cotisations", url: "/members/payments" },
-      { id: 4, title: "Envoyer un message", url: "/members/message" },
-      { id: 5, title: "Exporter les adhérents", url: "/members/export" },
+      { id: 3, title: "Suivi des cotisations", url: "#/dashboard/payments" },
+      { id: 4, title: "Envoyer un message", url: "#/dashboard/message" },
+      { id: 5, title: "Exporter les adhérents", url: "#/dashboard/export" },
     ],
   },
   {

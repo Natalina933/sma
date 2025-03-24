@@ -24,7 +24,9 @@ const customStyles = {
     boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
     border: 'none',
     maxWidth: '600px',
-    width: '90%'
+    width: '90%',
+    overflow: 'auto',
+    maxHeight: '90vh'
   }
 };
 

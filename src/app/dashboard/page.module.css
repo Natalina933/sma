@@ -1,47 +1,51 @@
-/* src/app/dashboard/page.module.css */
-
-/* Layout principal */
-.dashboardContainer {
-  display: grid;
-  grid-template-columns: 250px 1fr;
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   min-height: 100vh;
-  background-color: #f8f9fa;
+  background-color: var(--secondary-color);
+  padding: var(--padding);
+}
+
+.dashboardContainer {
+  display: flex;
+  width: 100%;
 }
 
 .dashboardContent {
-  padding: 2rem;
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
 }
 
-/* En-tête du tableau de bord */
 .dashboardHeader {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
-  border-bottom: 1px solid #dee2e6;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.dashboardTitle {
-  font-size: 2rem;
-  color: #343a40;
-}
-
-.dashboardActions {
+.addButton {
+  background-color: var(--primary-color);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 10px 20px;
+  cursor: pointer;
   display: flex;
-  gap: 1rem;
   align-items: center;
+  transition: background-color var(--transition-duration);
 }
 
-/* Liste des membres */
-.memberSection {
-  padding: 1rem;
-}
-
-.sectionSubtitle {
-  font-size: 1.5rem;
-  color: #495057;
-  margin-bottom: 1rem;
+.addButton:hover {
+  background-color: var(--primary-hover-color);
 }
 
 .memberList {
@@ -51,151 +55,107 @@
 }
 
 .memberCard {
-  background-color: #fff;
-  border-radius: 0.5rem;
-  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
-  padding: 1rem;
-  margin-bottom: 1rem;
+  background-color: var(--background-color);
+  margin-bottom: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  transition: box-shadow var(--transition-duration);
+}
+
+.memberCard:hover {
+  box-shadow: var(--box-shadow);
 }
 
 .memberInfo {
-  flex: 1;
-}
-
-.memberName {
-  font-size: 1.25rem;
-  color: #343a40;
-  margin-bottom: 0.5rem;
-}
-
-.memberContact {
-  color: #6c757d;
-  margin-bottom: 0.25rem;
-}
-
-.memberAddress {
-  color: #6c757d;
+  flex-grow: 1;
 }
 
 .memberActions {
   display: flex;
-  gap: 0.5rem;
+  gap: 10px;
 }
 
 .actionButton {
-  background-color: transparent;
+  background: none;
   border: none;
-  color: #6c757d;
   cursor: pointer;
-  transition: color 0.2s ease-in-out;
+  color: var(--text-color);
+  transition: color var(--transition-duration);
 }
 
 .actionButton:hover {
-  color: #343a40;
-}
-
-/* Formulaire modal */
-.modalTitle {
-  font-size: 1.75rem;
-  color: #343a40;
-  margin-bottom: 1.5rem;
-  text-align: center;
-}
-
-.modalForm {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  color: var(--primary-color);
 }
 
 .formGroup {
-  display: flex;
-  flex-direction: column;
+  margin-bottom: 15px;
 }
 
 .formLabel {
-  font-size: 0.875rem;
-  color: #495057;
-  margin-bottom: 0.5rem;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
 }
 
 .formInput {
-  padding: 0.75rem;
-  border: 1px solid #ced4da;
-  border-radius: 0.25rem;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-sizing: border-box;
+  transition: border-color var(--transition-duration);
 }
 
 .formInput:focus {
-  border-color: #80bdff;
-  outline: 0;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+  border-color: var(--primary-color);
+  outline: none;
 }
 
 .formError {
-  color: #dc3545;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-}
-
-.cityGroup {
-  display: flex;
-  gap: 0.5rem;
+  color: red;
+  font-size: 12px;
+  margin-top: 5px;
 }
 
 .formActions {
   display: flex;
-  justify-content: flex-end;
-  gap: 0.5rem;
-  margin-top: 1.5rem;
-}
-
-.primaryButton,
-.secondaryButton {
-  padding: 0.75rem 1.25rem;
-  border: none;
-  border-radius: 0.25rem;
-  cursor: pointer;
-  transition: background-color 0.15s ease-in-out, border-color 0.15s ease-in-out;
+  justify-content: space-between;
+  margin-top: 20px;
 }
 
 .primaryButton {
-  background-color: #007bff;
+  background-color: var(--primary-color);
   color: #fff;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color var(--transition-duration);
 }
 
 .primaryButton:hover {
-  background-color: #0069d9;
+  background-color: var(--primary-hover-color);
 }
 
 .secondaryButton {
-  background-color: #6c757d;
-  color: #fff;
+  background-color: var(--secondary-color);
+  color: var(--text-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color var(--transition-duration);
 }
 
 .secondaryButton:hover {
-  background-color: #5a6268;
+  background-color: var(--background-color);
 }
 
-.emptyMessage {
-  color: #6c757d;
-  font-style: italic;
-}
-
-/* Style pour le menu latéral (à adapter selon votre composant SideMenu) */
-/* Assurez-vous d'avoir un style approprié pour le menu latéral */
-
-@media (max-width: 768px) {
-  .dashboardContainer {
-      grid-template-columns: 1fr; /* Menu latéral en haut sur les petits écrans */
-  }
-
-
-  .dashboardActions {
-      flex-direction: column; /* Empile les actions sur les petits écrans */
-      align-items: stretch;
-  }
+.cityGroup {
+  display: flex;
+  gap: 10px;
 }
