@@ -104,7 +104,7 @@ const DashboardActivities = () => {
             value={formData.img}
             onChange={handleChange}
             className={styles.input}
-           
+
           />
           <textarea
             name="content"
@@ -121,7 +121,7 @@ const DashboardActivities = () => {
             value={formData.username}
             onChange={handleChange}
             className={styles.input}
-           
+
           />
           <input
             type="text"
@@ -130,7 +130,7 @@ const DashboardActivities = () => {
             value={formData.place}
             onChange={handleChange}
             className={styles.input}
-            
+
           />
           <input
             type="number"
@@ -139,7 +139,7 @@ const DashboardActivities = () => {
             value={formData.price}
             onChange={handleChange}
             className={styles.input}
-            
+
           />
           <input
             type="text"
@@ -148,7 +148,7 @@ const DashboardActivities = () => {
             value={formData.category}
             onChange={handleChange}
             className={styles.input}
-            
+
           />
           <input
             type="text"
@@ -157,7 +157,7 @@ const DashboardActivities = () => {
             value={formData.rating}
             onChange={handleChange}
             className={styles.input}
-            
+
           />
           <textarea
             name="programme"
@@ -165,7 +165,7 @@ const DashboardActivities = () => {
             value={formData.programme}
             onChange={handleChange}
             className={styles.input}
-            
+
           ></textarea>
           <input
             type="text"
@@ -174,7 +174,7 @@ const DashboardActivities = () => {
             value={formData.keywords}
             onChange={handleChange}
             className={styles.input}
-            
+
           />
           <button type="submit" className={styles.button}>
             Ajouter

@@ -1,102 +1,155 @@
 .carouselSection {
-  padding: 4rem 0;
-  background-color: #f8f9fa;
+  padding: 40px 20px;
+  background-color: #f4f4f4;
 }
 
 .sectionTitle {
   text-align: center;
-  font-size: 2.5rem;
-  color: #2c3e50;
-  margin-bottom: 2rem;
+  font-size: 2.5em;
+  margin-bottom: 30px;
+  color: #333;
+  font-weight: 700;
 }
 
 .carousel {
-  padding: 0 1rem;
+  position: relative;
+}
+
+.carouselItem {
+  padding: 0 10px;
 }
 
 .card {
-  background: white;
-  border-radius: 15px;
-  margin: 1rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  height: 500px; /* Hauteur fixe pour toutes les cartes */
-  display: flex;
-  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.imageContainer {
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+}
+
+.imageWrapper {
+  position: relative;
   height: 200px;
   overflow: hidden;
 }
 
 .image {
   object-fit: cover;
-  width: 100%;
-  height: 100%;
 }
 
 .cardContent {
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
+  padding: 20px;
 }
 
 .cardTitle {
-  color: #2c3e50;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.cardBody {
-  flex-grow: 1;
-  overflow: hidden;
-}
-
-.description {
-  color: #7f8c8d;
-  line-height: 1.6;
-  margin-bottom: 1rem;
+  font-size: 1.5em;
+  margin-bottom: 15px;
+  color: #333;
+  font-weight: 600;
 }
 
 .metaInfo {
-  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 15px;
 }
 
 .infoItem {
-  color: #34495e;
-  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  color: #777;
+  font-size: 0.9em;
+}
+
+.infoIcon {
+  width: 20px;
+  height: 20px;
+  fill: #0984e3;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.expandedContent {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.description {
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 10px;
 }
 
 .priceTag {
+  font-size: 1.2em;
   font-weight: bold;
-  color: #27ae60;
-  margin: 1rem 0;
+  color: #333;
+  text-align: right;
 }
 
-.toggleButton {
-  background: #3498db;
-  color: white;
+.buttonGroup {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.infoButton,
+.registerButton {
+  padding: 10px 20px;
   border: none;
-  padding: 0.8rem 1.5rem;
   border-radius: 25px;
+  font-weight: bold;
   cursor: pointer;
-  transition: all 0.3s ease;
-  margin-top: auto;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.toggleButton:hover {
-  background: #2980b9;
+.infoButton {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.infoButton:hover {
+  background-color: #e0e0e0;
+  transform: translateY(-2px);
+}
+
+.registerButton {
+  background-color: #0984e3;
+  color: white;
+  text-decoration: none;
+}
+
+.registerButton:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
 }
 
 @media (max-width: 768px) {
   .sectionTitle {
     font-size: 2rem;
   }
-  
+
   .card {
-    margin: 0.5rem;
+    margin: 0 0.5rem;
+  }
+
+  .imageWrapper {
+    height: 150px;
+  }
+
+  .buttonGroup {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .infoButton,
+  .registerButton {
+    width: 100%;
   }
 }

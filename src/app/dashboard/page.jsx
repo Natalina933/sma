@@ -19,7 +19,13 @@ const customStyles = {
     bottom: 'auto',
     marginRight: '-50%',
     transform: 'translate(-50%, -50%)',
-  },
+    borderRadius: '1rem',
+    padding: '2rem',
+    boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
+    border: 'none',
+    maxWidth: '600px',
+    width: '90%'
+  }
 };
 
 const Dashboard = () => {
@@ -184,37 +190,34 @@ const Dashboard = () => {
 
   const renderAdherents = () => {
     if (!filteredAdherents || filteredAdherents.length === 0) {
-      return <p>Aucun adhérent trouvé</p>;
+      return <p className={styles.emptyMessage}>Aucun adhérent trouvé</p>;
     }
 
     return (
-      <ul className={styles.adherentsList}>
+      <ul className={styles.memberList}>
         {filteredAdherents.map((adherent) => (
-          <li key={adherent._id} className={styles.adherent}>
-            <div className={styles.info}>
-              <h1>{adherent.id}</h1>
-              <h2>{adherent.name} {adherent.surname}</h2>
-              <p>{adherent.mail}</p>
-              <p>{adherent.phone}</p>
-              <p>{adherent.address}</p>
-              <p>{adherent.complement}</p>
-              <p>{adherent.cp} {adherent.city}</p>
+          <li key={adherent._id} className={styles.memberCard}>
+            <div className={styles.memberInfo}>
+              <h2 className={styles.memberName}>{adherent.name} {adherent.surname}</h2>
+              <p className={styles.memberContact}>{adherent.mail}</p>
+              <p className={styles.memberContact}>{adherent.phone}</p>
+              <p className={styles.memberAddress}>{adherent.address}, {adherent.complement} {adherent.cp} {adherent.city}</p>
             </div>
-            <div className={styles.actions}>
-              <div>
-                <FontAwesomeIcon
-                  icon={faPencilAlt}
-                  className={styles.pencilIcon}
-                  onClick={() => handleEdit(adherent)}
-                />
-              </div>
-              <div>
-                <FontAwesomeIcon
-                  icon={faTrash}
-                  className={styles.trashIcon}
-                  onClick={() => handleDelete(adherent._id)}
-                />
-              </div>
+            <div className={styles.memberActions}>
+              <button
+                className={styles.actionButton}
+                onClick={() => handleEdit(adherent)}
+                aria-label={`Modifier ${adherent.name} ${adherent.surname}`}
+              >
+                <FontAwesomeIcon icon={faPencilAlt} />
+              </button>
+              <button
+                className={styles.actionButton}
+                onClick={() => handleDelete(adherent._id)}
+                aria-label={`Supprimer ${adherent.name} ${adherent.surname}`}
+              >
+                <FontAwesomeIcon icon={faTrash} />
+              </button>
             </div>
           </li>
         ))}
@@ -232,20 +235,20 @@ const Dashboard = () => {
     }
     if (status === "authenticated") {
       return (
-        <main className={styles.container}>
-          <div className={styles.sideMenu}>
-            <SideMenu />
-          </div>
-          <div className={styles.mainContent}>
-            <h1>Tableau de bord</h1>
-            <div className={styles.header}>
-              <FiltersAdherent adherents={adherents} onFilter={handleFilter} />
-              <button className={styles.addButton} onClick={handleAdd}>
-                <FontAwesomeIcon icon={faPlus} /> Ajouter
-              </button>
-            </div>
-            <section className="listSection">
-              <h2>Nombre d&apos;adhérents : {adherents ? adherents.length : 0}</h2>
+        <main className={styles.dashboardContainer}>
+          <SideMenu />
+          <div className={styles.dashboardContent}>
+            <header className={styles.dashboardHeader}>
+              <h1 className={styles.dashboardTitle}>Tableau de bord</h1>
+              <div className={styles.dashboardActions}>
+                <FiltersAdherent adherents={adherents} onFilter={handleFilter} />
+                <button className={styles.addButton} onClick={handleAdd}>
+                  <FontAwesomeIcon icon={faPlus} /> Ajouter
+                </button>
+              </div>
+            </header>
+            <section className={styles.memberSection}>
+              <h2 className={styles.sectionSubtitle}>Nombre d&apos;adhérents : {adherents ? adherents.length : 0}</h2>
               {renderAdherents()}
             </section>
             <Modal
@@ -254,75 +257,85 @@ const Dashboard = () => {
               style={customStyles}
               contentLabel="enregistrer un adhérent"
             >
-              <h1>{currentId ? "Modifier" : "Ajouter"} un adhérent</h1>
-              <form className={styles.new} onSubmit={handleSubmit}>
-                <div className={styles.inputGroup}>
+              <h2 className={styles.modalTitle}>{currentId ? "Modifier" : "Ajouter"} un adhérent</h2>
+              <form className={styles.modalForm} onSubmit={handleSubmit}>
+                <div className={styles.formGroup}>
+                  <label htmlFor="name" className={styles.formLabel}>Nom:</label>
                   <input
                     type="text"
-                    placeholder="ID"
-                    name="id"
-                    value={formData.id}
-                    onChange={handleChange}
-                    className={styles.input}
-                    readOnly
-                  />
-                  <input
-                    type="text"
-                    placeholder="Nom"
+                    id="name"
                     name="name"
                     value={formData.name}
                     onChange={handleChange}
-                    className={styles.input}
+                    className={styles.formInput}
                     required
                   />
-                  {errors.name && <p className={styles.error}>{errors.name}</p>}
+                  {errors.name && <p className={styles.formError}>{errors.name}</p>}
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="surname" className={styles.formLabel}>Prénom:</label>
                   <input
                     type="text"
-                    placeholder="Prénom"
+                    id="surname"
                     name="surname"
                     value={formData.surname}
                     onChange={handleChange}
-                    className={styles.input}
+                    className={styles.formInput}
                     required
                   />
-                  {errors.surname && <p className={styles.error}>{errors.surname}</p>}
+                  {errors.surname && <p className={styles.formError}>{errors.surname}</p>}
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="mail" className={styles.formLabel}>Email:</label>
                   <input
                     type="email"
-                    placeholder="Email"
+                    id="mail"
                     name="mail"
                     value={formData.mail}
                     onChange={handleChange}
-                    className={styles.input}
+                    className={styles.formInput}
                     required
                   />
-                  {errors.mail && <p className={styles.error}>{errors.mail}</p>}
+                  {errors.mail && <p className={styles.formError}>{errors.mail}</p>}
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="phone" className={styles.formLabel}>Téléphone:</label>
                   <input
                     type="tel"
-                    placeholder="Téléphone"
+                    id="phone"
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className={styles.input}
+                    className={styles.formInput}
                     required
-                    pattern="\d{10}"
+                    pattern="[0-9]{10}"
                   />
-                  {errors.phone && <p className={styles.error}>{errors.phone}</p>}
+                  {errors.phone && <p className={styles.formError}>{errors.phone}</p>}
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="address" className={styles.formLabel}>Adresse:</label>
                   <input
                     type="text"
-                    placeholder="Adresse"
+                    id="address"
                     name="address"
                     value={formData.address}
                     onChange={handleChange}
-                    className={styles.input}
+                    className={styles.formInput}
                   />
+                </div>
+                <div className={styles.formGroup}>
+                  <label htmlFor="complement" className={styles.formLabel}>Complément:</label>
                   <input
                     type="text"
-                    placeholder="Complément"
+                    id="complement"
                     name="complement"
                     value={formData.complement}
                     onChange={handleChange}
-                    className={styles.input}
+                    className={styles.formInput}
                   />
+                </div>
+                <div className={styles.formGroup}>
+                  <label className={styles.formLabel}>Ville:</label>
                   <div className={styles.cityGroup}>
                     <input
                       type="text"
@@ -330,27 +343,25 @@ const Dashboard = () => {
                       name="cp"
                       value={formData.cp}
                       onChange={handleChange}
-                      className={styles.input}
-                      pattern="\d{5}"
+                      className={styles.formInput}
+                      pattern="[0-9]{5}"
                     />
-                    {errors.cp && <p className={styles.error}>{errors.cp}</p>}
+                    {errors.cp && <p className={styles.formError}>{errors.cp}</p>}
                     <input
                       type="text"
                       placeholder="Ville"
                       name="city"
                       value={formData.city}
                       onChange={handleChange}
-                      className={styles.input}
+                      className={styles.formInput}
                     />
                   </div>
                 </div>
-                <button type="submit" className={styles.button}>
-                  Enregistrer
-                </button>
+                <div className={styles.formActions}>
+                  <button type="submit" className={styles.primaryButton}>Enregistrer</button>
+                  <button type="button" onClick={handleCloseModal} className={styles.secondaryButton}>Annuler</button>
+                </div>
               </form>
-              <button onClick={handleCloseModal} className={styles.button}>
-                Fermer
-              </button>
             </Modal>
           </div>
         </main>
@@ -358,7 +369,11 @@ const Dashboard = () => {
     }
   };
 
-  return <div className={styles.container}>{renderContent()}</div>;
+  return (
+    <div className={styles.container}>
+      {renderContent()}
+    </div>
+  );
 };
 
 export default Dashboard;
