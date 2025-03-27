@@ -1,14 +1,15 @@
+/* Layout */
 .carouselSection {
-  padding: 40px 20px;
-  background-color: #f4f4f4;
+  padding: var(--spacing-xl);
+  text-align: center;
+  background-color: var(--color-background-light);
+  color: var(--color-text);
 }
 
 .sectionTitle {
-  text-align: center;
-  font-size: 2.5em;
-  margin-bottom: 30px;
-  color: #333;
-  font-weight: 700;
+  font-size: var(--font-size-xxl);
+  margin-bottom: var(--spacing-lg);
+  color: var(--color-primary);
 }
 
 .carousel {
@@ -16,140 +17,191 @@
 }
 
 .carouselItem {
-  padding: 0 10px;
+  margin: 0 var(--spacing-md);
 }
 
+/* Card */
 .card {
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  background: var(--color-background);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--box-shadow);
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform var(--transition-duration) ease, box-shadow var(--transition-duration) ease;
+  cursor: pointer;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+.card.selected {
+  transform: scale(1.03);
+  box-shadow: var(--box-shadow-hover);
+  z-index: 1; 
 }
 
 .imageWrapper {
   position: relative;
+  width: 100%;
   height: 200px;
   overflow: hidden;
 }
 
 .image {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
+  transition: transform var(--transition-duration) ease;
+}
+
+.card:hover .image {
+  transform: scale(1.05);
 }
 
 .cardContent {
-  padding: 20px;
+  padding: var(--spacing-md);
+  color: var(--color-text);
 }
 
 .cardTitle {
-  font-size: 1.5em;
-  margin-bottom: 15px;
-  color: #333;
-  font-weight: 600;
+  font-size: var(--font-size-lg);
+  margin-bottom: var(--spacing-xs);
+  color: var(--color-primary);
+}
+
+.category,
+.organizer {
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
 }
 
 .metaInfo {
   display: flex;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin: var(--spacing-sm) 0;
 }
 
 .infoItem {
   display: flex;
   align-items: center;
-  color: #777;
-  font-size: 0.9em;
-}
-
-.infoIcon {
-  width: 20px;
-  height: 20px;
-  fill: #0984e3;
-  margin-right: 8px;
-  flex-shrink: 0;
+  gap: var(--spacing-xs);
+  color: var(--color-text);
+  font-size: var(--font-size-sm);
 }
 
 .expandedContent {
-  margin-top: 15px;
-  padding-top: 15px;
-  border-top: 1px solid #eee;
+  margin-top: var(--spacing-md);
+  padding: var(--spacing-sm);
+  background-color: var(--color-background-light);
+  border-radius: var(--border-radius-sm);
 }
 
 .description {
-  color: #555;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
   line-height: 1.6;
-  margin-bottom: 10px;
 }
 
 .priceTag {
-  font-size: 1.2em;
+  font-size: var(--font-size-md);
+  color: var(--color-primary);
+  margin-top: var(--spacing-sm);
   font-weight: bold;
-  color: #333;
-  text-align: right;
 }
 
+.ratingWrapper {
+  margin-top: var(--spacing-sm);
+}
+
+.rating {
+  font-size: var(--font-size-sm);
+  color: var(--color-rating);
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
+/* Buttons */
 .buttonGroup {
   display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
+  flex-direction: column; /* Empile les boutons verticalement */
+  align-items: center; /* Centre les boutons horizontalement */
+  gap: 1rem; /* Espacement entre les boutons */
+  margin-top: 1.5rem; /* Espacement avec le reste du contenu */
 }
 
-.infoButton,
-.registerButton {
-  padding: 10px 20px;
-  border: none;
-  border-radius: 25px;
-  font-weight: bold;
+.button {
+  color: #fff;
+  font-size: var(--font-size-sm);
+  padding: 0.8rem 1.2rem;
+  min-width: 120px;
+  text-align: center;
+  border-radius: var(--border-radius-lg);
+  display: inline-block;
+  white-space: nowrap;
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition: all var(--transition-duration) ease;
+  border: none;
+  text-decoration: none;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .infoButton {
-  background-color: #f0f0f0;
-  color: #333;
+  background-color: var(--color-primary);
+  color: #fff;
+  font-size: 0.85rem;
+  /* Taille de texte plus petite */
+  padding: 0.6rem 1.2rem;
+  min-width: 120px;
+  /* Largeur minimale pour garantir la lisibilité */
+  max-width: 180px;
+  /* Limite la taille du bouton */
+  text-align: center;
+  border-radius: 25px;
+  display: inline-block;
+  /* S'assurer qu'il est affiché en ligne */
+  white-space: nowrap;
+  /* Empêche le texte de se couper */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .infoButton:hover {
-  background-color: #e0e0e0;
+  background-color: var(--color-primary-hover);
   transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .registerButton {
-  background-color: #0984e3;
+  background-color: #28a745;
+  /* Vert */
   color: white;
+  font-size: 0.8rem;
+  /* Police plus petite */
   text-decoration: none;
+  padding: 0.5rem 1.2rem;
+  min-width: 120px;
+  /* Largeur minimale pour le bouton */
+  max-width: 180px;
+  /* Largeur maximale du bouton */
+  border-radius: 25px;
+  text-align: center;
+  font-weight: 500;
 }
 
 .registerButton:hover {
-  background-color: #0056b3;
+  background-color: var(--color-secondary-dark);
   transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-@media (max-width: 768px) {
-  .sectionTitle {
-    font-size: 2rem;
-  }
+.button[disabled],
+.button.disabled {
+  background-color: var(--color-text-light);
+  cursor: not-allowed;
+  opacity: 0.7;
+}
 
-  .card {
-    margin: 0 0.5rem;
-  }
-
-  .imageWrapper {
-    height: 150px;
-  }
-
-  .buttonGroup {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .infoButton,
-  .registerButton {
-    width: 100%;
-  }
+.button[disabled]:hover,
+.button.disabled:hover {
+  transform: none;
+  box-shadow: none;
 }

@@ -1,37 +1,25 @@
 .container {
-    /* Dimensions et bordure */
     width: 42px;
     height: 24px;
     border: 1.5px solid rgba(83, 194, 139, 0.44);
-    /* Utilisation de rgba pour plus de flexibilité */
     border-radius: 30px;
-
-    /* Mise en page */
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 2px;
-
-    /* Positionnement et interaction */
     position: relative;
     cursor: pointer;
-
-    /* Animation */
     transition: background-color 0.3s ease;
-    /* Transition douce pour les changements d'état */
 }
 
 .container:hover {
     background-color: rgba(83, 194, 139, 0.1);
-    /* Effet hover subtil */
 }
 
 .icon {
     font-size: 12px;
     z-index: 1;
-    /* Assure que les icônes restent au-dessus de la balle */
     transition: color 0.3s ease;
-    /* Transition douce pour les changements de couleur */
 }
 
 .ball {
@@ -42,19 +30,14 @@
     position: absolute;
     top: 50%;
     left: 2px;
-    /* Position initiale */
     transform: translateY(-50%);
     transition: left 0.3s ease;
-    /* Animation fluide pour le déplacement */
 }
 
-/* État actif (à utiliser avec JavaScript) */
 .container.active .ball {
     left: calc(100% - 17px);
-    /* Déplace la balle à droite */
 }
 
-/* Accessibilité */
 @media (prefers-reduced-motion: reduce) {
 
     .container,

@@ -4,8 +4,9 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import User from "@/models/User";
 import bcrypt from "bcryptjs";
 import connect from "@/utils/db";
-// const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-// const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 
 const handler = NextAuth({
   providers: [
@@ -13,7 +14,7 @@ const handler = NextAuth({
       id: "credentials",
       name: "Credentials",
       async authorize(credentials) {
-        //Check if the user exists.
+        // Check if the user exists.
         await connect();
 
         try {
@@ -36,22 +37,36 @@ const handler = NextAuth({
             throw new Error("Utilisateur introuvable!");
           }
         } catch (err) {
-          throw new Error(err);
+          throw new Error("Erreur serveur");
         }
       },
     }),
 
-    // GoogleProvider({
-    //   clientId: GOOGLE_CLIENT_ID,
-    //   clientSecret: GOOGLE_CLIENT_SECRET,
-    // }),
+    GoogleProvider({
+      clientId: GOOGLE_CLIENT_ID,
+      clientSecret: GOOGLE_CLIENT_SECRET,
+    }),
   ],
-
 
   pages: {
     // Redirigez vers la page de connexion en cas d'erreur
     error: "/dashboard/login",
-  }
+  },
+
+  callbacks: {
+    async session({ session, token, user }) {
+      session.user.id = token.id;
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id;
+      }
+      return token;
+    },
+  },
+
+  debug: process.env.NODE_ENV === 'development',
 });
 
 export { handler as GET, handler as POST };

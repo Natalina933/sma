@@ -21,19 +21,19 @@ export const GET = async () => {
 };
 
 export const POST = async (request) => {
-  const adherentData = await request.json();
+//   const adherentData = await request.json();
 
-  // Validation des données d'entrée
-  if (!adherentData.name || !adherentData.surname || !adherentData.mail) {
-    console.log("POST Adhérent - Données de formulaire invalides", adherentData);
-    return new NextResponse(
-      JSON.stringify({
-        error: "Nom, prénom et email requis.",
-        code: 400,
-      }),
-      { status: 400 }
-    );
-  }
+//   // Validation des données d'entrée
+//   if (!adherentData.name || !adherentData.surname || !adherentData.mail) {
+//     console.log("POST Adhérent - Données de formulaire invalides", adherentData);
+//     return new NextResponse(
+//       JSON.stringify({
+//         error: "Nom, prénom et email requis.",
+//         code: 400,
+//       }),
+//       { status: 400 }
+//     );
+//   }
 
   try {
     console.log("POST Adhérent - Tentative de connexion à la base de données adhérent...");
