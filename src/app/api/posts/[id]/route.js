@@ -3,7 +3,7 @@ import connect from "@/utils/db";
 import Post from "@/models/Post";
 
 export const GET = async (_request, { params }) => {
-    const { id } = params;
+    const { id } = await params;
 
     try {
         console.log("Tentative de connexion à la base de données ...");
@@ -27,7 +27,7 @@ export const GET = async (_request, { params }) => {
     }
 };
 export const DELETE = async (_request, { params }) => {
-    const { id } = params;
+    const { id } = await params;
 
     try {
         console.log("Tentative de connexion à la base de données...");

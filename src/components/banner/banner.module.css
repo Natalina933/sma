@@ -4,7 +4,8 @@
   height: 80vh;
   min-height: 600px;
   overflow: hidden;
-  background-color: #f8f9fa;
+  background-color: var(--color-background-light);
+  /* Fond gris clair */
 }
 
 .contentContainer {
@@ -12,7 +13,7 @@
   height: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: var(--spacing-lg);
   align-items: center;
 }
 
@@ -22,30 +23,41 @@
 }
 
 .title {
-  font-size: 3rem;
-  color: #333;
-  margin-bottom: 1rem;
+  font-size: var(--font-size-xxl);
+  /* Taille de police pour le titre */
+  color: var(--color-heading);
+  /* Couleur des titres */
+  margin-bottom: var(--spacing-md);
 }
 
 .subtitle {
-  font-size: 1.2rem;
-  color: #666;
-  margin-bottom: 2rem;
+  font-size: var(--font-size-lg);
+  /* Taille de police pour le sous-titre */
+  color: var(--color-text-light);
+  /* Couleur grise pour le texte */
+  margin-bottom: var(--spacing-lg);
 }
 
 .cta {
   display: inline-block;
-  padding: 0.8rem 1.5rem;
-  background-color: #007bff;
-  color: white;
+  padding: var(--spacing-md) var(--spacing-lg);
+  /* Espacement interne */
+  background-color: var(--color-primary);
+  /* Couleur principale */
+  color: var(--color-background);
+  /* Texte blanc */
   text-decoration: none;
-  border-radius: 30px;
+  border-radius: var(--border-radius-lg);
+  /* Coins arrondis */
   font-weight: bold;
-  transition: background-color 0.3s ease;
+  transition: background-color var(--transition-duration), transform var(--transition-duration);
 }
 
 .cta:hover {
-  background-color: #0056b3;
+  background-color: var(--color-primary-dark);
+  /* Couleur au survol */
+  transform: translateY(-3px);
+  /* Légère élévation au survol */
 }
 
 .imageContainer {
@@ -55,8 +67,10 @@
 }
 
 .image {
-  border-radius: 10px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border-radius: var(--border-radius-md);
+  /* Coins arrondis */
+  box-shadow: var(--box-shadow);
+  /* Ombre subtile */
 }
 
 .decorationContainer {
@@ -80,7 +94,8 @@
   width: 300px;
   height: 300px;
   border-radius: 50%;
-  background-color: #007bff;
+  background-color: var(--color-primary);
+  /* Couleur principale */
   top: -100px;
   right: -100px;
 }
@@ -88,7 +103,8 @@
 .square {
   width: 200px;
   height: 200px;
-  background-color: #28a745;
+  background-color: var(--color-secondary);
+  /* Couleur secondaire */
   bottom: -50px;
   left: 10%;
   transform: rotate(45deg);
@@ -99,9 +115,41 @@
   height: 0;
   border-left: 100px solid transparent;
   border-right: 100px solid transparent;
-  border-bottom: 173px solid #dc3545;
+  border-bottom: 173px solid var(--color-danger);
+  /* Couleur rouge */
   top: 20%;
   left: 50%;
+}
+
+/* Boutons Connexion/Déconnexion */
+.authButton {
+  display: inline-block;
+  padding: var(--spacing-md) var(--spacing-lg);
+  background-color: var(--color-secondary);
+  /* Couleur secondaire */
+  color: var(--color-background);
+  /* Texte blanc */
+  text-decoration: none;
+  border: none;
+  border-radius: var(--border-radius-md);
+  /* Coins arrondis */
+  font-size: var(--font-size-md);
+  /* Taille de police */
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color var(--transition-duration), transform var(--transition-duration);
+}
+
+.authButton:hover {
+  background-color: var(--color-secondary-dark);
+  /* Couleur au survol */
+  transform: translateY(-2px);
+  /* Légère élévation au survol */
+}
+
+.authButton:active {
+  transform: translateY(0);
+  /* Réinitialisation de l'élévation au clic */
 }
 
 @media (max-width: 768px) {
@@ -116,6 +164,6 @@
 
   .imageContainer {
     height: 300px;
-    margin-top: 2rem;
+    margin-top: var(--spacing-lg);
   }
 }

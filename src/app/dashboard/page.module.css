@@ -159,3 +159,39 @@
   display: flex;
   gap: 10px;
 }
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .container {
+    padding: 20px;
+  }
+
+  .dashboardContent {
+    padding: 20px;
+  }
+
+  .memberCard {
+    flex-direction: column;
+  }
+
+  .memberInfo, .memberActions {
+    margin-bottom: 10px;
+  }
+}
+/* Small devices (landscape phones, 600px and up) */
+@media (min-width: 600px) {
+  .container {
+    padding: 15px;
+  }
+
+  .dashboardContent {
+    padding: 15px;
+  }
+
+  .memberCard {
+    flex-direction: column;
+  }
+
+  .memberInfo, .memberActions {
+    margin-bottom: 8px;
+  }
+}

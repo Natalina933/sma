@@ -1,0 +1,142 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: var(--spacing-xl);
+    background-color: var(--color-background-light);
+    /* Fond gris clair */
+    border-radius: var(--border-radius-lg);
+    /* Coins arrondis */
+    box-shadow: var(--box-shadow);
+    /* Ombre subtile */
+}
+
+.header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+}
+
+.title {
+    font-size: var(--font-size-xxl);
+    /* Taille de police pour le titre */
+    color: var(--color-heading);
+    /* Couleur des titres */
+    font-weight: bold;
+    margin-bottom: var(--spacing-md);
+}
+
+.meta {
+    font-size: var(--font-size-sm);
+    /* Taille de police pour les métadonnées */
+    color: var(--color-text-light);
+    /* Couleur grise pour les métadonnées */
+    margin-bottom: var(--spacing-lg);
+}
+
+.imageWrapper {
+    width: 100%;
+    height: auto;
+    margin-bottom: var(--spacing-lg);
+    border-radius: var(--border-radius-md);
+    /* Coins arrondis pour l'image */
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    /* Ombre subtile */
+}
+
+.image {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    transition: transform var(--transition-duration);
+    /* Animation fluide */
+}
+
+.imageWrapper:hover .image {
+    transform: scale(1.05);
+    /* Zoom léger au survol */
+}
+
+.content {
+    font-size: var(--font-size-md);
+    /* Taille de police pour le contenu */
+    line-height: 1.8;
+    color: var(--color-text);
+    /* Couleur du texte */
+    margin-bottom: var(--spacing-lg);
+}
+
+blockquote {
+    font-size: var(--font-size-lg);
+    /* Taille de police pour les citations */
+    font-style: italic;
+    color: var(--color-primary);
+    /* Couleur principale pour les citations */
+    border-left: 4px solid var(--color-primary-dark);
+    /* Bordure gauche pour les citations */
+    padding-left: var(--spacing-md);
+    margin: var(--spacing-lg) 0;
+}
+
+.list {
+    list-style-type: disc;
+    padding-left: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.listItem {
+    font-size: var(--font-size-md);
+    /* Taille de police pour les éléments de liste */
+    line-height: 1.6;
+    color: var(--color-text);
+    /* Couleur du texte */
+    margin-bottom: var(--spacing-sm);
+}
+
+.footer {
+    margin-top: var(--spacing-xl);
+    text-align: center;
+    font-size: var(--font-size-sm);
+    /* Taille de police pour le pied de page */
+    color: var(--color-text-light);
+    /* Couleur grise pour le pied de page */
+}
+
+.button {
+    display: inline-block;
+    padding: var(--spacing-md) var(--spacing-lg);
+    background-color: var(--color-primary);
+    /* Couleur principale */
+    color: var(--color-background);
+    /* Texte blanc */
+    text-decoration: none;
+    border-radius: var(--border-radius-md);
+    /* Coins arrondis */
+    font-size: var(--font-size-md);
+    /* Taille de police */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color var(--transition-duration), transform var(--transition-duration);
+}
+
+.button:hover {
+    background-color: var(--color-primary-dark);
+    /* Couleur au survol */
+    transform: translateY(-2px);
+    /* Légère élévation au survol */
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: var(--spacing-lg);
+    }
+
+    .title {
+        font-size: var(--font-size-xl);
+        /* Taille réduite pour les petits écrans */
+    }
+
+    .content {
+        font-size: var(--font-size-sm);
+        /* Taille réduite pour le contenu */
+    }
+}

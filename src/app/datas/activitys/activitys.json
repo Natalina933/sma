@@ -2,9 +2,11 @@
     {
         "id": 1,
         "img": "/images/aquagym.jpg",
+        "href": "/activity/EnPleinAir",
+        "alt": "Aquagym",
         "organizer": "Club AquaFit",
         "title": "Aquagym",
-        "date": "Jeudi 14h",
+        "date": "Jeudi 23 mars 14h",
         "place": "Piscine de Saint-Mandé",
         "description": "Séance d'aquagym accessible à tous niveaux.",
         "category": "Activités sportives",
@@ -19,7 +21,7 @@
     },
     {
         "id": 2,
-        "img": "/images/yoga.jpg",
+        "img": "/images/yoga.jpeg",
         "organizer": "Studio Zen",
         "title": "Yoga détente",
         "date": "Mercredi 18h",
@@ -37,7 +39,7 @@
     },
     {
         "id": 3,
-        "img": "/images/peinture.jpg",
+        "img": "/images/peinture.jpeg",
         "organizer": "Atelier des Arts",
         "title": "Atelier peinture",
         "date": "Samedi 15h",
@@ -55,7 +57,7 @@
     },
     {
         "id": 4,
-        "img": "/images/randonnee.jpg",
+        "img": "/images/randonnee.jpeg",
         "organizer": "Club Rando",
         "title": "Randonnée en montagne",
         "date": "Dimanche 8h",
@@ -73,7 +75,7 @@
     },
     {
         "id": 5,
-        "img": "/images/cuisine.jpg",
+        "img": "/images/cuisine.jpeg",
         "organizer": "École de Cuisine",
         "title": "Atelier cuisine",
         "date": "Vendredi 18h",
@@ -91,7 +93,7 @@
     },
     {
         "id": 6,
-        "img": "/images/jeuxsociete.jpg",
+        "img": "/images/scabble.jpg",
         "organizer": "Ludothèque Saint-Mandé",
         "title": "Soirée jeux de société",
         "date": "Vendredi 20h",
@@ -109,7 +111,7 @@
     },
     {
         "id": 7,
-        "img": "/images/meditation.jpg",
+        "img": "/images/yoga.jpeg",
         "organizer": "Association Bien-Être",
         "title": "Méditation guidée",
         "date": "Dimanche 9h",
@@ -145,7 +147,7 @@
     },
     {
         "id": 9,
-        "img": "/images/danse.jpg",
+        "img": "/images/danse.jpeg",
         "organizer": "Académie de Danse",
         "title": "Cours de danse latine",
         "date": "Mercredi 19h",
@@ -163,7 +165,7 @@
     },
     {
         "id": 10,
-        "img": "/images/selfdefense.jpg",
+        "img": "/images/selfdefense.jpeg",
         "organizer": "Club Self-Défense",
         "title": "Initiation au self-défense",
         "date": "Samedi 10h",

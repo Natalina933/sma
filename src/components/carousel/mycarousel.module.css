@@ -171,17 +171,14 @@
 }
 
 .registerButton {
-  background-color: #28a745;
-  /* Vert */
-  color: white;
+  background-color: var(--color-secondary);
+  color: rgb(3, 3, 3);
   font-size: 0.8rem;
   /* Police plus petite */
   text-decoration: none;
   padding: 0.5rem 1.2rem;
   min-width: 120px;
-  /* Largeur minimale pour le bouton */
   max-width: 180px;
-  /* Largeur maximale du bouton */
   border-radius: 25px;
   text-align: center;
   font-weight: 500;

@@ -1,34 +1,34 @@
 .desc {
-  font-size: 14px;
+  font-size: var(--font-size-md);
   text-align: center;
-  color: var(--text-color);
-  margin: 20px 0;
-  background-color: var(--secondary-color);
-  padding: 20px;
-  border-radius: var(--border-radius);
-  box-shadow: 0px 2px 5px var(--box-shadow);
+  color: var(--color-text);
+  margin: var(--spacing-lg) 0;
+  background-color: var(--color-card-background);
+  padding: var(--spacing-lg);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--box-shadow);
   transition: box-shadow var(--transition-duration);
 }
 
 .desc:hover {
-  box-shadow: 0px 4px 10px var(--hover-box-shadow);
+  box-shadow: var(--box-shadow-hover);
 }
 
 .h2 {
-  font-size: 12px;
-  margin-bottom: 10px;
-  color: var(--heading-color);
+  font-size: var(--font-size-sm);
+  margin-bottom: var(--spacing-sm);
+  color: var(--color-heading);
 }
 
 .p {
   line-height: 1.5;
-  margin-bottom: 20px;
+  margin-bottom: var(--spacing-md);
 }
 
 .ul {
   list-style: disc;
-  padding-left: 20px;
-  margin-bottom: 20px;
+  padding-left: var(--spacing-lg);
+  margin-bottom: var(--spacing-md);
 }
 
 /* Triangles */
@@ -55,14 +55,14 @@
   max-width: 300px;
   display: block;
   margin: 0 auto;
-  box-shadow: 0px 4px 10px var(--box-shadow);
-  border-radius: 60%;
+  box-shadow: var(--box-shadow);
+  border-radius: 50%;
   object-fit: cover;
   transition: box-shadow var(--transition-duration);
 }
 
 .img:hover {
-  box-shadow: 0px 8px 20px var(--hover-box-shadow);
+  box-shadow: var(--box-shadow-hover);
 }
 
 @keyframes move {
@@ -86,17 +86,17 @@
 @media (min-width: 1024px) {
   .container {
     display: flex;
-    gap: 3rem;
-    padding: 40px;
+    gap: var(--spacing-xl);
+    padding: var(--spacing-xl);
   }
 
   .title {
-    font-size: 24px;
+    font-size: var(--font-size-xxl);
     text-align: center;
-    margin: 10px;
+    margin: var(--spacing-sm);
     height: 183px;
     padding-top: 41px;
-    background: linear-gradient(135deg, var(--primary-color), hsl(32, 100%, 53%));
+    background: linear-gradient(135deg, var(--color-primary), hsl(32, 100%, 53%));
     background-clip: text;
     color: transparent;
   }
@@ -108,8 +108,8 @@
   }
 
   .desc {
-    font-size: 20px;
+    font-size: var(--font-size-lg);
     max-width: 97%;
-    margin: 20px auto;
+    margin: var(--spacing-lg) auto;
   }
 }

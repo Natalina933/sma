@@ -241,7 +241,6 @@ const Dashboard = () => {
           <SideMenu />
           <div className={styles.dashboardContent}>
             <header className={styles.dashboardHeader}>
-              <h1 className={styles.dashboardTitle}>Tableau de bord</h1>
               <div className={styles.dashboardActions}>
                 <FiltersAdherent adherents={adherents} onFilter={handleFilter} />
                 <button className={styles.addButton} onClick={handleAdd}>

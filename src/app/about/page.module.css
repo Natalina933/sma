@@ -1,23 +1,27 @@
 .container {
-    background-color: rgb(0, 93, 139);
-    padding: 20px;
+    background-color: var(--color-primary);
+    padding: var(--spacing-md);
 }
 
 .header {
     position: relative;
     width: 100%;
     height: 300px;
-    overflow: hidden; /* Cache le contenu qui dépasse */
+    overflow: hidden;
+    /* Cache le contenu qui dépasse */
 }
 
 .img {
-    object-fit: cover; /* Ajuste l'image pour couvrir toute la zone */
+    object-fit: cover;
+    /* Ajuste l'image pour couvrir toute la zone */
     width: 100%;
     height: 100%;
 }
 
-.desc{
-    font-size: 18px;
+.desc {
+    font-size: var(--font-size-md);
     font-weight: 300;
-
+    color: var(--color-text-light);
+    line-height: 1.6;
+    margin-top: var(--spacing-md);
 }
