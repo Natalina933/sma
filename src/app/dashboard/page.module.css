@@ -1,3 +1,7 @@
+/* Variables de couleur, taille et autres valeurs réutilisables */
+
+
+/* Container principal */
 .container {
   display: flex;
   flex-direction: column;
@@ -8,11 +12,13 @@
   padding: var(--padding);
 }
 
+/* Dashboard principal */
 .dashboardContainer {
   display: flex;
   width: 100%;
 }
 
+/* Contenu du dashboard */
 .dashboardContent {
   flex-grow: 1;
   padding: 20px;
@@ -23,6 +29,7 @@
   box-shadow: var(--box-shadow);
 }
 
+/* En-tête du dashboard */
 .dashboardHeader {
   display: flex;
   justify-content: space-between;
@@ -32,6 +39,7 @@
   border-bottom: 1px solid var(--border-color);
 }
 
+/* Bouton ajouter */
 .addButton {
   background-color: var(--primary-color);
   color: #fff;
@@ -48,37 +56,53 @@
   background-color: var(--primary-hover-color);
 }
 
+/* Liste des membres */
 .memberList {
   list-style: none;
   padding: 0;
   margin: 0;
 }
 
+/* Carte de membre */
 .memberCard {
   background-color: var(--background-color);
   margin-bottom: 10px;
-  border: 1px solid var(--border-color);
+  border: 3px solid #5a9fd4;
+  /* Bleu plus doux et pastel */
   border-radius: var(--border-radius);
   padding: 15px;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  transition: box-shadow var(--transition-duration);
+  transition: box-shadow var(--transition-duration), border-color var(--transition-duration);
+  /* Transition pour la bordure */
 }
 
+/* Effet au survol */
 .memberCard:hover {
   box-shadow: var(--box-shadow);
+  border-color: #4e8cbf;
+  /* Bleu légèrement plus foncé au survol */
 }
 
+/* Bordure lorsque la carte est sélectionnée ou active */
+.memberCard:active {
+  border-color: #87c4f9;
+  /* Bleu clair lorsqu'elle est active */
+}
+
+/* Informations sur le membre */
 .memberInfo {
   flex-grow: 1;
 }
 
+/* Actions de modification/suppression */
 .memberActions {
   display: flex;
   gap: 10px;
 }
 
+/* Boutons d'action (modifier, supprimer) */
 .actionButton {
   background: none;
   border: none;
@@ -91,6 +115,7 @@
   color: var(--primary-color);
 }
 
+/* Formulaire - groupes */
 .formGroup {
   margin-bottom: 15px;
 }
@@ -115,12 +140,14 @@
   outline: none;
 }
 
+/* Message d'erreur pour le formulaire */
 .formError {
   color: red;
   font-size: 12px;
   margin-top: 5px;
 }
 
+/* Actions du formulaire (soumettre, annuler) */
 .formActions {
   display: flex;
   justify-content: space-between;
@@ -155,11 +182,13 @@
   background-color: var(--background-color);
 }
 
+/* Groupe pour les villes (alignement horizontal) */
 .cityGroup {
   display: flex;
   gap: 10px;
 }
-/* Medium devices (tablets, 768px and up) */
+
+/* Responsive pour les tablettes (768px et plus) */
 @media (min-width: 768px) {
   .container {
     padding: 20px;
@@ -173,11 +202,13 @@
     flex-direction: column;
   }
 
-  .memberInfo, .memberActions {
+  .memberInfo,
+  .memberActions {
     margin-bottom: 10px;
   }
 }
-/* Small devices (landscape phones, 600px and up) */
+
+/* Responsive pour les téléphones en mode paysage (600px et plus) */
 @media (min-width: 600px) {
   .container {
     padding: 15px;
@@ -191,7 +222,8 @@
     flex-direction: column;
   }
 
-  .memberInfo, .memberActions {
+  .memberInfo,
+  .memberActions {
     margin-bottom: 8px;
   }
 }

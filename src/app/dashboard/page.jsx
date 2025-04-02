@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencilAlt, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPencilAlt, faPlus, faUser, faMoneyBill, faEuroSign } from "@fortawesome/free-solid-svg-icons";
 import Modal from 'react-modal';
 import FiltersAdherent from "@/components/dashboard/filtersAdherent/FiltersAdherent";
 import { VisitorCounter } from "@/components/visitorCounter/VisitorCounter";
@@ -200,12 +200,21 @@ const Dashboard = () => {
         {filteredAdherents.map((adherent) => (
           <li key={adherent._id} className={styles.memberCard}>
             <div className={styles.memberInfo}>
-              <h2 className={styles.memberName}>{adherent.name} {adherent.surname}</h2>
+              <h2 className={styles.memberName}>
+                <FontAwesomeIcon icon={faUser} className={styles.userIcon} /> {adherent.name} {adherent.surname}
+              </h2>
               <p className={styles.memberContact}>{adherent.mail}</p>
               <p className={styles.memberContact}>{adherent.phone}</p>
               <p className={styles.memberAddress}>{adherent.address}, {adherent.complement} {adherent.cp} {adherent.city}</p>
             </div>
             <div className={styles.memberActions}>
+              <button
+                className={styles.actionButton}
+                onClick={() => handleReglement(adherent._id)}
+                aria-label={`Reglement ${adherent.name} ${adherent.surname}`}
+              >
+                <FontAwesomeIcon icon={faEuroSign} />
+              </button>
               <button
                 className={styles.actionButton}
                 onClick={() => handleEdit(adherent)}
@@ -220,12 +229,14 @@ const Dashboard = () => {
               >
                 <FontAwesomeIcon icon={faTrash} />
               </button>
+
             </div>
           </li>
         ))}
       </ul>
     );
   };
+
 
   const renderContent = () => {
     if (status === "loading") {

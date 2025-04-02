@@ -1,9 +1,9 @@
 import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPencilAlt, faMoneyBillWave } from "@fortawesome/free-solid-svg-icons";
 import styles from "./AdherentList.module.css"; // Import du fichier CSS module
 
-const AdherentList = ({ adherents, onDelete, onEdit }) => (
+const AdherentList = ({ adherents, onDelete, onEdit, onReglement }) => (
   <div className={styles.adherentListContainer}>
     <h3 className={styles.adherentListTitle}>Liste des adhérents</h3>
     <ul className={styles.adherentList}>
@@ -34,6 +34,11 @@ const AdherentList = ({ adherents, onDelete, onEdit }) => (
                 className={styles.editButton}
                 onClick={() => onEdit(adherent.id)}>
                 <FontAwesomeIcon icon={faPencilAlt} /> Modifier
+              </button>
+              <button
+                className={styles.reglementButton}
+                onClick={() => onReglement(adherent.id)}>
+                <FontAwesomeIcon icon={faMoneyBillWave} /> Règlement
               </button>
             </div>
           </li>

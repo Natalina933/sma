@@ -9,8 +9,8 @@ export const SidebarLinks = [
       { id: 1, title: "Liste Adhérents", url: "/dashboard" },
       {
         id: 2,
-        title: "Gérer les groupes",
-        url: "/dashboard/sidebar/groups",
+        title: "Tableau adhérents",
+        url: "/dashboard/sidebar/table",
       },
       { id: 3, title: "Suivi des cotisations", url: "/dashboard/sidebar/cotis" },
       { id: 4, title: "Envoyer un message", url: "#/dashboard/message" },
