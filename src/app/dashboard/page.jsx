@@ -3,31 +3,37 @@ import { useSession } from "next-auth/react";
 import styles from "./page.module.css";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencilAlt, faPlus, faUser, faMoneyBill, faEuroSign } from "@fortawesome/free-solid-svg-icons";
-import Modal from 'react-modal';
+import {
+  faTrash,
+  faPencilAlt,
+  faPlus,
+  faUser,
+  faEuroSign,
+} from "@fortawesome/free-solid-svg-icons";
+import Modal from "react-modal";
 import FiltersAdherent from "@/components/dashboard/filtersAdherent/FiltersAdherent";
 import { VisitorCounter } from "@/components/visitorCounter/VisitorCounter";
 
 const customStyles = {
   content: {
-    top: '50%',
-    left: '50%',
-    right: 'auto',
-    bottom: 'auto',
-    marginRight: '-50%',
-    transform: 'translate(-50%, -50%)',
-    borderRadius: '1rem',
-    padding: '2rem',
-    boxShadow: '0 0.5rem 1rem rgba(0, 0, 0, 0.1)',
-    border: 'none',
-    maxWidth: '600px',
-    width: '90%',
-    overflow: 'auto',
-    maxHeight: '90vh'
-  }
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    borderRadius: "1rem",
+    padding: "2rem",
+    boxShadow: "0 0.5rem 1rem rgba(0, 0, 0, 0.1)",
+    border: "none",
+    maxWidth: "600px",
+    width: "90%",
+    overflow: "auto",
+    maxHeight: "90vh",
+  },
 };
 
 const Dashboard = () => {
@@ -37,31 +43,7 @@ const Dashboard = () => {
   const [currentId, setCurrentId] = useState(null);
   const [errors, setErrors] = useState({});
   const fetcher = (url) => fetch(url).then((res) => res.json());
-  const initialAdherents = session?.data?.adherents?.name ? [] : null;
-  const { data: adherents, mutate } = useSWR(
-    "/api/adherents",
-    fetcher,
-    { initialData: initialAdherents }
-  );
-  const [filteredAdherents, setFilteredAdherents] = useState(adherents || []);
-
-  useEffect(() => {
-    if (adherents) {
-      setFilteredAdherents(adherents);
-    }
-  }, [adherents]);
-
-  const handleFilter = (filterData) => {
-    if (adherents) {
-      const filtered = adherents.filter(adherent => {
-        return Object.keys(filterData).every(key => {
-          if (filterData[key] === '') return true;
-          return adherent[key]?.toString().toLowerCase().includes(filterData[key].toLowerCase());
-        });
-      });
-      setFilteredAdherents(filtered);
-    }
-  };
+  const { data: adherents, error, mutate } = useSWR("/api/adherents", fetcher);
 
   const [formData, setFormData] = useState({
     id: "",
@@ -111,6 +93,7 @@ const Dashboard = () => {
       city: "",
     });
     setCurrentId(null);
+    setErrors({});
   };
 
   const handleChange = (e) => {
@@ -120,45 +103,45 @@ const Dashboard = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
-    const method = currentId ? 'PUT' : 'POST';
-    const url = currentId ? `/api/adherents/${currentId}` : '/api/adherents';
+    const method = currentId ? "PUT" : "POST";
+    const url = currentId ? `/api/adherents/${currentId}` : "/api/adherents";
 
     try {
       const response = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       if (!response.ok) {
-        throw new Error(`Erreur lors de la modification du formulaire: ${response.statusText}`);
+        throw new Error(
+          `Erreur lors de la modification du formulaire: ${response.statusText}`
+        );
       }
 
-      const result = await response.json();
+      await response.json();
       mutate();
       handleCloseModal();
-      alert('Modification réussie !');
+      alert("Modification réussie !");
     } catch (error) {
       console.error("Erreur lors de la modification du formulaire:", error);
-      alert('Erreur lors de la modification du formulaire');
+      alert("Erreur lors de la modification du formulaire");
     }
   };
 
   const handleEdit = (adherent) => {
     setFormData(adherent);
     setCurrentId(adherent._id);
-    setModalIsOpen(true);
+    handleOpenModal();
   };
 
   const generateNewId = () => {
-    if (!adherents || adherents.length === 0) {
-      return 1;
-    }
-    const maxId = Math.max(...adherents.map((adherent) => parseInt(adherent.id, 10) || 0));
+    if (!adherents || adherents.length === 0) return 1;
+    const maxId = Math.max(
+      ...adherents.map((adherent) => parseInt(adherent.id, 10) || 0)
+    );
     return maxId + 1;
   };
 
@@ -190,46 +173,67 @@ const Dashboard = () => {
     }
   };
 
-  const renderAdherents = () => {
-    if (!filteredAdherents || filteredAdherents.length === 0) {
-      return <p className={styles.emptyMessage}>Aucun adhérent trouvé</p>;
+  const [filteredAdherents, setFilteredAdherents] = useState([]);
+  const [isFiltered, setIsFiltered] = useState(false);
+
+  const handleFilter = (filterData) => {
+    if (adherents) {
+      const filtered = adherents.filter((adherent) => {
+        return Object.keys(filterData).every((key) => {
+          if (filterData[key] === "") return true;
+          return adherent[key]
+            ?.toString()
+            .toLowerCase()
+            .includes(filterData[key].toLowerCase());
+        });
+      });
+      setFilteredAdherents(filtered);
+      setIsFiltered(true);
     }
+  };
+
+  const resetFilters = () => {
+    setIsFiltered(false);
+    setFilteredAdherents([]);
+  };
+
+  const handleReglement = (id) => {
+    console.log("Reglement demandé pour l’adhérent :", id);
+    // TODO: ajouter la logique plus tard
+  };
+
+  const renderAdherents = () => {
+    const list = isFiltered ? filteredAdherents : adherents;
+    if (error) return <p className={styles.emptyMessage}>Erreur de chargement</p>;
+    if (!Array.isArray(list) || list.length === 0)
+      return <p className={styles.emptyMessage}>Aucun adhérent trouvé</p>;
 
     return (
       <ul className={styles.memberList}>
-        {filteredAdherents.map((adherent) => (
-          <li key={adherent._id} className={styles.memberCard}>
+        {list.map((adherent, index) => (
+          <li key={adherent._id || `adherent-${index}`} className={styles.memberCard}>
             <div className={styles.memberInfo}>
               <h2 className={styles.memberName}>
-                <FontAwesomeIcon icon={faUser} className={styles.userIcon} /> {adherent.name} {adherent.surname}
+                <FontAwesomeIcon icon={faUser} className={styles.userIcon} />
+                {adherent.name} {adherent.surname}
               </h2>
               <p className={styles.memberContact}>{adherent.mail}</p>
               <p className={styles.memberContact}>{adherent.phone}</p>
-              <p className={styles.memberAddress}>{adherent.address}, {adherent.complement} {adherent.cp} {adherent.city}</p>
+              <p className={styles.memberAddress}>
+                {adherent.address}
+                {adherent.complement && `, ${adherent.complement}`} {adherent.cp} {adherent.city}
+              </p>
             </div>
             <div className={styles.memberActions}>
-              <button
-                className={styles.actionButton}
-                onClick={() => handleReglement(adherent._id)}
-                aria-label={`Reglement ${adherent.name} ${adherent.surname}`}
-              >
+              <button className={styles.actionButton} onClick={() => handleReglement(adherent._id)}>
                 <FontAwesomeIcon icon={faEuroSign} />
               </button>
-              <button
-                className={styles.actionButton}
-                onClick={() => handleEdit(adherent)}
-                aria-label={`Modifier ${adherent.name} ${adherent.surname}`}
-              >
+              <button className={styles.actionButton} onClick={() => handleEdit(adherent)}>
                 <FontAwesomeIcon icon={faPencilAlt} />
               </button>
-              <button
-                className={styles.actionButton}
-                onClick={() => handleDelete(adherent._id)}
-                aria-label={`Supprimer ${adherent.name} ${adherent.surname}`}
-              >
+              <button className={styles.actionButton} onClick={() => handleDelete(adherent._id)}>
                 <FontAwesomeIcon icon={faTrash} />
               </button>
-
             </div>
           </li>
         ))}
@@ -237,11 +241,8 @@ const Dashboard = () => {
     );
   };
 
-
   const renderContent = () => {
-    if (status === "loading") {
-      return <p>Chargement...</p>;
-    }
+    if (status === "loading") return <p>Chargement...</p>;
     if (status === "unauthenticated") {
       router.push("/dashboard/login");
       return null;
@@ -263,129 +264,13 @@ const Dashboard = () => {
               <h2 className={styles.sectionSubtitle}>Nombre d&apos;adhérents : {adherents ? adherents.length : 0}</h2>
               {renderAdherents()}
             </section>
-            <Modal
-              isOpen={modalIsOpen}
-              onRequestClose={handleCloseModal}
-              style={customStyles}
-              contentLabel="enregistrer un adhérent"
-            >
-              <h2 className={styles.modalTitle}>{currentId ? "Modifier" : "Ajouter"} un adhérent</h2>
-              <form className={styles.modalForm} onSubmit={handleSubmit}>
-                <div className={styles.formGroup}>
-                  <label htmlFor="name" className={styles.formLabel}>Nom:</label>
-                  <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className={styles.formInput}
-                    required
-                  />
-                  {errors.name && <p className={styles.formError}>{errors.name}</p>}
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="surname" className={styles.formLabel}>Prénom:</label>
-                  <input
-                    type="text"
-                    id="surname"
-                    name="surname"
-                    value={formData.surname}
-                    onChange={handleChange}
-                    className={styles.formInput}
-                    required
-                  />
-                  {errors.surname && <p className={styles.formError}>{errors.surname}</p>}
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="mail" className={styles.formLabel}>Email:</label>
-                  <input
-                    type="email"
-                    id="mail"
-                    name="mail"
-                    value={formData.mail}
-                    onChange={handleChange}
-                    className={styles.formInput}
-                    required
-                  />
-                  {errors.mail && <p className={styles.formError}>{errors.mail}</p>}
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="phone" className={styles.formLabel}>Téléphone:</label>
-                  <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className={styles.formInput}
-                    required
-                    pattern="[0-9]{10}"
-                  />
-                  {errors.phone && <p className={styles.formError}>{errors.phone}</p>}
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="address" className={styles.formLabel}>Adresse:</label>
-                  <input
-                    type="text"
-                    id="address"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    className={styles.formInput}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label htmlFor="complement" className={styles.formLabel}>Complément:</label>
-                  <input
-                    type="text"
-                    id="complement"
-                    name="complement"
-                    value={formData.complement}
-                    onChange={handleChange}
-                    className={styles.formInput}
-                  />
-                </div>
-                <div className={styles.formGroup}>
-                  <label className={styles.formLabel}>Ville:</label>
-                  <div className={styles.cityGroup}>
-                    <input
-                      type="text"
-                      placeholder="Code Postal"
-                      name="cp"
-                      value={formData.cp}
-                      onChange={handleChange}
-                      className={styles.formInput}
-                      pattern="[0-9]{5}"
-                    />
-                    {errors.cp && <p className={styles.formError}>{errors.cp}</p>}
-                    <input
-                      type="text"
-                      placeholder="Ville"
-                      name="city"
-                      value={formData.city}
-                      onChange={handleChange}
-                      className={styles.formInput}
-                    />
-                  </div>
-                </div>
-                <div className={styles.formActions}>
-                  <button type="submit" className={styles.primaryButton}>Enregistrer</button>
-                  <button type="button" onClick={handleCloseModal} className={styles.secondaryButton}>Annuler</button>
-                </div>
-              </form>
-            </Modal>
           </div>
         </main>
       );
     }
   };
 
-  return (
-    <div className={styles.container}>
-      {renderContent()}
-    </div>
-  );
+  return renderContent();
 };
 
 export default Dashboard;
