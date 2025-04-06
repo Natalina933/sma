@@ -1,77 +1,69 @@
 import { NextResponse } from "next/server";
-import connect from "@/utils/db";
-import Adherent from "@/models/Adherent";
+import pool from "@/utils/db"; // Connexion MySQL
 
+// GET : Récupérer un adhérent par ID
 export const GET = async (_request, { params }) => {
   const { id } = params;
 
   try {
-    await connect();
-    const adherent = await Adherent.findById(id);
+    const [rows] = await pool.query("SELECT * FROM adherents WHERE id = ?", [
+      id,
+    ]);
 
-    if (!adherent) {
+    if (rows.length === 0) {
       return new NextResponse("Adhérent non trouvé", { status: 404 });
     }
 
-    return new NextResponse(JSON.stringify(adherent), { status: 200 });
+    return new NextResponse(JSON.stringify(rows[0]), { status: 200 });
   } catch (error) {
-    if (error.name === 'CastError') {
-      return new NextResponse("Format d'ID invalide", { status: 400 });
-    }
+    console.error("Erreur lors de la récupération de l'adhérent :", error);
     return new NextResponse("Erreur serveur", { status: 500 });
   }
 };
 
+// PUT : Mettre à jour un adhérent par ID
 export const PUT = async (request, { params }) => {
   const { id } = params;
 
   try {
-    await connect();
     const data = await request.json();
+    const { name, surname, mail, phone, address, complement, cp, city } = data;
 
-    const updatedAdherent = await Adherent.findByIdAndUpdate(
-      id,
-      data,
-      { 
-        new: true,
-        runValidators: true 
-      }
+    const [result] = await pool.query(
+      "UPDATE adherents SET name = ?, surname = ?, mail = ?, phone = ?, address = ?, complement = ?, cp = ?, city = ? WHERE id = ?",
+      [name, surname, mail, phone, address, complement, cp, city, id]
     );
 
-    if (!updatedAdherent) {
+    if (result.affectedRows === 0) {
       return new NextResponse("Adhérent non trouvé", { status: 404 });
     }
 
-    return new NextResponse(JSON.stringify(updatedAdherent), { status: 200 });
+    return new NextResponse(JSON.stringify({ id, ...data }), { status: 200 });
   } catch (error) {
-    if (error.name === 'ValidationError') {
-      return new NextResponse(error.message, { status: 400 });
-    }
-    if (error.name === 'CastError') {
-      return new NextResponse("Format d'ID invalide", { status: 400 });
-    }
+    console.error("Erreur lors de la mise à jour de l'adhérent :", error);
     return new NextResponse("Erreur serveur", { status: 500 });
   }
 };
 
+// DELETE : Supprimer un adhérent par ID
 export const DELETE = async (_request, { params }) => {
   const { id } = params;
 
   try {
-    await connect();
-    const deletedAdherent = await Adherent.findByIdAndDelete(id);
+    const [result] = await pool.query("DELETE FROM adherents WHERE id = ?", [
+      id,
+    ]);
 
-    if (!deletedAdherent) {
+    if (result.affectedRows === 0) {
       return new NextResponse("Adhérent non trouvé", { status: 404 });
     }
 
-    return new NextResponse(JSON.stringify({ message: "Supprimé avec succès" }), { 
-      status: 200 
-    });
+    return new NextResponse(
+      JSON.stringify({ message: "Supprimé avec succès" }),
+      { status: 200 }
+    );
   } catch (error) {
-    if (error.name === 'CastError') {
-      return new NextResponse("Format d'ID invalide", { status: 400 });
-    }
+    console.error("Erreur lors de la suppression de l'adhérent :", error);
     return new NextResponse("Erreur serveur", { status: 500 });
   }
 };

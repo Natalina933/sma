@@ -1,14 +1,14 @@
 const nextConfig = {
-    webpack: (config, { isServer }) => {
-        if (!isServer) {
-            config.resolve.fallback = {
-                net: false,
-                tls: false,
-            };
-        }
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        net: false,
+        tls: false,
+      };
+    }
 
-        return config;
-    },
+    return config;
+  },
 };
 
 module.exports = nextConfig;
