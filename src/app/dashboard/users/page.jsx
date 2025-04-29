@@ -1,11 +1,13 @@
 "use client";
+
 import React, { useEffect, useState } from 'react';
 import styles from './page.module.css';
-import maskEmail from '@/components/common/maskEmail/MaskEmail'
+import maskEmail from '@/components/common/maskEmail/MaskEmail'; // fonction utilitaire
 
 const Users = ({ apiUrl }) => {
   const [users, setUsers] = useState([]);
-  const [error, setError] = useState(null); // État pour gérer les erreurs
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true); // Indicateur de chargement
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -18,31 +20,40 @@ const Users = ({ apiUrl }) => {
         setUsers(data);
       } catch (error) {
         console.error('Error fetching users:', error);
-        setError(error.message); // Met à jour l'état avec le message d'erreur
+        setError(error.message);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUsers();
   }, [apiUrl]);
 
-<maskEmail/>
-
   return (
     <div className={styles.container}>
       <h1>Liste des utilisateurs</h1>
+
+      {loading && <p>Chargement...</p>}
       {error && <p className={styles.error}>{error}</p>}
-      <ul className={styles.userList}>
-        {users.map((user) => (
-          <li key={user.id} className={styles.userItem}>
-            <div className={styles.userInfo}>
-              <h2>{user.name}</h2>
-              <p>Email: {maskEmail(user.email)}</p> {/* Masquer l'email */}
-              <p>Ville: {user.city}</p> {/* Afficher des informations non sensibles */}
-              {/* Ajoutez d'autres informations sur l'utilisateur si nécessaire */}
-            </div>
-          </li>
-        ))}
-      </ul>
+
+      {!loading && !error && (
+        <ul className={styles.userList}>
+          {users.length === 0 ? (
+            <p>Aucun utilisateur trouvé.</p>
+          ) : (
+            users.map((user) => (
+              <li key={user.id} className={styles.userItem}>
+                <div className={styles.userInfo}>
+                  <h2>{user.name}</h2>
+                  <p>Email : {maskEmail(user.email)}</p>
+                  {user.city && <p>Ville : {user.city}</p>}
+                  {/* Tu peux ajouter d'autres infos ici */}
+                </div>
+              </li>
+            ))
+          )}
+        </ul>
+      )}
     </div>
   );
 };

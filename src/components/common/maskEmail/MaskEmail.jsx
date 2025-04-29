@@ -1,8 +1,9 @@
 
-
-  // Fonction pour masquer une partie de l'email
-  const maskEmail = (email) => {
-    const [username, domain] = email.split('@');
-    const maskedUsername = username.slice(0, 3) + '...'; // Masquer une partie de l'email
-    return maskedUsername + '@' + domain;
-  };
+const maskEmail = (email) => {
+  const [username, domain] = email.split('@');
+  if (username.length <= 3) {
+    return '*'.repeat(username.length) + '@' + domain;
+  }
+  const maskedUsername = username.slice(0, 2) + '***' + username.slice(-1);
+  return maskedUsername + '@' + domain;
+};
