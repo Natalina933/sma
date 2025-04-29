@@ -1,13 +1,14 @@
-/* mobile first*/
-
+/* Styles généraux */
 .container {
   height: 90px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-family: Arial, sans-serif;
-  padding-right: 10px;
+  padding: 0 20px;
   background-color: floralwhite;
+  position: relative;
+  z-index: 1000;
 }
 
 .logoContainer {
@@ -18,7 +19,7 @@
 .logoLink {
   display: flex;
   align-items: center;
-
+  text-decoration: none;
 }
 
 .logoImage {
@@ -30,42 +31,38 @@
   margin-left: 10px;
   font-weight: bold;
   font-size: 25px;
+  color: #042e62;
 }
 
+/* Liens de navigation */
 .links {
   display: flex;
   align-items: center;
   gap: 32px;
 }
 
+/* Liens individuels */
 .link {
   text-decoration: none;
   font-size: 16px;
   transition: color 0.5s, background-color 0.5s;
   position: relative;
   text-align: center;
+  color: #042e62;
 }
 
 .link:hover {
-  color: #042e62;
-  background-color: #ccc;
+  color: #e39b4e;
+  background-color: #f0f0f0;
   border-radius: 3px;
   padding: 3px;
 }
 
-.link::after {
-  content: "";
-  position: absolute;
-  bottom: -2px;
-  left: 0;
-  width: 100%;
-  height: 2px;
-  background-color: #74a2da;
-  transform: scaleX(0);
-  transition: transform 0.3s;
+.linkIcon {
+  margin-right: 6px;
 }
 
-/* Styles pour le bouton de déconnexion */
+/* Bouton déconnexion */
 .logout {
   padding: 5px 10px;
   border: none;
@@ -81,41 +78,64 @@
   background-color: #e39b4e;
 }
 
-/* Styles pour les mobiles */
+/* Bouton hamburger */
+.hamburger {
+  display: none; /* caché par défaut */
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 2rem;
+  color: #042e62;
+  z-index: 1100;
+}
+
+/* Icône hamburger */
+.hamburgerIcon {
+  pointer-events: none;
+}
+
+/* Responsive mobile */
 @media (max-width: 768px) {
-  .container {
-    padding: 0 13px;
+  .logoText {
+    display: none; /* cacher le texte du logo sur mobile */
   }
 
-  .logoText {
-    font-size: 12px;
+  .links {
+    position: fixed;
+    top: 90px;
+    right: -100%;
+    height: calc(100vh - 90px);
+    width: 100%;
+    background-color: floralwhite;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 2rem;
+    transition: right 0.3s ease-in-out;
+    display: flex;
+  }
+
+  .links.active {
+    right: 0;
   }
 
   .link {
-    font-size: 12px;
+    font-size: 18px;
+    padding: 10px 0;
   }
 
   .logout {
-    font-size: 12px;
+    font-size: 18px;
+    width: 100%;
+    padding: 12px 0;
   }
-  .linkTitle {
-    display: none;
-  }
-  .logoText {
-    display: none;
-  }
-  .logoLink {
-    width: 50px;
-    height: 50px;
+
+  .hamburger {
+    display: block; /* affiché sur mobile */
   }
 }
 
-/* Styles pour les écrans de tablette */
-@media (min-width: 768px) and (max-width: 1024px) {
-  .container {
-    padding: 0 3px;
-  }
-
+/* Tablette */
+@media (min-width: 769px) and (max-width: 1024px) {
   .logoText {
     font-size: 20px;
   }
@@ -127,65 +147,27 @@
   .logout {
     font-size: 16px;
   }
-  .linkIcon{
-    display:none;
+
+  .linkIcon {
+    display: none;
   }
 }
+
+/* Desktop */
 @media (min-width: 1025px) {
-
-
   .logoText {
     font-size: 20px;
   }
 
   .link {
     font-size: 16px;
-    justify-content: center;
   }
-  .linkIcon{
-    display:none;
-  }
+
   .logout {
     font-size: 18px;
   }
-}
 
-/* Styles pour les écrans grandes résolutions */
-@media (min-width: 1440px) {
-  .container {
-    padding: 0 3px;
-  }
-
-  .logoText {
-    font-size: 28px;
-  }
-
-  .link {
-    font-size: 24px;
-  }
-  .linkIcon{
-    display:none;
-  }
-  .logout {
-    font-size: 20px;
-  }
-}
-
-/* Styles pour les écrans larges */
-@media (min-width: 1920px) {
-  .container {
-    padding: 0 3px;
-  }
-
-  .logoText {
-    font-size: 32px;
-  }
-
-  .link {
-    font-size: 28px;
-  }
-
-  .logout {
-    font-size: 22px;
+  .linkIcon {
+    display: none;
   }
 }

@@ -1,23 +1,27 @@
 "use client";
-
 import Link from "next/link";
+import { useState } from "react";
 import styles from "./navbar.module.css";
 import Image from "next/legacy/image";
 import { Navlinks } from "@/components/navLinks/Navlinks";
 import DarkModeToggle from "@/components/darkModeToggle/DarkModeToggle";
 import { signOut, useSession } from "next-auth/react";
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/no-unescaped-entities */
+import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Navbar = () => {
-  // Utilise useSession pour obtenir les informations sur la session de l'utilisateur
   const { data: session } = useSession();
-  return (
-    <div className={styles.container}>
+  const [isOpen, setIsOpen] = useState(false);
 
-      {/* Section du logo */}
+  // Fermer le menu quand on clique sur un lien
+  const handleLinkClick = () => {
+    setIsOpen(false);
+  };
+
+  return (
+    <nav className={styles.container}>
       <section className={styles.logoContainer}>
-        <Link href="/" className={styles.logoLink}>
+        <Link href="/" className={styles.logoLink} onClick={handleLinkClick}>
           <Image
             src="/logo.svg"
             className={styles.logoImage}
@@ -29,35 +33,52 @@ const Navbar = () => {
           <span className={styles.logoText}>Saint-Mandé Accueil</span>
         </Link>
       </section>
-      <section className={styles.links}>
 
+      {/* Bouton hamburger visible uniquement sur mobile */}
+      <button
+        className={styles.hamburger}
+        onClick={() => setIsOpen(!isOpen)}
+        aria-label="Menu"
+        aria-expanded={isOpen}
+      >
+        <FontAwesomeIcon
+          icon={isOpen ? faTimes : faBars}
+          className={styles.hamburgerIcon}
+        />
+      </button>
+
+      {/* Menu de navigation */}
+      <section className={`${styles.links} ${isOpen ? styles.active : ""}`}>
         <DarkModeToggle />
 
-        {/* Section link */}
         {Navlinks.map((link) => (
-          <Link key={link.id} href={link.url} className={styles.link}>
+          <Link
+            key={link.id}
+            href={link.url}
+            className={styles.link}
+            onClick={handleLinkClick}
+          >
             <div className={styles.linkIcon}>{link.icon}</div>
             <div className={styles.linkTitle}>{link.title}</div>
           </Link>
         ))}
-        {/* Si l'utilisateur n'est pas connecté, affichez les boutons de connexion et d'inscription */}
-        {/* Affichage conditionnel des boutons de connexion/inscription/déconnexion */}
+
         {session ? (
-          <button className={styles.logout} onClick={() => signOut()}>
+          <button className={styles.logout} onClick={() => { signOut(); handleLinkClick(); }}>
             Déconnexion
           </button>
         ) : (
           <>
-            <Link href="/dashboard/login">
+            <Link href="/dashboard/login" onClick={handleLinkClick}>
               <button className={styles.login}>Connexion</button>
             </Link>
-            <Link href="/dashboard/register">
-              <button className={styles.signup}>S'inscrire</button>
+            <Link href="/dashboard/register" onClick={handleLinkClick}>
+              <button className={styles.signup}>S&apos;inscrire</button>
             </Link>
           </>
         )}
       </section>
-    </div>
+    </nav>
   );
 };
 
