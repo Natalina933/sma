@@ -1,6 +1,3 @@
-/* Variables de couleur, taille et autres valeurs réutilisables */
-
-
 /* Container principal */
 .container {
   display: flex;
@@ -63,32 +60,138 @@
   margin: 0;
 }
 
+.sortControls {
+  display: inline-flex;
+  gap: 8px;
+  margin-left: 20px;
+  vertical-align: middle;
+}
+
+.sortButton {
+  background: none;
+  border: none;
+  color: var(--primary-color, #5a9fd4);
+  font-size: 1rem;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 4px;
+  transition: background 0.2s;
+}
+
+.sortButton:hover {
+  background: var(--primary-color, #e6f5ff);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(90, 159, 212, 0.10);
+}
+
 /* Carte de membre */
 .memberCard {
-  background-color: var(--background-color);
-  margin-bottom: 10px;
-  border: 3px solid #5a9fd4;
-  /* Bleu plus doux et pastel */
-  border-radius: var(--border-radius);
-  padding: 15px;
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  transition: box-shadow var(--transition-duration), border-color var(--transition-duration);
-  /* Transition pour la bordure */
+  justify-content: space-between;
+  gap: 24px;
+  background: rgba(255, 255, 255, 0.75);
+  border: 2px solid var(--primary-color, #5a9fd4);
+  border-radius: 18px;
+  box-shadow: 0 6px 24px rgba(90, 159, 212, 0.10), 0 1.5px 3px rgba(0, 0, 0, 0.06);
+  padding: 18px 28px;
+  margin-bottom: 18px;
+  transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+  position: relative;
+  overflow: hidden;
 }
 
-/* Effet au survol */
 .memberCard:hover {
-  box-shadow: var(--box-shadow);
-  border-color: #4e8cbf;
-  /* Bleu légèrement plus foncé au survol */
+  box-shadow: 0 12px 36px rgba(90, 159, 212, 0.14), 0 2px 8px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary-hover-color, #4e8cbf);
+  background: rgba(230, 245, 255, 0.85);
 }
 
-/* Bordure lorsque la carte est sélectionnée ou active */
+.memberAvatar {
+  min-width: 56px;
+  min-height: 56px;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #5a9fd4 60%, #feb601 100%);
+  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 18px;
+  box-shadow: 0 2px 8px rgba(90, 159, 212, 0.10);
+}
+
+.memberInfo {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.memberName {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--primary-color, #5a9fd4);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 2px;
+}
+
+.memberContact {
+  font-size: 1rem;
+  color: var(--text-color, #333);
+  opacity: 0.85;
+}
+
+.memberAddress {
+  font-size: 0.95rem;
+  color: #555;
+  opacity: 0.7;
+  margin-top: 2px;
+}
+
+.memberActions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
+}
+
+.actionButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--primary-color, #5a9fd4);
+  font-size: 1.25rem;
+  padding: 7px;
+  border-radius: 50%;
+  transition: background 0.2s, color 0.2s;
+}
+
+.actionButton:hover {
+  background: var(--primary-color, #5a9fd4);
+  color: #fff;
+}
+
+
+
+.memberActions {
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.memberAvatar {
+  margin: 0 auto 10px auto;
+}
+
 .memberCard:active {
   border-color: #87c4f9;
-  /* Bleu clair lorsqu'elle est active */
 }
 
 /* Informations sur le membre */
@@ -102,17 +205,46 @@
   gap: 10px;
 }
 
-/* Boutons d'action (modifier, supprimer) */
+/* Boutons d'action (modifier, supprimer, règlement) */
 .actionButton {
   background: none;
   border: none;
   cursor: pointer;
   color: var(--text-color);
   transition: color var(--transition-duration);
+  font-size: 18px;
+  padding: 6px;
 }
 
 .actionButton:hover {
   color: var(--primary-color);
+}
+
+/* Pagination */
+.pagination {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.pagination button {
+  padding: 10px 20px;
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  margin: 0 10px;
+  cursor: pointer;
+  transition: background-color var(--transition-duration);
+}
+
+.pagination button:hover {
+  background-color: var(--primary-hover-color);
+}
+
+.pagination button:disabled {
+  background-color: var(--border-color);
+  cursor: not-allowed;
 }
 
 /* Formulaire - groupes */
@@ -186,6 +318,51 @@
 .cityGroup {
   display: flex;
   gap: 10px;
+}
+
+/* Table responsive (si tu utilises un tableau) */
+.tableContainer {
+  overflow-x: auto;
+}
+
+.listeAdherentsTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.listeAdherentsTable th,
+.listeAdherentsTable td {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 16px;
+  color: var(--text-color);
+}
+
+.listeAdherentsTable th {
+  background-color: var(--primary-color);
+  color: white;
+  cursor: pointer;
+  transition: background-color var(--transition-duration);
+}
+
+.listeAdherentsTable th:hover {
+  background-color: var(--primary-hover-color);
+}
+
+.listeAdherentsTable td {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.listeAdherentsTable tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Icones de tri dans les th */
+.listeAdherentsTable th svg {
+  margin-left: 8px;
+  vertical-align: middle;
 }
 
 /* Responsive pour les tablettes (768px et plus) */

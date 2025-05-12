@@ -1,9 +1,9 @@
 .desc {
   font-size: var(--font-size-md);
   text-align: center;
-  color: var(--color-text);
+  color: var(--text-color);
   margin: var(--spacing-lg) 0;
-  background-color: var(--color-card-background);
+  background-color: var(--card-background);
   padding: var(--spacing-lg);
   border-radius: var(--border-radius-md);
   box-shadow: var(--box-shadow);
@@ -15,9 +15,9 @@
 }
 
 .h2 {
-  font-size: var(--font-size-sm);
+  font-size: var(--font-size-lg);
   margin-bottom: var(--spacing-sm);
-  color: var(--color-heading);
+  color: var(--heading-color);
 }
 
 .p {
@@ -31,7 +31,7 @@
   margin-bottom: var(--spacing-md);
 }
 
-/* Triangles */
+/* Triangles décoratifs */
 .backgroundArrow {
   z-index: 1;
 }
@@ -69,7 +69,6 @@
   from {
     transform: translate(-10px);
   }
-
   to {
     transform: translate(10px);
   }
@@ -96,9 +95,10 @@
     margin: var(--spacing-sm);
     height: 183px;
     padding-top: 41px;
-    background: linear-gradient(135deg, var(--color-primary), hsl(32, 100%, 53%));
+    background: linear-gradient(135deg, var(--primary-color), hsl(32, 100%, 53%));
     background-clip: text;
     color: transparent;
+    -webkit-background-clip: text;
   }
 
   .img {

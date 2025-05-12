@@ -6,13 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faTrash,
-  faPencilAlt,
-  faPlus,
-  faUser,
-  faEuroSign,
-} from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPencilAlt, faPlus, faUser, faEuroSign, faFilter } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import FiltersAdherent from "@/components/dashboard/filtersAdherent/FiltersAdherent";
 import { VisitorCounter } from "@/components/visitorCounter/VisitorCounter";
@@ -122,24 +116,49 @@ const Dashboard = () => {
       });
 
       if (!response.ok) {
-        throw new Error(
-          `Erreur lors de la modification du formulaire: ${response.statusText}`
-        );
+        // Tente de récupérer le message d'erreur détaillé de l'API
+        let errorMsg = `Erreur lors de la ${method === "POST" ? "création" : "modification"} : ${response.statusText}`;
+        try {
+          const errorData = await response.json();
+          if (errorData && errorData.message) {
+            errorMsg = errorData.message;
+          }
+        } catch {
+          // Ignore si la réponse n'est pas JSON
+        }
+        throw new Error(errorMsg);
       }
 
       await response.json();
       mutate();
       handleCloseModal();
-      alert("Modification réussie !");
+
+      // Message adapté selon l'action
+      if (method === "POST") {
+        alert("Ajout réussi !");
+      } else {
+        alert("Modification réussie !");
+      }
     } catch (error) {
-      console.error("Erreur lors de la modification du formulaire:", error);
-      alert("Erreur lors de la modification du formulaire");
+      // Affiche le message précis si disponible, sinon un message générique
+      console.error("Erreur lors de la soumission du formulaire :", error);
+      alert(error.message || "Une erreur est survenue lors de l'envoi du formulaire.");
     }
   };
 
   const handleEdit = (adherent) => {
-    setFormData(adherent);
-    setCurrentId(adherent._id);
+    setFormData({
+      id: adherent.id || "",
+      name: adherent.name || "",
+      surname: adherent.surname || "",
+      mail: adherent.mail || "",
+      phone: adherent.phone || "",
+      address: adherent.address || "",
+      complement: adherent.complement || "",
+      cp: adherent.cp || "",
+      city: adherent.city || "",
+    });
+    setCurrentId(adherent.id);
     handleOpenModal();
   };
 
@@ -179,23 +198,13 @@ const Dashboard = () => {
     }
   };
 
+  // Gestion du filtrage
   const [filteredAdherents, setFilteredAdherents] = useState([]);
   const [isFiltered, setIsFiltered] = useState(false);
 
-  const handleFilter = (filterData) => {
-    if (adherents) {
-      const filtered = adherents.filter((adherent) => {
-        return Object.keys(filterData).every((key) => {
-          if (filterData[key] === "") return true;
-          return adherent[key]
-            ?.toString()
-            .toLowerCase()
-            .includes(filterData[key].toLowerCase());
-        });
-      });
-      setFilteredAdherents(filtered);
-      setIsFiltered(true);
-    }
+  const handleFilter = (filtered) => {
+    setFilteredAdherents(filtered);
+    setIsFiltered(true);
   };
 
   const resetFilters = () => {
@@ -207,17 +216,40 @@ const Dashboard = () => {
     console.log("Reglement demandé pour l’adhérent :", id);
     // TODO: ajouter la logique plus tard
   };
+  const [sortConfig, setSortConfig] = useState({ key: "id", direction: "asc" });
+  function sortAdherents(list) {
+    if (!sortConfig.key) return list;
+    const sorted = [...list].sort((a, b) => {
+      let aValue = a[sortConfig.key];
+      let bValue = b[sortConfig.key];
 
+      // Pour le tri par nom, insensible à la casse
+      if (sortConfig.key === "name") {
+        aValue = (aValue || "").toLowerCase();
+        bValue = (bValue || "").toLowerCase();
+      }
+      // Pour le tri par date, convertir en date
+      if (sortConfig.key === "created_at" || sortConfig.key === "membership_start") {
+        aValue = new Date(aValue);
+        bValue = new Date(bValue);
+      }
+
+      if (aValue < bValue) return sortConfig.direction === "asc" ? -1 : 1;
+      if (aValue > bValue) return sortConfig.direction === "asc" ? 1 : -1;
+      return 0;
+    });
+    return sorted;
+  }
   const renderAdherents = () => {
     const list = isFiltered ? filteredAdherents : adherents;
-    if (error) return <p className={styles.emptyMessage}>Erreur de chargement</p>;
+    const sortedList = sortAdherents(list || []); if (error) return <p className={styles.emptyMessage}>Erreur de chargement</p>;
     if (!Array.isArray(list) || list.length === 0)
       return <p className={styles.emptyMessage}>Aucun adhérent trouvé</p>;
 
     return (
       <ul className={styles.memberList}>
-        {list.map((adherent, index) => (
-          <li key={adherent._id || `adherent-${index}`} className={styles.memberCard}>
+        {sortedList.map((adherent, index) => (
+          <li key={adherent.id || `adherent-${index}`} className={styles.memberCard}>
             <div className={styles.memberInfo}>
               <h2 className={styles.memberName}>
                 <FontAwesomeIcon icon={faUser} className={styles.userIcon} />
@@ -231,13 +263,13 @@ const Dashboard = () => {
               </p>
             </div>
             <div className={styles.memberActions}>
-              <button className={styles.actionButton} onClick={() => handleReglement(adherent._id)}>
+              <button className={styles.actionButton} onClick={() => handleReglement(adherent.id)}>
                 <FontAwesomeIcon icon={faEuroSign} />
               </button>
               <button className={styles.actionButton} onClick={() => handleEdit(adherent)}>
                 <FontAwesomeIcon icon={faPencilAlt} />
               </button>
-              <button className={styles.actionButton} onClick={() => handleDelete(adherent._id)}>
+              <button className={styles.actionButton} onClick={() => handleDelete(adherent.id)}>
                 <FontAwesomeIcon icon={faTrash} />
               </button>
             </div>
@@ -257,7 +289,11 @@ const Dashboard = () => {
       <div className={styles.dashboardContent}>
         <header className={styles.dashboardHeader}>
           <div className={styles.dashboardActions}>
-            <FiltersAdherent adherents={adherents} onFilter={handleFilter} />
+            <FiltersAdherent
+              adherents={adherents || []}
+              onFilter={handleFilter}
+              onReset={resetFilters}
+            />
             <button className={styles.addButton} onClick={handleAdd}>
               <FontAwesomeIcon icon={faPlus} /> Ajouter
             </button>
@@ -265,8 +301,32 @@ const Dashboard = () => {
         </header>
         <section className={styles.memberSection}>
           <h2 className={styles.sectionSubtitle}>
-            Nombre d&apos;adhérents : {adherents ? adherents.length : 0}
+            Nombre d&apos;adhérents : {isFiltered ? filteredAdherents.length : adherents ? adherents.length : 0}
+            <span className={styles.sortControls}>
+              <button
+                className={styles.sortButton}
+                onClick={() => setSortConfig({ key: "id", direction: sortConfig.key === "id" && sortConfig.direction === "asc" ? "desc" : "asc" })}
+                title="Trier par ID"
+              >
+                ID {sortConfig.key === "id" ? (sortConfig.direction === "asc" ? "▲" : "▼") : ""}
+              </button>
+              <button
+                className={styles.sortButton}
+                onClick={() => setSortConfig({ key: "name", direction: sortConfig.key === "name" && sortConfig.direction === "asc" ? "desc" : "asc" })}
+                title="Trier par nom"
+              >
+                Nom {sortConfig.key === "name" ? (sortConfig.direction === "asc" ? "▲" : "▼") : ""}
+              </button>
+              <button
+                className={styles.sortButton}
+                onClick={() => setSortConfig({ key: "created_at", direction: sortConfig.key === "created_at" && sortConfig.direction === "asc" ? "desc" : "asc" })}
+                title="Trier par date d'inscription"
+              >
+                Date {sortConfig.key === "created_at" ? (sortConfig.direction === "asc" ? "▲" : "▼") : ""}
+              </button>
+            </span>
           </h2>
+
           {renderAdherents()}
         </section>
       </div>

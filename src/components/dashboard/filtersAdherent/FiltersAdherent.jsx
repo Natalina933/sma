@@ -2,9 +2,16 @@
 import React, { useState } from "react";
 import styles from "./FiltersAdherent.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch, faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
-const FiltersAdherent = ({ adherents, onFilter }) => {
+/**
+ * FiltersAdherent
+ * @param {Array} adherents - liste complète des adhérents
+ * @param {Function} onFilter - callback pour transmettre la liste filtrée
+ * @param {Function} onReset - callback pour indiquer au parent que le filtre est réinitialisé (optionnel)
+ */
+const FiltersAdherent = ({ adherents, onFilter, onReset }) => {
+  // ⚠️ Les noms de champs doivent correspondre à ceux de la base ET du formulaire
   const [filters, setFilters] = useState({
     id: "",
     name: "",
@@ -13,12 +20,13 @@ const FiltersAdherent = ({ adherents, onFilter }) => {
     phone: "",
     address: "",
     complement: "",
-    CP: "",
+    cp: "",
     city: "",
     status: "",
   });
   const [notFound, setNotFound] = useState(false);
 
+  // Filtrage dynamique
   const handleFilterChange = (e) => {
     const { name, value } = e.target;
     const newFilters = { ...filters, [name]: value };
@@ -27,7 +35,8 @@ const FiltersAdherent = ({ adherents, onFilter }) => {
     // Appliquer les filtres
     const filteredAdherents = adherents.filter((adherent) =>
       Object.keys(newFilters).every((key) => {
-        if (!newFilters[key]) return true; // Si le filtre est vide, ne pas filtrer
+        if (!newFilters[key]) return true;
+        // Filtrage insensible à la casse
         return adherent[key]?.toString().toLowerCase().includes(newFilters[key].toLowerCase());
       })
     );
@@ -36,6 +45,7 @@ const FiltersAdherent = ({ adherents, onFilter }) => {
     onFilter(filteredAdherents);
   };
 
+  // Réinitialisation des filtres
   const handleReset = () => {
     const resetFilters = {
       id: "",
@@ -45,13 +55,14 @@ const FiltersAdherent = ({ adherents, onFilter }) => {
       phone: "",
       address: "",
       complement: "",
-      CP: "",
+      cp: "",
       city: "",
       status: "",
     };
     setFilters(resetFilters);
     setNotFound(false);
-    onFilter(adherents); // Réinitialiser les filtres
+    onFilter(adherents); // Affiche toute la liste
+    if (onReset) onReset(); // Désactive le flag de filtre côté parent (si fourni)
   };
 
   return (
@@ -65,7 +76,7 @@ const FiltersAdherent = ({ adherents, onFilter }) => {
           { name: "phone", placeholder: "Téléphone" },
           { name: "address", placeholder: "Adresse" },
           { name: "complement", placeholder: "Complément" },
-          { name: "CP", placeholder: "Code Postal" },
+          { name: "cp", placeholder: "Code Postal" }, // ⚠️ "cp" en minuscule
         ].map((field) => (
           <input
             key={field.name}
@@ -79,18 +90,15 @@ const FiltersAdherent = ({ adherents, onFilter }) => {
           />
         ))}
 
-        <select
+        <input
+          type="text"
           name="city"
+          placeholder="Ville"
           value={filters.city}
           onChange={handleFilterChange}
-          className={styles.select}
+          className={styles.input}
           aria-label="Filtrer par ville"
-        >
-          <option value="">Ville</option>
-          <option value="Paris">Paris</option>
-          <option value="Lyon">Lyon</option>
-          <option value="Marseille">Marseille</option>
-        </select>
+        />
 
         <select
           name="status"
@@ -100,11 +108,12 @@ const FiltersAdherent = ({ adherents, onFilter }) => {
           aria-label="Filtrer par statut"
         >
           <option value="">Statut</option>
-          <option value="active">Actif</option>
-          <option value="inactive">Inactif</option>
+          <option value="actif">Actif</option>
+          <option value="inactif">Inactif</option>
         </select>
 
         <button
+          type="button"
           onClick={handleReset}
           className={`${styles.button} ${styles.resetButton}`}
           aria-label="Réinitialiser les filtres"
