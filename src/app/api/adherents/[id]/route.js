@@ -1,19 +1,16 @@
 import { NextResponse } from "next/server";
-import pool from "@/utils/db"; // Connexion MySQL
+import pool from "@/utils/db";
 
 // GET : Récupérer un adhérent par ID
 export const GET = async (_request, { params }) => {
   const { id } = params;
-
   try {
-    const [rows] = await pool.query("SELECT * FROM adherents WHERE id = ?", [
+    const [rows] = await pool.query("SELECT * FROM adh_members WHERE id = ?", [
       id,
     ]);
-
     if (rows.length === 0) {
       return new NextResponse("Adhérent non trouvé", { status: 404 });
     }
-
     return new NextResponse(JSON.stringify(rows[0]), { status: 200 });
   } catch (error) {
     console.error("Erreur lors de la récupération de l'adhérent :", error);
@@ -24,20 +21,16 @@ export const GET = async (_request, { params }) => {
 // PUT : Mettre à jour un adhérent par ID
 export const PUT = async (request, { params }) => {
   const { id } = params;
-
   try {
     const data = await request.json();
     const { name, surname, mail, phone, address, complement, cp, city } = data;
-
     const [result] = await pool.query(
-      "UPDATE adherents SET name = ?, surname = ?, mail = ?, phone = ?, address = ?, complement = ?, cp = ?, city = ? WHERE id = ?",
+      "UPDATE adh_members SET name = ?, surname = ?, mail = ?, phone = ?, address = ?, complement = ?, cp = ?, city = ? WHERE id = ?",
       [name, surname, mail, phone, address, complement, cp, city, id]
     );
-
     if (result.affectedRows === 0) {
       return new NextResponse("Adhérent non trouvé", { status: 404 });
     }
-
     return new NextResponse(JSON.stringify({ id, ...data }), { status: 200 });
   } catch (error) {
     console.error("Erreur lors de la mise à jour de l'adhérent :", error);
@@ -48,16 +41,13 @@ export const PUT = async (request, { params }) => {
 // DELETE : Supprimer un adhérent par ID
 export const DELETE = async (_request, { params }) => {
   const { id } = params;
-
   try {
-    const [result] = await pool.query("DELETE FROM adherents WHERE id = ?", [
+    const [result] = await pool.query("DELETE FROM adh_members WHERE id = ?", [
       id,
     ]);
-
     if (result.affectedRows === 0) {
       return new NextResponse("Adhérent non trouvé", { status: 404 });
     }
-
     return new NextResponse(
       JSON.stringify({ message: "Supprimé avec succès" }),
       { status: 200 }

@@ -22,3 +22,28 @@ export async function GET() {
     if (connection) connection.release();
   }
 }
+
+export const POST = async (request) => {
+  let connection;
+  try {
+    const data = await request.json();
+    const { name, surname, mail, phone, address, complement, cp, city } = data;
+
+    // Validation serveur
+    if (!name || !surname || !mail || !phone) {
+      return NextResponse.json({ message: "Champs obligatoires manquants" }, { status: 400 });
+    }
+
+    connection = await pool.getConnection();
+    await connection.execute(
+      "INSERT INTO adh_members (name, surname, mail, phone, address, complement, cp, city) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+      [name, surname, mail, phone, address, complement, cp, city]
+    );
+    return NextResponse.json({ message: "Adhérent ajouté avec succès" }, { status: 201 });
+  } catch (error) {
+    console.error("Erreur API POST /api/adherents :", error);
+    return NextResponse.json({ message: "Erreur lors de l'ajout de l'adhérent" }, { status: 500 });
+  } finally {
+    if (connection) connection.release();
+  }
+};
