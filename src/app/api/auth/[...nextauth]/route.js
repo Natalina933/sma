@@ -2,8 +2,7 @@ import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcryptjs";
-import connectDB from "@/utils/db";
-import mysql from "mysql2/promise";
+import pool from "@/utils/db"; // Utilise le pool créé dans src/utils/db.js
 
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
@@ -14,13 +13,14 @@ const handler = NextAuth({
       id: "credentials",
       name: "Credentials",
       async authorize(credentials) {
-        // Connexion à la base de données MySQL
-        const connection = await connectDB();
-
+        let connection;
         try {
-          // Vérifier si l'utilisateur existe en cherchant par email
+          // Ouvre une connexion à chaque appel
+          connection = await pool.getConnection();
+
+          // Vérifie si l'utilisateur existe (adapte le nom de la table si besoin)
           const [rows] = await connection.execute(
-            "SELECT * FROM use_users WHERE email = ?",
+            "SELECT * FROM usr_users WHERE email = ?",
             [credentials.email]
           );
 
@@ -30,14 +30,14 @@ const handler = NextAuth({
 
           const user = rows[0];
 
-          // Comparer le mot de passe haché
+          // Vérifie le mot de passe haché
           const isPasswordCorrect = await bcrypt.compare(
             credentials.password,
             user.password
           );
 
           if (isPasswordCorrect) {
-            // Si l'authentification réussit, retourner l'utilisateur
+            // Retourne l'utilisateur si authentification réussie
             return {
               id: user.id,
               name: user.name,
@@ -49,6 +49,8 @@ const handler = NextAuth({
           }
         } catch (err) {
           throw new Error("Erreur serveur");
+        } finally {
+          if (connection) connection.release();
         }
       },
     }),
@@ -60,12 +62,12 @@ const handler = NextAuth({
   ],
 
   pages: {
-    // Rediriger vers la page de connexion en cas d'erreur
+    signIn: "/dashboard",
     error: "/dashboard/login",
   },
 
   callbacks: {
-    async session({ session, token, user }) {
+    async session({ session, token }) {
       session.user.id = token.id;
       return session;
     },

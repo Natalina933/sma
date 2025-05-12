@@ -9,8 +9,8 @@ const Body = () => {
                     <div className={styles.imgWrapper}>
                         <Image
                             src='/hero.jpg'
-                            layout="fill"
-                            objectFit="cover"
+                            fill
+                            style={{ objectFit: 'cover' }}
                             className={styles.image}
                             alt="Activités passionnantes"
                         />

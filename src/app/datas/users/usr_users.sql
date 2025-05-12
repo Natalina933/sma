@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `use_users` (
+CREATE TABLE IF NOT EXISTS `usr_users` (
   `id` INT NOT NULL AUTO_INCREMENT, -- Identifiant unique de l'utilisateur
   `username` VARCHAR(50) NOT NULL, -- Nom d'utilisateur
   `email` VARCHAR(191) NOT NULL, -- Adresse email unique

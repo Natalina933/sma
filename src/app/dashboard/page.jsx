@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import styles from "./page.module.css";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -57,6 +57,13 @@ const Dashboard = () => {
     city: "",
   });
 
+  // Redirection sécurisée en cas de non-authentification
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/dashboard/login");
+    }
+  }, [status, router]);
+
   const validateForm = () => {
     const newErrors = {};
     if (!formData.name) newErrors.name = "Le nom est requis";
@@ -104,7 +111,6 @@ const Dashboard = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
-
     const method = currentId ? "PUT" : "POST";
     const url = currentId ? `/api/adherents/${currentId}` : "/api/adherents";
 
@@ -241,36 +247,119 @@ const Dashboard = () => {
     );
   };
 
-  const renderContent = () => {
-    if (status === "loading") return <p>Chargement...</p>;
-    if (status === "unauthenticated") {
-      router.push("/dashboard/login");
-      return null;
-    }
-    if (status === "authenticated") {
-      return (
-        <main className={styles.dashboardContainer}>
-          <SideMenu />
-          <div className={styles.dashboardContent}>
-            <header className={styles.dashboardHeader}>
-              <div className={styles.dashboardActions}>
-                <FiltersAdherent adherents={adherents} onFilter={handleFilter} />
-                <button className={styles.addButton} onClick={handleAdd}>
-                  <FontAwesomeIcon icon={faPlus} /> Ajouter
-                </button>
-              </div>
-            </header>
-            <section className={styles.memberSection}>
-              <h2 className={styles.sectionSubtitle}>Nombre d&apos;adhérents : {adherents ? adherents.length : 0}</h2>
-              {renderAdherents()}
-            </section>
-          </div>
-        </main>
-      );
-    }
-  };
+  // Affichage conditionnel basé sur le status de la session
+  if (status === "loading") return <p>Chargement...</p>;
+  if (status === "unauthenticated") return null;
 
-  return renderContent();
+  return (
+    <main className={styles.dashboardContainer}>
+      <SideMenu />
+      <div className={styles.dashboardContent}>
+        <header className={styles.dashboardHeader}>
+          <div className={styles.dashboardActions}>
+            <FiltersAdherent adherents={adherents} onFilter={handleFilter} />
+            <button className={styles.addButton} onClick={handleAdd}>
+              <FontAwesomeIcon icon={faPlus} /> Ajouter
+            </button>
+          </div>
+        </header>
+        <section className={styles.memberSection}>
+          <h2 className={styles.sectionSubtitle}>
+            Nombre d&apos;adhérents : {adherents ? adherents.length : 0}
+          </h2>
+          {renderAdherents()}
+        </section>
+      </div>
+      {/* Modal d'ajout/édition */}
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={handleCloseModal}
+        style={customStyles}
+        contentLabel="Formulaire Adhérent"
+        ariaHideApp={false}
+      >
+        <form onSubmit={handleSubmit} className={styles.modalForm}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Nom"
+            value={formData.name}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          {errors.name && <span className={styles.error}>{errors.name}</span>}
+          <input
+            type="text"
+            name="surname"
+            placeholder="Prénom"
+            value={formData.surname}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          {errors.surname && <span className={styles.error}>{errors.surname}</span>}
+          <input
+            type="email"
+            name="mail"
+            placeholder="Email"
+            value={formData.mail}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          {errors.mail && <span className={styles.error}>{errors.mail}</span>}
+          <input
+            type="text"
+            name="phone"
+            placeholder="Téléphone"
+            value={formData.phone}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          {errors.phone && <span className={styles.error}>{errors.phone}</span>}
+          <input
+            type="text"
+            name="address"
+            placeholder="Adresse"
+            value={formData.address}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          <input
+            type="text"
+            name="complement"
+            placeholder="Complément"
+            value={formData.complement}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          <input
+            type="text"
+            name="cp"
+            placeholder="Code postal"
+            value={formData.cp}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          {errors.cp && <span className={styles.error}>{errors.cp}</span>}
+          <input
+            type="text"
+            name="city"
+            placeholder="Ville"
+            value={formData.city}
+            onChange={handleChange}
+            className={styles.input}
+          />
+          <div className={styles.modalActions}>
+            <button type="submit" className={styles.saveButton}>
+              {currentId ? "Modifier" : "Ajouter"}
+            </button>
+            <button type="button" className={styles.cancelButton} onClick={handleCloseModal}>
+              Annuler
+            </button>
+          </div>
+        </form>
+      </Modal>
+    </main>
+  );
 };
 
 export default Dashboard;

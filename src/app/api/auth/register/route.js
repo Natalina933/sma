@@ -7,7 +7,7 @@ export const POST = async (request) => {
   try {
     const { username, email, password } = await request.json();
 
-    // Vérification des champs obligatoires
+    // Validation basique
     if (!username || !email || !password) {
       return NextResponse.json(
         { message: "Champs obligatoires manquants" },
@@ -17,25 +17,24 @@ export const POST = async (request) => {
 
     connection = await pool.getConnection();
 
-    // Vérifier si l'utilisateur existe déjà
-    const [existingUser] = await connection.execute(
-      "SELECT id FROM use_users WHERE email = ? OR username = ?",
+    // Vérifie unicité email et username
+    const [existing] = await connection.execute(
+      "SELECT id FROM usr_users WHERE email = ? OR username = ?",
       [email, username]
     );
-
-    if (existingUser.length > 0) {
+    if (existing.length > 0) {
       return NextResponse.json(
         { message: "Email ou nom d'utilisateur déjà utilisé" },
         { status: 409 }
       );
     }
 
-    // Hacher le mot de passe
+    // Hash du mot de passe
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    // Insérer le nouvel utilisateur
+    // Insertion
     await connection.execute(
-      "INSERT INTO use_users (username, email, password) VALUES (?, ?, ?)",
+      "INSERT INTO usr_users (username, email, password) VALUES (?, ?, ?)",
       [username, email, hashedPassword]
     );
 
