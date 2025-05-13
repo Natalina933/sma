@@ -4,153 +4,112 @@ import styles from "./page.module.css";
 import { getProviders, signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
 
 const Login = () => {
   const session = useSession();
   const router = useRouter();
   const [info, setInfo] = useState({
-    email: "", password: "",
+    email: "",
+    password: "",
   });
-
-  const params = useSearchParams();
-
-  // États pour gérer les messages d'erreur et de succès
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
+  const params = useSearchParams();
+
+  useEffect(() => {
+    if (session.status === "authenticated") {
+      router?.push("/dashboard");
+    }
+  }, [session.status, router]);
 
   function handleInput(e) {
     setInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
   async function handleSubmit(e) {
-    // Vérifie si tous les champs sont remplis
     e.preventDefault();
-    // console.log("inside handleSubmit");
-    if (
-      !info.email ||
-      !info.password
-    ) {
-      setError("Doit fournir toutes les informations d'identification");
+    
+    if (!info.email || !info.password) {
+      setError("Veuillez remplir tous les champs");
+      return;
     }
-    console.log(info);
 
     try {
       setPending(true);
-      const res = await signIn('credentials', {
+      const res = await signIn("credentials", {
         email: info.email,
         password: info.password,
-        redirect: false
-      })
-      if (res.error) {
-        setError("Invalid Credentials.")
-        setPending(false)
+        redirect: false,
+      });
+
+      if (res?.error) {
+        setError("Identifiants invalides");
+        setPending(false);
         return;
       }
-      router.replace("/dashboard")
+
+      router.replace("/dashboard");
 
     } catch (error) {
       setPending(false);
-      setError("quelque chose ne fonctionne pas");
+      setError("Une erreur est survenue");
     }
   }
-  // console.log({info});
-  //   useEffect(() => {
-  //     // Mettre à jour les états des erreurs et des succès à partir des paramètres de recherche
-  //     setError(params.get("error"));
-  //     setSuccess(params.get("success"));
-  //   }, [params]);
-  // // Si la session est en cours de chargement, afficher "Chargement..."
-  //   if (session.status === "loading") {
-  //     return <p>Loading...</p>;
-  //   }
-  // // Si l'utilisateur est authentifié, rediriger vers "/dashboard"
-  //   if (session.status === "authenticated") {
-  //     console.log("Redirection vers le tableau de bord...")
-  //     router?.push("/dashboard");
-  //   }
-
-  //   const handleSubmit = (e) => {
-  //     e.preventDefault();
-  //     const email = e.target[0].value;
-  //     const password = e.target[1].value;
-  //     // Affichage des informations saisies dans le formulaire
-  //     console.log("Email soumis :", email);
-  //     console.log("Mot de passe soumis :", password);
-
-  //     // Connexion avec les informations saisies
-  //     signIn("credentials", {
-  //       email,
-  //       password,
-  //     });
-  //   };
 
   return (
     <div className={styles.container}>
-      {/* Formulaire de connexion */}
-      {/* <h1 className={styles.title}>{success ? success : "Welcome Back"}</h1> */}
-      <h2 className={styles.subtitle}>Please sign in to see the dashboard.</h2>
+      <h2 className={styles.subtitle}>Connectez-vous pour accéder au tableau de bord</h2>
       <form className={styles.form} onSubmit={handleSubmit}>
-        <h2>Connectez-vous</h2>
+        <h2>Connexion</h2>
         <Link href="/dashboard/register">Pas de compte ? Inscrivez-vous</Link>
-        <input
-          type="email"
-          placeholder="Email"
-          className={styles.input}
-          onChange={(e) => handleInput(e)}
-          name="email"
-          required
-          autoComplete="email"
-        />
-        <input
-          type="password"
-          placeholder="password"
-          className={styles.input}
-          onChange={(e) => handleInput(e)}
-          name="password"
-          required
-          autoComplete="current-password"
-        />
-        {error && <p className="message">{error}</p>}
-        <button className={styles.button}
-          disabled={pending ? true : false}
-        >
-          {pending ? "logging in " : "Connexion"}</button>
-      </form>
-      {/* <span>ou</span> */}
-      {/* <button
-        onClick={async () => {
-          const res = await signIn('google');
-          console.log("Appel de signIn('google') avec l'adresse e-mail :", info.email);
-          if (res.error) {
-            setError("Invalid Credentials.");
-            console.log("Réponse de signIn('google') :", res);
-          } else {
-            router.replace("/dashboard");
-          }
-        }}
-        className={styles.button + " " + styles.google}
-      >
-        Connectez-vous avec votre compte Google
-      </button> */}
+        
+        <div className={styles.inputGroup}>
+          <input
+            type="email"
+            placeholder="Email"
+            className={styles.input}
+            onChange={handleInput}
+            name="email"
+            required
+            autoComplete="email"
+          />
+        </div>
 
-      {/* {showResetPassword && (
-  <div>
-    <h2>Mot de passe oublié</h2>
-    <form className={styles.form} onSubmit={handleSubmit}>
-      <h2>Réinitialiser votre mot de passe</h2>
-      <input
-        type="email"
-        placeholder="Adresse email"
-        className={styles.input}
-        name="email"
-        required
-        autoComplete="email"
-      />
-      <button type="submit" className={styles.button}>
-        Réinitialiser le mot de passe
-      </button>
-    </form> */}
+        <div className={styles.inputGroup}>
+          <div className={styles.passwordContainer}>
+            <input
+              type={showPassword ? "text" : "password"}
+              placeholder="Mot de passe"
+              className={styles.input}
+              onChange={handleInput}
+              name="password"
+              required
+              autoComplete="current-password"
+            />
+            <button
+              type="button"
+              className={styles.passwordToggle}
+              onClick={() => setShowPassword(!showPassword)}
+              aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
+            >
+              {showPassword ? <RiEyeOffFill /> : <RiEyeFill />}
+            </button>
+          </div>
+        </div>
+
+        {error && <p className={styles.errorMessage}>{error}</p>}
+
+        <button
+          className={styles.button}
+          disabled={pending}
+        >
+          {pending ? "Connexion en cours..." : "Se connecter"}
+        </button>
+      </form>
     </div>
-  )
+  );
 };
+
 export default Login;
