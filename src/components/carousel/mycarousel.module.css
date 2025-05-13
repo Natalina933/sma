@@ -127,7 +127,7 @@
 }
 
 .button {
-  color: #fff;
+  /* color: #fff; */
   font-size: var(--font-size-sm);
   padding: 0.8rem 1.2rem;
   min-width: 120px;
@@ -146,7 +146,7 @@
 
 .infoButton {
   background-color: var(--color-primary);
-  color: #fff;
+  /* color: #fff; */
   font-size: 0.85rem;
   /* Taille de texte plus petite */
   padding: 0.6rem 1.2rem;
