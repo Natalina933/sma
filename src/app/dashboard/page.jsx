@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencilAlt, faPlus, faUser, faEuroSign, faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPencilAlt, faPlus, faUser, faEuroSign } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import FiltersAdherent from "@/components/dashboard/filtersAdherent/FiltersAdherent";
 import { VisitorCounter } from "@/components/visitorCounter/VisitorCounter";
@@ -51,7 +51,6 @@ const Dashboard = () => {
     city: "",
   });
 
-  // Redirection sécurisée en cas de non-authentification
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/dashboard/login");
@@ -80,6 +79,7 @@ const Dashboard = () => {
   };
 
   const handleOpenModal = () => setModalIsOpen(true);
+
   const handleCloseModal = () => {
     setModalIsOpen(false);
     setFormData({
@@ -116,7 +116,6 @@ const Dashboard = () => {
       });
 
       if (!response.ok) {
-        // Tente de récupérer le message d'erreur détaillé de l'API
         let errorMsg = `Erreur lors de la ${method === "POST" ? "création" : "modification"} : ${response.statusText}`;
         try {
           const errorData = await response.json();
@@ -133,14 +132,12 @@ const Dashboard = () => {
       mutate();
       handleCloseModal();
 
-      // Message adapté selon l'action
       if (method === "POST") {
         alert("Ajout réussi !");
       } else {
         alert("Modification réussie !");
       }
     } catch (error) {
-      // Affiche le message précis si disponible, sinon un message générique
       console.error("Erreur lors de la soumission du formulaire :", error);
       alert(error.message || "Une erreur est survenue lors de l'envoi du formulaire.");
     }
@@ -163,9 +160,12 @@ const Dashboard = () => {
   };
 
   const generateNewId = () => {
-    if (!adherents || adherents.length === 0) return 1;
+    const adherentsList = Array.isArray(adherents)
+      ? adherents
+      : (adherents && Array.isArray(adherents.adherents) ? adherents.adherents : []);
+    if (!adherentsList || adherentsList.length === 0) return 1;
     const maxId = Math.max(
-      ...adherents.map((adherent) => parseInt(adherent.id, 10) || 0)
+      ...adherentsList.map((adherent) => parseInt(adherent.id, 10) || 0)
     );
     return maxId + 1;
   };
@@ -216,8 +216,11 @@ const Dashboard = () => {
     console.log("Reglement demandé pour l’adhérent :", id);
     // TODO: ajouter la logique plus tard
   };
+
   const [sortConfig, setSortConfig] = useState({ key: "id", direction: "asc" });
+
   function sortAdherents(list) {
+    if (!Array.isArray(list)) return [];
     if (!sortConfig.key) return list;
     const sorted = [...list].sort((a, b) => {
       let aValue = a[sortConfig.key];
@@ -240,9 +243,14 @@ const Dashboard = () => {
     });
     return sorted;
   }
+
   const renderAdherents = () => {
-    const list = isFiltered ? filteredAdherents : adherents;
-    const sortedList = sortAdherents(list || []); if (error) return <p className={styles.emptyMessage}>Erreur de chargement</p>;
+    const adherentsList = Array.isArray(adherents)
+      ? adherents
+      : (adherents && Array.isArray(adherents.adherents) ? adherents.adherents : []);
+    const list = isFiltered ? filteredAdherents : adherentsList;
+    const sortedList = sortAdherents(list || []);
+    if (error) return <p className={styles.emptyMessage}>Erreur de chargement</p>;
     if (!Array.isArray(list) || list.length === 0)
       return <p className={styles.emptyMessage}>Aucun adhérent trouvé</p>;
 
@@ -279,7 +287,6 @@ const Dashboard = () => {
     );
   };
 
-  // Affichage conditionnel basé sur le status de la session
   if (status === "loading") return <p>Chargement...</p>;
   if (status === "unauthenticated") return null;
 
@@ -301,32 +308,64 @@ const Dashboard = () => {
         </header>
         <section className={styles.memberSection}>
           <h2 className={styles.sectionSubtitle}>
-            Nombre d&apos;adhérents : {isFiltered ? filteredAdherents.length : adherents ? adherents.length : 0}
+            Nombre d&apos;adhérents : {isFiltered
+              ? filteredAdherents.length
+              : Array.isArray(adherents)
+                ? adherents.length
+                : adherents && Array.isArray(adherents.adherents)
+                  ? adherents.adherents.length
+                  : 0}
+          </h2>
+          <div className={styles.sortBar}>
+            <span className={styles.sortLabel}>Trier par&nbsp;:</span>
             <span className={styles.sortControls}>
               <button
                 className={styles.sortButton}
-                onClick={() => setSortConfig({ key: "id", direction: sortConfig.key === "id" && sortConfig.direction === "asc" ? "desc" : "asc" })}
+                onClick={() =>
+                  setSortConfig({
+                    key: "id",
+                    direction:
+                      sortConfig.key === "id" && sortConfig.direction === "asc"
+                        ? "desc"
+                        : "asc",
+                  })
+                }
                 title="Trier par ID"
               >
                 ID {sortConfig.key === "id" ? (sortConfig.direction === "asc" ? "▲" : "▼") : ""}
               </button>
               <button
                 className={styles.sortButton}
-                onClick={() => setSortConfig({ key: "name", direction: sortConfig.key === "name" && sortConfig.direction === "asc" ? "desc" : "asc" })}
+                onClick={() =>
+                  setSortConfig({
+                    key: "name",
+                    direction:
+                      sortConfig.key === "name" && sortConfig.direction === "asc"
+                        ? "desc"
+                        : "asc",
+                  })
+                }
                 title="Trier par nom"
               >
                 Nom {sortConfig.key === "name" ? (sortConfig.direction === "asc" ? "▲" : "▼") : ""}
               </button>
               <button
                 className={styles.sortButton}
-                onClick={() => setSortConfig({ key: "created_at", direction: sortConfig.key === "created_at" && sortConfig.direction === "asc" ? "desc" : "asc" })}
+                onClick={() =>
+                  setSortConfig({
+                    key: "created_at",
+                    direction:
+                      sortConfig.key === "created_at" && sortConfig.direction === "asc"
+                        ? "desc"
+                        : "asc",
+                  })
+                }
                 title="Trier par date d'inscription"
               >
                 Date {sortConfig.key === "created_at" ? (sortConfig.direction === "asc" ? "▲" : "▼") : ""}
               </button>
             </span>
-          </h2>
-
+          </div>
           {renderAdherents()}
         </section>
       </div>
@@ -408,6 +447,7 @@ const Dashboard = () => {
             onChange={handleChange}
             className={styles.input}
           />
+          
           <div className={styles.modalActions}>
             <button type="submit" className={styles.saveButton}>
               {currentId ? "Modifier" : "Ajouter"}
