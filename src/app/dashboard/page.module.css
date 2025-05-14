@@ -363,6 +363,30 @@
   margin-left: 8px;
   vertical-align: middle;
 }
+.sortBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Tout à droite */
+  gap: 10px;
+  margin-bottom: 18px;
+  width: 100%;
+}
+
+.sortLabel {
+  font-size: 1rem;
+  color: var(--text-color, #333);
+  font-weight: 500;
+  margin-right: 4px;
+  /* Optionnel : pour un look plus doux */
+  opacity: 0.85;
+}
+
+.sortControls {
+  display: inline-flex;
+  gap: 8px;
+  vertical-align: middle;
+}
+
 
 /* Responsive pour les tablettes (768px et plus) */
 @media (min-width: 768px) {

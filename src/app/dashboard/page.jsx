@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTrash, faPencilAlt, faPlus, faUser, faEuroSign, faFilter } from "@fortawesome/free-solid-svg-icons";
+import { faTrash, faPencilAlt, faPlus, faUser, faEuroSign } from "@fortawesome/free-solid-svg-icons";
 import Modal from "react-modal";
 import FiltersAdherent from "@/components/dashboard/filtersAdherent/FiltersAdherent";
 import { VisitorCounter } from "@/components/visitorCounter/VisitorCounter";
@@ -51,7 +51,6 @@ const Dashboard = () => {
     city: "",
   });
 
-  // Redirection sécurisée en cas de non-authentification
   useEffect(() => {
     if (status === "unauthenticated") {
       router.push("/dashboard/login");
@@ -116,7 +115,6 @@ const Dashboard = () => {
       });
 
       if (!response.ok) {
-        // Tente de récupérer le message d'erreur détaillé de l'API
         let errorMsg = `Erreur lors de la ${method === "POST" ? "création" : "modification"} : ${response.statusText}`;
         try {
           const errorData = await response.json();
@@ -133,14 +131,12 @@ const Dashboard = () => {
       mutate();
       handleCloseModal();
 
-      // Message adapté selon l'action
       if (method === "POST") {
         alert("Ajout réussi !");
       } else {
         alert("Modification réussie !");
       }
     } catch (error) {
-      // Affiche le message précis si disponible, sinon un message générique
       console.error("Erreur lors de la soumission du formulaire :", error);
       alert(error.message || "Une erreur est survenue lors de l'envoi du formulaire.");
     }
@@ -216,6 +212,8 @@ const Dashboard = () => {
     console.log("Reglement demandé pour l’adhérent :", id);
     // TODO: ajouter la logique plus tard
   };
+
+  // Tri
   const [sortConfig, setSortConfig] = useState({ key: "id", direction: "asc" });
   function sortAdherents(list) {
     if (!sortConfig.key) return list;
@@ -223,12 +221,10 @@ const Dashboard = () => {
       let aValue = a[sortConfig.key];
       let bValue = b[sortConfig.key];
 
-      // Pour le tri par nom, insensible à la casse
       if (sortConfig.key === "name") {
         aValue = (aValue || "").toLowerCase();
         bValue = (bValue || "").toLowerCase();
       }
-      // Pour le tri par date, convertir en date
       if (sortConfig.key === "created_at" || sortConfig.key === "membership_start") {
         aValue = new Date(aValue);
         bValue = new Date(bValue);
@@ -240,9 +236,11 @@ const Dashboard = () => {
     });
     return sorted;
   }
+
   const renderAdherents = () => {
     const list = isFiltered ? filteredAdherents : adherents;
-    const sortedList = sortAdherents(list || []); if (error) return <p className={styles.emptyMessage}>Erreur de chargement</p>;
+    const sortedList = sortAdherents(list || []);
+    if (error) return <p className={styles.emptyMessage}>Erreur de chargement</p>;
     if (!Array.isArray(list) || list.length === 0)
       return <p className={styles.emptyMessage}>Aucun adhérent trouvé</p>;
 
@@ -279,7 +277,6 @@ const Dashboard = () => {
     );
   };
 
-  // Affichage conditionnel basé sur le status de la session
   if (status === "loading") return <p>Chargement...</p>;
   if (status === "unauthenticated") return null;
 
@@ -302,6 +299,9 @@ const Dashboard = () => {
         <section className={styles.memberSection}>
           <h2 className={styles.sectionSubtitle}>
             Nombre d&apos;adhérents : {isFiltered ? filteredAdherents.length : adherents ? adherents.length : 0}
+          </h2>
+          <div className={styles.sortBar}>
+            <span className={styles.sortLabel}>Trier par&nbsp;:</span>
             <span className={styles.sortControls}>
               <button
                 className={styles.sortButton}
@@ -325,12 +325,10 @@ const Dashboard = () => {
                 Date {sortConfig.key === "created_at" ? (sortConfig.direction === "asc" ? "▲" : "▼") : ""}
               </button>
             </span>
-          </h2>
-
+          </div>
           {renderAdherents()}
         </section>
       </div>
-      {/* Modal d'ajout/édition */}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={handleCloseModal}
