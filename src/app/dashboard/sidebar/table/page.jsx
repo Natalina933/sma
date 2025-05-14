@@ -3,41 +3,53 @@
 import { useState } from "react";
 import styles from "./page.module.css";
 import { ChevronUp, ChevronDown } from "lucide-react";
+import useSWR from "swr";
 
-const adherents = Array.from({ length: 457 }, (_, i) => ({
-  id: i + 1,
-  numero: i + 1000,
-  nom: `Nom${i + 1}`,
-  prenom: `Prénom${i + 1}`,
-  codePostal: "75000",
-  ville: "Paris",
-  statut: i % 2 === 0 ? "Actif" : "Inactif",
-}));
+// Utilisation d'une API dynamique (pagination/tri côté serveur recommandé pour de gros volumes)
+const fetcher = (url) => fetch(url).then(res => res.json());
 
 export default function ListeAdherents() {
   const [page, setPage] = useState(1);
-  const [sortConfig, setSortConfig] = useState({ key: null, direction: "asc" });
+  const [sortConfig, setSortConfig] = useState({ key: "id", direction: "asc" });
 
   const resultsPerPage = 20;
-  const totalPages = Math.ceil(adherents.length / resultsPerPage);
+
+  // Appel de l'API avec pagination et tri
+  const { data, error } = useSWR(
+    `/api/adherents?page=${page}&limit=${resultsPerPage}&sort=${sortConfig.key}&direction=${sortConfig.direction}`,
+    fetcher
+  );
+
+  if (error) return <p>Erreur de chargement</p>;
+  if (!data) return <p>Chargement...</p>;
+
+  const adherents = data.adherents || [];
+  const total = data.total || 0;
+  const totalPages = Math.ceil(total / resultsPerPage);
+
+  // Colonnes à afficher (adaptées à ta base)
+  const columns = [
+    { key: "id", label: "ID" },
+    { key: "name", label: "Nom" },
+    { key: "surname", label: "Prénom" },
+    { key: "mail", label: "Email" },
+    { key: "phone", label: "Téléphone" },
+    { key: "city", label: "Ville" },
+    { key: "cp", label: "CP" },
+    { key: "membership_type", label: "Type" },
+    { key: "membership_start", label: "Début adhésion" },
+    { key: "membership_end", label: "Fin adhésion" },
+    { key: "payment_status", label: "Paiement" },
+    { key: "status", label: "Statut" },
+  ];
 
   const handleSort = (key) => {
     setSortConfig((prev) => ({
       key,
       direction: prev.key === key && prev.direction === "asc" ? "desc" : "asc",
     }));
+    setPage(1); // On revient à la première page si on change le tri
   };
-
-  const sortedAdherents = [...adherents].sort((a, b) => {
-    if (!sortConfig.key) return 0;
-    const order = sortConfig.direction === "asc" ? 1 : -1;
-    return a[sortConfig.key] > b[sortConfig.key] ? order : -order;
-  });
-
-  const paginatedAdherents = sortedAdherents.slice(
-    (page - 1) * resultsPerPage,
-    page * resultsPerPage
-  );
 
   return (
     <div className={styles.listeAdherentsContainer}>
@@ -45,15 +57,20 @@ export default function ListeAdherents() {
         <h1>Liste des adhérents</h1>
         <button>Ajouter un adhérent</button>
       </div>
-      <p>Page {page} sur {totalPages} ({adherents.length} résultat(s))</p>
+      <p>Page {page} sur {totalPages} ({total} résultat{total > 1 ? "s" : ""})</p>
       <div className={styles.tableContainer}>
         <table className={styles.listeAdherentsTable}>
           <thead>
             <tr>
-              {["numero", "nom", "prenom", "codePostal", "ville", "statut"].map((key) => (
-                <th key={key} onClick={() => handleSort(key)} className="cursor-pointer">
-                  {key.charAt(0).toUpperCase() + key.slice(1)}
-                  {sortConfig.key === key && (
+              {columns.map((col) => (
+                <th
+                  key={col.key}
+                  onClick={() => handleSort(col.key)}
+                  className={styles.sortableHeader}
+                  style={{ cursor: "pointer" }}
+                >
+                  {col.label}
+                  {sortConfig.key === col.key && (
                     sortConfig.direction === "asc" ? <ChevronUp /> : <ChevronDown />
                   )}
                 </th>
@@ -61,22 +78,32 @@ export default function ListeAdherents() {
             </tr>
           </thead>
           <tbody>
-            {paginatedAdherents.map((adherent) => (
-              <tr key={adherent.id} className="cursor-pointer hover:bg-gray-100">
-                <td>{adherent.numero}</td>
-                <td>{adherent.nom}</td>
-                <td>{adherent.prenom}</td>
-                <td>{adherent.codePostal}</td>
-                <td>{adherent.ville}</td>
-                <td>{adherent.statut}</td>
+            {adherents.map((a) => (
+              <tr key={a.id}>
+                {columns.map((col) => (
+                  <td key={col.key}>{a[col.key] ?? ""}</td>
+                ))}
               </tr>
             ))}
           </tbody>
         </table>
       </div>
-      <div className="pagination">
-        <button disabled={page === 1} onClick={() => setPage(page - 1)}>Précédent</button>
-        <button disabled={page === totalPages} onClick={() => setPage(page + 1)}>Suivant</button>
+      <div className={styles.pagination}>
+        <button
+          disabled={page === 1}
+          onClick={() => setPage(page - 1)}
+          className={styles.paginationButton}
+        >
+          Précédent
+        </button>
+        <span>Page {page} sur {totalPages}</span>
+        <button
+          disabled={page === totalPages}
+          onClick={() => setPage(page + 1)}
+          className={styles.paginationButton}
+        >
+          Suivant
+        </button>
       </div>
     </div>
   );

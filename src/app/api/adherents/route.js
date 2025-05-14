@@ -1,20 +1,37 @@
 import pool from "@/utils/db";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(request) {
   let connection;
   try {
-    console.log("GET /api/adherents - Début");
+    // Récupérer les paramètres de la requête
+    const { searchParams } = new URL(request.url);
+    const page = parseInt(searchParams.get("page")) || 1;
+    const limit = parseInt(searchParams.get("limit")) || 20;
+    const offset = (page - 1) * limit;
+    const sort = searchParams.get("sort") || "id";
+    const direction = searchParams.get("direction") === "desc" ? "DESC" : "ASC";
+
+    // Liste blanche des champs de tri autorisés
+    const allowedSorts = [
+      "id", "name", "surname", "mail", "phone", "city", "cp",
+      "membership_type", "membership_start", "membership_end", "payment_status", "status"
+    ];
+    const sortKey = allowedSorts.includes(sort) ? sort : "id";
+
     connection = await pool.getConnection();
-    console.log("GET /api/adherents - Connexion à la DB réussie");
 
-    const sql = "SELECT * FROM adh_members";
-    console.log("GET /api/adherents - SQL:", sql);
+    // Compter le nombre total d'adhérents
+    const [countRows] = await connection.query("SELECT COUNT(*) as count FROM adh_members");
+    const total = countRows[0].count;
 
-    const [adh_members] = await connection.query(sql);
-    console.log("GET /api/adherents - Résultats :", adh_members);
+    // Récupérer les adhérents paginés et triés
+    const [rows] = await connection.query(
+      `SELECT * FROM adh_members ORDER BY ${sortKey} ${direction} LIMIT ? OFFSET ?`,
+      [limit, offset]
+    );
 
-    return NextResponse.json(adh_members, { status: 200 });
+    return NextResponse.json({ adherents: rows, total }, { status: 200 });
   } catch (error) {
     console.error("GET /api/adherents - Erreur :", error);
     return NextResponse.json({ error: "Failed to fetch adherents" }, { status: 500 });
