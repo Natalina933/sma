@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import styles from "../../adherents.module.css"; // adapte ce chemin à ton projet
+import styles from "./page.module.css"; // adapte ce chemin à ton projet
 
 export default function EditAdherentPage() {
     const router = useRouter();
@@ -29,6 +29,7 @@ export default function EditAdherentPage() {
         const fetchAdherent = async () => {
             try {
                 const res = await fetch(`/api/adherents/${id}`);
+                console.log("Fetch status:", res.status);
                 if (!res.ok) {
                     alert("Adhérent non trouvé");
                     router.push("/dashboard");

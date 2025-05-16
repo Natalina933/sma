@@ -129,7 +129,7 @@ export default function AddAdherentPage() {
                     onChange={handleChange}
                 />
 
-                <label>Date de début d&apos;adhésion</label>
+                <label>Date d&apos;adhésion</label>
                 <input
                     type="date"
                     name="membership_start"
