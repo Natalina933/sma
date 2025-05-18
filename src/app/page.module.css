@@ -96,9 +96,9 @@
     height: 183px;
     padding-top: 41px;
     background: linear-gradient(135deg, var(--primary-color), hsl(32, 100%, 53%));
-    background-clip: text;
     color: transparent;
     -webkit-background-clip: text;
+    background-clip: text;
   }
 
   .img {
