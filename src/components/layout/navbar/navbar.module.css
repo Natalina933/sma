@@ -87,7 +87,8 @@
 }
 
 .login,
-.signup {
+.signup,
+.logout {
   padding: 0.4em 1em;
   border: none;
   border-radius: 18px;
@@ -122,21 +123,9 @@
   color: #fff;
 }
 
-.logout {
-  background: #ff4d4d;
-  color: #fff;
-  border: none;
-  border-radius: 25px;
-  padding: 0.6em 1.5em;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
 
-.logout:hover {
-  background: #d93636;
-}
+
+
 
 /* Pour les icônes */
 .loginIcon,

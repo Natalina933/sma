@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import PropTypes from "prop-types";
 import styles from "./FiltersAdherent.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faFilter } from "@fortawesome/free-solid-svg-icons";
@@ -10,7 +11,7 @@ import { faFilter } from "@fortawesome/free-solid-svg-icons";
  * @param {Function} onFilter - callback pour transmettre la liste filtrée
  * @param {Function} onReset - callback pour indiquer au parent que le filtre est réinitialisé (optionnel)
  */
-const FiltersAdherent = ({ adherents, onFilter, onReset }) => {
+const FiltersAdherent = ({ adherents = [], onFilter, onReset }) => {
   // ⚠️ Les noms de champs doivent correspondre à ceux de la base ET du formulaire
   const [filters, setFilters] = useState({
     id: "",
@@ -36,7 +37,6 @@ const FiltersAdherent = ({ adherents, onFilter, onReset }) => {
     const filteredAdherents = adherents.filter((adherent) =>
       Object.keys(newFilters).every((key) => {
         if (!newFilters[key]) return true;
-        // Filtrage insensible à la casse
         return adherent[key]?.toString().toLowerCase().includes(newFilters[key].toLowerCase());
       })
     );
@@ -76,7 +76,7 @@ const FiltersAdherent = ({ adherents, onFilter, onReset }) => {
           { name: "phone", placeholder: "Téléphone" },
           { name: "address", placeholder: "Adresse" },
           { name: "complement", placeholder: "Complément" },
-          { name: "cp", placeholder: "Code Postal" }, // ⚠️ "cp" en minuscule
+          { name: "cp", placeholder: "Code Postal" },
         ].map((field) => (
           <input
             key={field.name}
@@ -130,6 +130,12 @@ const FiltersAdherent = ({ adherents, onFilter, onReset }) => {
       )}
     </div>
   );
+};
+
+FiltersAdherent.propTypes = {
+  adherents: PropTypes.array.isRequired,
+  onFilter: PropTypes.func.isRequired,
+  onReset: PropTypes.func,
 };
 
 export default FiltersAdherent;
