@@ -64,18 +64,30 @@ const Navbar = () => {
         ))}
 
         {session ? (
-          <button className={styles.logout} onClick={() => { signOut(); handleLinkClick(); }}>
+          <button
+            className={styles.logout}
+            onClick={() => {
+              signOut();
+              handleLinkClick();
+            }}
+          >
             Déconnexion
           </button>
         ) : (
-          <>
-            <Link href="/dashboard/login" onClick={handleLinkClick}>
-              <button className={styles.login}>Connexion</button>
+          <div className={styles.authButtons}>
+            <Link href="/dashboard/login" onClick={handleLinkClick} className={styles.loginLink}>
+              <button className={styles.login}>
+                <FontAwesomeIcon icon={faBars} className={styles.loginIcon} />
+                Connexion
+              </button>
             </Link>
-            <Link href="/dashboard/register" onClick={handleLinkClick}>
-              <button className={styles.signup}>S&apos;inscrire</button>
+            <Link href="/dashboard/register" onClick={handleLinkClick} className={styles.signupLink}>
+              <button className={styles.signup}>
+                <FontAwesomeIcon icon={faTimes} className={styles.signupIcon} />
+                S&apos;inscrire
+              </button>
             </Link>
-          </>
+          </div>
         )}
       </section>
     </nav>

@@ -4,11 +4,12 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-family: Arial, sans-serif;
-  padding: 0 20px;
+  font-family: "Roboto", Arial, sans-serif;
+  padding: 0 var(--spacing-lg);
   background-color: floralwhite;
   position: relative;
   z-index: 1000;
+  box-shadow: var(--box-shadow);
 }
 
 .logoContainer {
@@ -38,25 +39,30 @@
 .links {
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: var(--spacing-xs);
 }
 
 /* Liens individuels */
 .link {
-  text-decoration: none;
-  font-size: 16px;
-  transition: color 0.5s, background-color 0.5s;
-  position: relative;
-  text-align: center;
-  color: #042e62;
+  font-size: var(--font-size-sm); 
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border-radius: var(--border-radius-md);
+  transition: background var(--transition-duration), color var(--transition-duration);
+  color: var(--primary-dark-color);
+  background: transparent;
+  font-weight: 500;
+  outline: none;
+}
+.link:focus-visible {
+  box-shadow: 0 0 0 2px var(--primary-color);
+  background: var(--color-background-light);
+}
+.link:hover,
+.link:active {
+  background: var(--color-background-light);
+  color: var(--secondary-color);
 }
 
-.link:hover {
-  color: #e39b4e;
-  background-color: #f0f0f0;
-  border-radius: 3px;
-  padding: 3px;
-}
 
 .linkIcon {
   margin-right: 6px;
@@ -74,6 +80,69 @@
   transition: background-color 0.5s, color 0.5s;
 }
 
+.authButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.login,
+.signup {
+  padding: 0.4em 1em;
+  border: none;
+  border-radius: 18px;
+  font-weight: 400;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.login {
+  background: linear-gradient(90deg, #6c63ff 0%, #48c6ef 100%);
+  color: #fff;
+}
+
+.login:hover {
+  background: linear-gradient(90deg, #48c6ef 0%, #6c63ff 100%);
+  color: #fff;
+}
+
+.signup {
+  background: #fff;
+  color: #6c63ff;
+  border: 2px solid #6c63ff;
+}
+
+.signup:hover {
+  background: #6c63ff;
+  color: #fff;
+}
+
+.logout {
+  background: #ff4d4d;
+  color: #fff;
+  border: none;
+  border-radius: 25px;
+  padding: 0.6em 1.5em;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s;
+}
+
+.logout:hover {
+  background: #d93636;
+}
+
+/* Pour les icônes */
+.loginIcon,
+.signupIcon {
+  font-size: 1.1em;
+}
 .logout:hover {
   background-color: #e39b4e;
 }
