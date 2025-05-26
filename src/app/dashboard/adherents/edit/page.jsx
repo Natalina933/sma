@@ -1,9 +1,8 @@
-'use client';
+"use client";
 
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-import styles from "./page.module.css"; // adapte ce chemin à ton projet
-
+import styles from "./page.module.css"; 
 export default function EditAdherentPage() {
     const router = useRouter();
     const { id } = useParams();
@@ -22,6 +21,7 @@ export default function EditAdherentPage() {
     const [errors, setErrors] = useState({});
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [notFound, setNotFound] = useState(false);
 
     // Charger les données de l'adhérent à éditer
     useEffect(() => {
@@ -29,24 +29,30 @@ export default function EditAdherentPage() {
         const fetchAdherent = async () => {
             try {
                 const res = await fetch(`/api/adherents/${id}`);
-                console.log("Fetch status:", res.status);
+                if (res.status === 404) {
+                    setNotFound(true);
+                    setLoading(false);
+                    return;
+                }
                 if (!res.ok) {
-                    alert("Adhérent non trouvé");
+                    alert("Erreur serveur lors de la récupération de l'adhérent.");
                     router.push("/dashboard");
                     return;
                 }
                 const data = await res.json();
+                // On attend { adherent: {...} }
+                const adherent = data.adherent || data; // fallback pour compatibilité
                 setFormData({
-                    name: data.name || "",
-                    surname: data.surname || "",
-                    mail: data.mail || "",
-                    phone: data.phone || "",
-                    address: data.address || "",
-                    complement: data.complement || "",
-                    cp: data.cp || "",
-                    city: data.city || "",
-                    membership_start: data.membership_start
-                        ? data.membership_start.slice(0, 10)
+                    name: adherent.name || "",
+                    surname: adherent.surname || "",
+                    mail: adherent.mail || "",
+                    phone: adherent.phone || "",
+                    address: adherent.address || "",
+                    complement: adherent.complement || "",
+                    cp: adherent.cp || "",
+                    city: adherent.city || "",
+                    membership_start: adherent.membership_start
+                        ? adherent.membership_start.slice(0, 10)
                         : "",
                 });
                 setLoading(false);
@@ -97,6 +103,7 @@ export default function EditAdherentPage() {
     };
 
     if (loading) return <div>Chargement...</div>;
+    if (notFound) return <div>Adhérent non trouvé.</div>;
 
     return (
         <div className={styles.formPageContainer}>
