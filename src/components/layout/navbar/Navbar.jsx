@@ -58,31 +58,43 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
-  // Lien vers le tableau de bord uniquement si connecté
-  const renderDashboardLink = () => {
-    if (!session) return null;
-    return (
-      <Link
-        href="/dashboard"
-        className={styles.link}
-        onClick={handleLinkClick}
-      >
-        <div className={styles.linkIcon}><FaCogs /></div>
-        <div className={styles.linkTitle}>Tableau de bord</div>
-      </Link>
-    );
-  };
+  // Lien vers le tableau de bord : redirige vers login si non connecté
+  const renderDashboardLink = () => (
+    <Link
+      href={session ? "/dashboard" : "/dashboard/login"}
+      className={styles.link}
+      onClick={handleLinkClick}
+    >
+      <div className={styles.linkIcon}>
+        <FaCogs />
+      </div>
+      <div className={styles.linkTitle}>Tableau de bord</div>
+    </Link>
+  );
 
   return (
     <nav className={styles.container}>
       {showTimeoutModal && (
         <div className={styles.timeoutModal}>
-          <div className={styles.modalContent}>
+          <div
+            className={styles.modalContent}
+            onClick={(e) => e.stopPropagation()}
+          >
             <h3>Session expirée</h3>
-            <p>Votre session a expiré en raison d&apos;une inactivité prolongée.</p>
+            <p>Votre session va expirer pour cause d&apos;inactivité.</p>
             <div className={styles.modalButtons}>
-              <button onClick={handleTimeoutLogout}>Se reconnecter</button>
-              <button onClick={handleContinueSession}>Rester connecté</button>
+              <button
+                className={styles.stayConnected}
+                onClick={handleContinueSession}
+              >
+                Rester connecté
+              </button>
+              <button
+                className={styles.logoutNow}
+                onClick={handleTimeoutLogout}
+              >
+                Se déconnecter
+              </button>
             </div>
           </div>
         </div>
@@ -117,6 +129,7 @@ const Navbar = () => {
       <section className={`${styles.links} ${isOpen ? styles.active : ""}`}>
         <DarkModeToggle />
 
+        {/* Liens principaux */}
         {Navlinks.map((link) => (
           <Link
             key={link.id}
@@ -129,27 +142,48 @@ const Navbar = () => {
           </Link>
         ))}
 
+        {/* Lien Tableau de bord (toujours visible, redirige intelligemment) */}
         {renderDashboardLink()}
 
-        {session ? (
-          <button className={styles.logout} onClick={handleLogout}>
-            Déconnexion
-          </button>
-        ) : (
+        {/* Connexion/Inscription gestionnaire */}
+        {!session ? (
           <div className={styles.authButtons}>
-            <Link href="/dashboard/login" onClick={handleLinkClick} className={styles.loginLink}>
+            <Link
+              href="/dashboard/login"
+              onClick={handleLinkClick}
+              className={styles.loginLink}
+            >
               <button className={styles.login}>
                 <FontAwesomeIcon icon={faBars} className={styles.loginIcon} />
-                Connexion
+                Connexion gestionnaire
               </button>
             </Link>
-            <Link href="/dashboard/register" onClick={handleLinkClick} className={styles.signupLink}>
+            {/* Connexion/Inscription adhérent */}
+            <Link
+              href="/dashboard/adherent/login"
+              onClick={handleLinkClick}
+              className={styles.loginLink}
+            >
+              <button className={styles.login}>
+                <FontAwesomeIcon icon={faBars} className={styles.loginIcon} />
+                Connexion adhérent
+              </button>
+            </Link>
+            <Link
+              href="/dashboard/adherent/register"
+              onClick={handleLinkClick}
+              className={styles.signupLink}
+            >
               <button className={styles.signup}>
                 <FontAwesomeIcon icon={faTimes} className={styles.signupIcon} />
-                S&apos;inscrire
+                S&apos;inscrire (adhérent)
               </button>
             </Link>
           </div>
+        ) : (
+          <button className={styles.logout} onClick={handleLogout}>
+            Déconnexion
+          </button>
         )}
       </section>
     </nav>
