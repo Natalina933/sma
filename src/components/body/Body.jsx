@@ -8,7 +8,7 @@ const Body = () => {
                 <div className={styles.imageSection}>
                     <div className={styles.imgWrapper}>
                         <Image
-                            src='/hero.jpg'
+                            src='/carte-vincennes-st-mandé.jpg'
                             fill
                             style={{ objectFit: 'cover' }}
                             className={styles.image}

@@ -1,123 +1,165 @@
 .main {
-    background-color: var(--color-background-light);
-    /* Fond gris clair */
-    padding: var(--spacing-xl) 0;
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(120deg, #e0e7ff 0%, #f8fafc 100%);
+  padding: 60px 0;
+}
+
+.bgFixed {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: url("/carte-vincennes-st-mandé.jpg") center/cover no-repeat;
+  opacity: 0.15;
+  animation: bgMove 30s linear infinite alternate;
+  background-attachment: fixed; /* <-- Ajoute cette ligne */
+}
+
+@keyframes bgMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.7);
+  z-index: 1;
+  pointer-events: none;
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
 }
 
 .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    align-items: center;
-    gap: var(--spacing-xl);
+  position: relative;
+  z-index: 2;
+  max-width: 1100px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 48px;
+  padding: 0 32px;
+  animation: fadeIn 1s cubic-bezier(0.39, 0.575, 0.56, 1) both;
 }
 
-.imageSection {
-    flex: 1;
-}
-
-.imgWrapper {
-    position: relative;
-    width: 100%;
-    padding-bottom: 75%;
-    /* 4:3 Aspect Ratio */
-    border-radius: var(--border-radius-lg);
-    /* Coins arrondis */
-    overflow: hidden;
-    box-shadow: var(--box-shadow);
-    /* Ombre subtile */
-}
-
-.image {
-    transition: transform var(--transition-duration);
-    /* Animation fluide */
-}
-
-.imgWrapper:hover .image {
-    transform: scale(1.05);
-    /* Zoom léger au survol */
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .contentSection {
-    flex: 1;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 24px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+  padding: 48px 40px;
+  width: 100%;
+  max-width: 600px;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(200, 200, 255, 0.15);
+  transition: box-shadow 0.2s;
+}
+
+.contentSection:hover {
+  box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.18);
 }
 
 .heading {
-    font-size: var(--font-size-xxl);
-    /* Taille de police pour le titre */
-    color: var(--color-heading);
-    /* Couleur du titre */
-    margin-bottom: var(--spacing-md);
+  font-size: 2.2rem;
+  color: #2d3a4a;
+  font-weight: 700;
+  margin-bottom: 18px;
+  letter-spacing: -1px;
+  text-shadow: 0 2px 8px rgba(60, 60, 120, 0.06);
 }
 
 .divider {
-    width: 50px;
-    height: 3px;
-    background-color: var(--color-primary);
-    /* Couleur principale */
-    margin-bottom: var(--spacing-lg);
+  width: 60px;
+  height: 4px;
+  background: linear-gradient(90deg, #6366f1 0%, #38bdf8 100%);
+  border-radius: 2px;
+  margin-bottom: 32px;
+  border: none;
 }
 
 .subheading {
-    font-size: var(--font-size-xl);
-    /* Taille de police pour le sous-titre */
-    color: var(--color-text);
-    /* Couleur du texte */
-    margin-bottom: var(--spacing-md);
+  font-size: 1.3rem;
+  color: #475569;
+  font-weight: 600;
+  margin-bottom: 16px;
 }
 
 .paragraph {
-    font-size: var(--font-size-md);
-    /* Taille de police pour le paragraphe */
-    line-height: 1.6;
-    color: var(--color-text-light);
-    /* Couleur grise pour le texte */
-    margin-bottom: var(--spacing-lg);
+  font-size: 1.08rem;
+  line-height: 1.7;
+  color: #64748b;
+  margin-bottom: 28px;
 }
 
 .unorderedList {
-    list-style-type: none;
-    padding-left: 0;
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
 }
 
 .listItem {
-    font-size: var(--font-size-md);
-    /* Taille de police pour les éléments de liste */
-    line-height: 1.6;
-    color: var(--color-text-light);
-    /* Couleur grise pour le texte */
-    margin-bottom: var(--spacing-sm);
-    position: relative;
-    padding-left: var(--spacing-lg);
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #475569;
+  margin-bottom: 14px;
+  position: relative;
+  padding-left: 28px;
+  transition: color 0.2s;
 }
 
 .listItem::before {
-    content: "•";
-    color: var(--color-primary);
-    /* Couleur principale pour les puces */
-    font-weight: bold;
-    position: absolute;
-    left: 0;
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 8px;
+  width: 12px;
+  height: 12px;
+  background: linear-gradient(135deg, #6366f1 60%, #38bdf8 100%);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(99, 102, 241, 0.12);
 }
 
-@media (max-width: 768px) {
-    .container {
-        flex-direction: column;
-        padding: 0 var(--spacing-md);
-    }
+.listItem:hover {
+  color: #2563eb;
+}
 
-    .imageSection,
-    .contentSection {
-        width: 100%;
-    }
-
-    .heading {
-        font-size: var(--font-size-xl);
-        /* Taille réduite pour les petits écrans */
-    }
-
-    .subheading {
-        font-size: var(--font-size-lg);
-        /* Taille réduite pour les sous-titres */
-    }
+@media (max-width: 900px) {
+  .container {
+    flex-direction: column;
+    gap: 32px;
+    padding: 0 12px;
+  }
+  .contentSection {
+    padding: 32px 12px;
+    max-width: 100%;
+  }
+  .heading {
+    font-size: 1.5rem;
+  }
+  .subheading {
+    font-size: 1.1rem;
+  }
 }
