@@ -87,7 +87,8 @@
 }
 
 .login,
-.signup {
+.signup,
+.logout {
   padding: 0.4em 1em;
   border: none;
   border-radius: 18px;
@@ -122,21 +123,9 @@
   color: #fff;
 }
 
-.logout {
-  background: #ff4d4d;
-  color: #fff;
-  border: none;
-  border-radius: 25px;
-  padding: 0.6em 1.5em;
-  font-weight: 600;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background 0.2s, color 0.2s;
-}
 
-.logout:hover {
-  background: #d93636;
-}
+
+
 
 /* Pour les icônes */
 .loginIcon,
@@ -161,6 +150,62 @@
 /* Icône hamburger */
 .hamburgerIcon {
   pointer-events: none;
+}
+/* Pop-up d'expiration de session */
+.timeoutModal {
+  position: fixed;
+  z-index: 9999;
+  inset: 0;
+  background: rgba(0,0,0,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modalContent {
+  background: #fff;
+  padding: 2rem 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+  text-align: center;
+  min-width: 300px;
+  max-width: 90vw;
+}
+
+.modalContent h3 {
+  color: #e74c3c;
+  margin-bottom: 1rem;
+  font-size: 1.5rem;
+}
+
+.modalContent p {
+  color: #555;
+  margin-bottom: 1.5rem;
+}
+
+.modalButtons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.modalButtons button {
+  padding: 0.5rem 1.2rem;
+  border: none;
+  border-radius: 5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.modalButtons button:first-child {
+  background: #e74c3c;
+  color: #fff;
+}
+
+.modalButtons button:last-child {
+  background: #3498db;
+  color: #fff;
 }
 
 /* Responsive mobile */

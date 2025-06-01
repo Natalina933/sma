@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import styles from "./page.module.css";
 import useSWR from "swr";
 import { useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import SideMenu from "@/components/dashboard/sideMenu/SideMenu";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash, faPencilAlt, faPlus, faUser, faEuroSign } from "@fortawesome/free-solid-svg-icons";
@@ -15,6 +15,13 @@ const Dashboard = () => {
   const router = useRouter();
   const fetcher = (url) => fetch(url).then((res) => res.json());
   const { data: adherents, error, mutate } = useSWR("/api/adherents", fetcher);
+
+  // Toujours travailler avec un tableau, quelle que soit la structure retournée par l’API
+  const adherentsList = Array.isArray(adherents)
+    ? adherents
+    : adherents && Array.isArray(adherents.adherents)
+      ? adherents.adherents
+      : [];
 
   // Gestion du filtrage
   const [filteredAdherents, setFilteredAdherents] = useState([]);
@@ -74,9 +81,6 @@ const Dashboard = () => {
   }
 
   const renderAdherents = () => {
-    const adherentsList = Array.isArray(adherents)
-      ? adherents
-      : (adherents && Array.isArray(adherents.adherents) ? adherents.adherents : []);
     const list = isFiltered ? filteredAdherents : adherentsList;
     const sortedList = sortAdherents(list || []);
     if (error) return <p className={styles.emptyMessage}>Erreur de chargement</p>;
@@ -130,7 +134,7 @@ const Dashboard = () => {
         <header className={styles.dashboardHeader}>
           <div className={styles.dashboardActions}>
             <FiltersAdherent
-              adherents={adherents || []}
+              adherents={adherentsList}
               onFilter={handleFilter}
               onReset={resetFilters}
             />
@@ -143,11 +147,7 @@ const Dashboard = () => {
           <h2 className={styles.sectionSubtitle}>
             Nombre d&apos;adhérents : {isFiltered
               ? filteredAdherents.length
-              : Array.isArray(adherents)
-                ? adherents.length
-                : adherents && Array.isArray(adherents.adherents)
-                  ? adherents.adherents.length
-                  : 0}
+              : adherentsList.length}
           </h2>
           <div className={styles.sortBar}>
             <span className={styles.sortLabel}>Trier par&nbsp;:</span>
@@ -207,4 +207,3 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
-

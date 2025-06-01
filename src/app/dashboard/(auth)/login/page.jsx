@@ -6,6 +6,8 @@ import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
 
+// Délai d'inactivité en millisecondes (15 minutes)
+const INACTIVITY_TIMEOUT = 15 * 60 * 1000;
 const Login = () => {
   const session = useSession();
   const router = useRouter();
@@ -30,7 +32,7 @@ const Login = () => {
 
   async function handleSubmit(e) {
     e.preventDefault();
-    
+
     if (!info.email || !info.password) {
       setError("Veuillez remplir tous les champs");
       return;
@@ -64,7 +66,7 @@ const Login = () => {
       <form className={styles.form} onSubmit={handleSubmit}>
         <h2>Connexion</h2>
         <Link href="/dashboard/register">Pas de compte ? Inscrivez-vous</Link>
-        
+
         <div className={styles.inputGroup}>
           <input
             type="email"
