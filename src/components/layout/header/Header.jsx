@@ -1,35 +1,38 @@
 import styles from './header.module.css';
-import Image from "next/legacy/image";
 
+const navLinks = [
+    { label: "Découvrir", href: "#decouvrir" },
+    { label: "Sortir", href: "#sortir" },
+    { label: "Manger", href: "#manger" },
+    { label: "Dormir", href: "#dormir" },
+    { label: "Infos pratiques", href: "#infos" },
+    { label: "Billetterie", href: "#billetterie" },
+    { label: "Contact", href: "#contact" }
+];
 
-/* eslint-disable react/jsx-no-comment-textnodes */
-/* eslint-disable react/no-unescaped-entities */
-// devra etre plus modulable
+const Header = () => (
+    <header className={styles.header}>
+        <nav className={styles.navbar} aria-label="Menu principal">
+            <div className={styles.logo}>
 
+            </div>
 
-const Header = () => {
-    return (
-        <header className={styles.container}>
-            <div className={styles.headerImage}>
-                <Image
-                    src='/headerImagev1.jpg'
-                    height={600}
-                    width={1900}
-                    className={styles.img}
-                    alt="Activités passionnantes"
-                    priority
-                />
-                <div className={styles.headerText}>
+        </nav>
+        <div className={styles.headerImage}>
+            <div className={styles.hero}>
+                <div className={styles.heroText}>
                     <h1 className={styles.title}>
-                        Bienvenue sur le site de l'association SMA <br /> Saint-Mandé Accueil
+                        Bienvenue sur le site de l&apos;association SMA <br />
                     </h1>
-                    <h2 className={styles.subtitle}>Découvrez un monde d'activités passionnantes</h2>
+                    <h2 className={styles.subtitle}>
+                        Découvrez un monde d&apos;activités passionnantes pour petits et grands à Saint-Mandé et Vincennes
+                    </h2>
+                    <a href="#activities" className={styles.heroCta}>Découvrir nos activités</a>
+
                 </div>
             </div>
-            <div className={styles.textContainer}>
-            </div>
-        </header>
-    )
+        </div>
+    </header>
+);
 
-}
 export default Header;

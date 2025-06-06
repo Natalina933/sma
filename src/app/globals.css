@@ -2,12 +2,16 @@
 
 /* Variables CSS globales */
 :root {
-  --primary-color: #5a9fd4;           /* Bleu principal */
+  --primary-color: #5a9fd4;
+  /* Bleu principal */
   --primary-hover-color: #4e8cbf;
   --primary-dark-color: #1523bc;
-  --secondary-color: #ea9902;         /* Orange secondaire */
-  --secondary-hover-color: #ffb84d;   /* Orange clair pour hover */
-  --secondary-dark-color: #b36b00;    /* Orange foncé */
+  --secondary-color: #ea9902;
+  /* Orange secondaire */
+  --secondary-hover-color: #ffb84d;
+  /* Orange clair pour hover */
+  --secondary-dark-color: #b36b00;
+  /* Orange foncé */
   --background-color: #ffffff;
   --background-light: #f9f8f8;
   --color-background-light: #f0f0f0;
@@ -43,6 +47,24 @@
 
   --transition-duration: 0.3s;
   --padding: 20px;
+  /* Couleurs pour les bannières */
+  --banner-bg: var(--background-light, #fff);
+  --banner-primary: var(--primary-color, #007bff);
+  --banner-secondary: var(--secondary-color, #ff7f00);
+  --banner-shadow: 0 6px 32px rgba(0, 0, 0, 0.08);
+  --banner-radius: 28px;
+  /* Couleurs pour le header */
+  --header-bg: var(--background-light, #fff);
+  --header-primary: var(--primary-color, #007bff);
+  --header-secondary: var(--secondary-color, #ff7f00);
+  --header-radius: 24px;
+  --header-shadow: 0 4px 32px rgba(0,0,0,0.09);
+  /* Couleurs pour le body */
+  --body-bg: var(--background-light, #fff);
+  --body-primary: var(--primary-color, #007bff);
+  --body-secondary: var(--secondary-color, #ff7f00);
+  --body-radius: 24px;
+  --body-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
 }
 
 /* Thèmes dynamiques */
@@ -73,6 +95,7 @@ a {
   color: var(--primary-dark-color);
   transition: color var(--transition-duration);
 }
+
 a:hover,
 a:focus-visible {
   color: var(--secondary-color);
@@ -201,6 +224,7 @@ h6 {
   background: linear-gradient(90deg, var(--primary-color) 0%, var(--primary-dark-color) 100%);
   color: #fff;
 }
+
 .login:hover,
 .login:focus-visible {
   background: linear-gradient(90deg, var(--primary-dark-color) 0%, var(--primary-color) 100%);
@@ -213,6 +237,7 @@ h6 {
   color: var(--primary-dark-color);
   border: 2px solid var(--primary-dark-color);
 }
+
 .signup:hover,
 .signup:focus-visible {
   background: var(--primary-dark-color);
@@ -225,6 +250,7 @@ h6 {
   color: #fff;
   border: none;
 }
+
 .logout:hover,
 .logout:focus-visible {
   background: var(--secondary-dark-color);
@@ -236,14 +262,17 @@ h6 {
   .container {
     padding: var(--spacing-sm);
   }
+
   .listeAdherentsTable th,
   .listeAdherentsTable td {
     padding: var(--spacing-xs) var(--spacing-xs);
     font-size: var(--font-size-sm);
   }
+
   .tableContainer {
     padding: var(--spacing-xs);
   }
+
   .button,
   .login,
   .signup,
