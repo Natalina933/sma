@@ -1,32 +1,47 @@
 import { NextResponse } from "next/server";
-import connect from "@/utils/db";
-import Activity from "@/models/Activities";
+import db from "@/utils/db";
 
-export const GET = async (request) => {
+export const GET = async () => {
     try {
-        await connect();
-        const activities = await Activity.find();
-        return new NextResponse(JSON.stringify(activities), { status: 200 });
+        const [rows] = await db.query("SELECT * FROM act_activities ORDER BY created_at DESC");
+        return new NextResponse(JSON.stringify(rows), { status: 200 });
     } catch (error) {
+        console.error("Erreur MySQL:", error);
         return new NextResponse("Erreur de base de données", { status: 500 });
     }
 };
 
 export const POST = async (request) => {
     try {
-        await connect();
         const body = await request.json();
+        const {
+            title,
+            description,
+            date,
+            place,
+            price,
+            organizer_id,
+            organizer,
+            capacity,
+            img,
+            alt,
+            category,
+            rating,
+            programme,
+            inscription,
+            keywords,
+        } = body;
 
-        const newActivity = new Activity(body);
-        const savedActivity = await newActivity.save();
+        const [result] = await db.query(
+            `INSERT INTO act_activities 
+        (title, description, date, place, price, organizer_id, organizer, capacity, img, alt, category, rating, programme, inscription, keywords) 
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+            [title, description, date, place, price, organizer_id, organizer, capacity, img, alt, category, rating, programme, inscription, keywords]
+        );
 
-        return new NextResponse(JSON.stringify(savedActivity), {
-            status: 201,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        return new NextResponse(JSON.stringify({ id: result.insertId, ...body }), { status: 201 });
     } catch (error) {
-        return new NextResponse(error.message, { status: 400 });
+        console.error("Erreur MySQL:", error);
+        return new NextResponse("Erreur de création", { status: 400 });
     }
 };

@@ -2,39 +2,36 @@
 import styles from "./page.module.css";
 import Link from "next/link";
 import Image from "next/image";
-
-const activities = [
-  {
-    href: "/activity/EnPleinAir",
-    src: "/images/excursion.jpg",
-    alt: "En plein air",
-    title: "En plein air",
-  },
-  {
-    href: "/activity/Aquatique",
-    src: "/images/aquagym.jpg",
-    alt: "Aquatique",
-    title: "Aquatique",
-  },
-  {
-    href: "/activity/Theatre",
-    src: "/images/Matineestheatrales.jpg",
-    alt: "Théâtre",
-    title: "Théâtre",
-  },
-];
+import { useEffect, useState } from "react";
 
 const Activity = () => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    // Exemple d'appel API Next.js (à adapter selon ton endpoint)
+    fetch("/api/categories")
+      .then((res) => res.json())
+      .then(setCategories);
+  }, []);
+
   return (
     <div className={styles.container}>
       <h1 className={styles.selectTitle}>Nos Activités</h1>
-      <div className={styles.items}>
-        {activities.map((activity) => (
-          <Link key={activity.title} href={activity.href} className={styles.item}>
+      <hr className={styles.sectionDividerOrange} />
+      <div className={styles.categories}>
+        {categories.map((cat) => (
+          <Link key={cat.slug} href={`/activity/${cat.slug}`} className={styles.categoryCard}>
             <div className={styles.imageWrapper}>
-              <Image src={activity.src} alt={activity.alt} layout="fill" objectFit="cover" className={styles.image} />
+              <Image
+                src={cat.img}
+                alt={cat.alt}
+                fill
+                style={{ objectFit: "cover" }}
+                className={styles.image}
+                sizes="(max-width: 600px) 100vw, 300px"
+              />
             </div>
-            <span className={styles.title}>{activity.title}</span>
+            <span className={styles.categoryTitle}>{cat.title}</span>
           </Link>
         ))}
       </div>
