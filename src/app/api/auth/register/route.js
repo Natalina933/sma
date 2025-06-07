@@ -15,6 +15,15 @@ export const POST = async (request) => {
       );
     }
 
+    // Vérification du format d'email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      return NextResponse.json(
+        { message: "Format d'email invalide" },
+        { status: 400 }
+      );
+    }
+
     connection = await pool.getConnection();
 
     // Vérifie unicité email et username
@@ -33,13 +42,13 @@ export const POST = async (request) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insertion
-    await connection.execute(
+    const [result] = await connection.execute(
       "INSERT INTO usr_users (username, email, password) VALUES (?, ?, ?)",
       [username, email, hashedPassword]
     );
 
     return NextResponse.json(
-      { message: "Utilisateur créé avec succès" },
+      { message: "Utilisateur créé avec succès", userId: result.insertId },
       { status: 201 }
     );
   } catch (error) {
@@ -49,6 +58,10 @@ export const POST = async (request) => {
       { status: 500 }
     );
   } finally {
-    if (connection) connection.release();
+    try {
+      if (connection) connection.release();
+    } catch (e) {
+      // ignore
+    }
   }
 };

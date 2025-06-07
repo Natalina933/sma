@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import styles from "@/components/carousel/mycarousel.module.css";
 import Image from "next/image";
-import activityData from "@/app/datas/activitys/activitys.json";
-import { responsiveConfig } from "@/components/common/responsiveConfig/responsiveConfig";
+import useSWR from "swr";
+
+const fetcher = url => fetch(url).then(res => res.json());
 
 const useActivityState = () => {
   const [expandedActivity, setExpandedActivity] = useState(null);
@@ -135,8 +136,42 @@ const ActivityCard = ({
   );
 };
 
+const responsiveConfig = {
+  superLargeDesktop: {
+    breakpoint: { max: 4000, min: 1400 },
+    items: 4,
+  },
+  desktop: {
+    breakpoint: { max: 1400, min: 1024 },
+    items: 3,
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 600 },
+    items: 2,
+  },
+  mobile: {
+    breakpoint: { max: 600, min: 0 },
+    items: 1,
+  },
+};
+
 const MyCarousel = () => {
   const { expandedActivity, selectedActivity, isAutoPlay, handleToggleDescription, handleSelectActivity } = useActivityState();
+  const { data: activities, error } = useSWR("/api/activities", fetcher);
+  const [fetchedActivities, setFetchedActivities] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/activities")
+      .then(res => res.json())
+      .then(data => {
+        setFetchedActivities(data);
+        setLoading(false);
+      });
+  }, []);
+
+  if (error) return <div>Erreur de chargement</div>;
+  if (loading) return <div>Chargement...</div>;
 
   return (
     <section id="activities" className={styles.carouselSection} aria-labelledby="carousel-heading">
@@ -152,7 +187,7 @@ const MyCarousel = () => {
         removeArrowOnDeviceType={["mobile"]}
         itemClass={styles.carouselItem}
       >
-        {activityData.map((activity) => (
+        {fetchedActivities.map((activity) => (
           <ActivityCard
             key={activity.id}
             activity={activity}
