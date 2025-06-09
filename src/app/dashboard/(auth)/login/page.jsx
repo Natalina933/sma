@@ -1,20 +1,17 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import styles from "./page.module.css";
 import { getProviders, signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
+import styles from "./page.module.css";
 
-// Délai d'inactivité en millisecondes (15 minutes)
 const INACTIVITY_TIMEOUT = 15 * 60 * 1000;
-const Login = () => {
+
+export default function LoginForm() {
   const session = useSession();
   const router = useRouter();
-  const [info, setInfo] = useState({
-    email: "",
-    password: "",
-  });
+  const [info, setInfo] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
@@ -53,12 +50,17 @@ const Login = () => {
       }
 
       router.replace("/dashboard");
-
     } catch (error) {
       setPending(false);
       setError("Une erreur est survenue");
     }
   }
+
+  // Exemple d'utilisation de params (pour afficher un message d'erreur dans l'URL)
+  useEffect(() => {
+    const errorParam = params.get("error");
+    if (errorParam) setError(errorParam);
+  }, [params]);
 
   return (
     <div className={styles.container}>
@@ -112,6 +114,4 @@ const Login = () => {
       </form>
     </div>
   );
-};
-
-export default Login;
+}

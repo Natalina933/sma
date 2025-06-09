@@ -1,25 +1,48 @@
 import styles from "./page.module.css";
 import Image from "next/legacy/image";
-import { dataActivitys } from "@/app/datas/activitys/dataActivitys";
-import { notFound } from "next/navigation";
 import Button from "@/components/common/button/Button";
-import Link from 'next/link';
-const getData = (cat) => {
-  const data = dataActivitys[cat];
-  if (data) {
-    return data;
-  }
-  return notFound();
-};
+import Link from "next/link";
+import { headers } from "next/headers";
 
-const Category = ({ params }) => {
-  const data = getData(params.category);
+async function getActivities(category) {
+  const host = headers().get("host");
+  const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+  const res = await fetch(`${protocol}://${host}/api/activities/${category}`, { cache: "no-store" });
+  if (!res.ok) return null;
+  return res.json();
+}
+
+async function getCategoryName(categoryId) {
+  const host = headers().get("host");
+  const protocol = process.env.NODE_ENV === "production" ? "https" : "http";
+  const res = await fetch(`${protocol}://${host}/api/categories/${categoryId}`, { cache: "no-store" });
+  if (!res.ok) return categoryId;
+  const data = await res.json();
+  return data.title || categoryId;
+}
+
+const Category = async ({ params }) => {
+  const categoryId = params.category;
+  const data = await getActivities(categoryId);
+  const categoryName = await getCategoryName(categoryId);
+
+  if (!data || data.length === 0) {
+    return (
+      <div className={styles.container}>
+        <Link href="/activity" className={styles.backButton}>
+          <button>Retour aux activités</button>
+        </Link>
+        <h2>Aucune activité trouvée pour la catégorie &quot;{categoryName}&quot;</h2>
+      </div>
+    );
+  }
+
   return (
     <div className={styles.container}>
       <Link href="/activity" className={styles.backButton}>
         <button>Retour aux activités</button>
       </Link>
-      <h1 className={styles.catTitle}>{params.category}</h1>
+      <h1 className={styles.catTitle}>{categoryName}</h1>
       <div className={styles.activityList}>
         {data.map((activity) => (
           <div className={styles.item} key={activity.id}>
@@ -28,15 +51,15 @@ const Category = ({ params }) => {
                 className={styles.img}
                 width={400}
                 height={300}
-                src={activity.img}
-                alt={`Image de ${activity.title}`}
+                src={activity.img || "/images/categories/default.jpg"}
+                alt={activity.alt || `Image de ${activity.title}`}
                 objectFit="cover"
                 layout="responsive"
               />
             </div>
             <div className={styles.content}>
               <h2 className={styles.title}>{activity.title}</h2>
-              <p className={styles.desc}>{activity.desc}</p>
+              <p className={styles.desc}>{activity.description}</p>
               <p className={styles.date}>{activity.date}</p>
               <Button text="S'inscrire" url="#" />
             </div>

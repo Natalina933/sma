@@ -2,21 +2,26 @@ import pool from "@/utils/db";
 import { NextResponse } from "next/server";
 
 // GET une activité par ID
-export const GET = async (_, { params }) => {
+export async function GET(request) {
+  const { searchParams } = new URL(request.url);
+  const category = searchParams.get("category");
+
+  let query = "SELECT * FROM act_activities";
+  let params = [];
+
+  if (category) {
+    query += " WHERE category = ?";
+    params.push(category);
+  }
+
   try {
-    const [rows] = await pool.execute(
-      "SELECT * FROM act_activities WHERE id = ?",
-      [params.id]
-    );
-    if (rows.length === 0) {
-      return new NextResponse("Activité non trouvée", { status: 404 });
-    }
-    return new NextResponse(JSON.stringify(rows[0]), { status: 200 });
+    const [rows] = await pool.execute(query, params);
+    return Response.json(rows);
   } catch (error) {
     console.error(error);
-    return new NextResponse("Erreur serveur", { status: 500 });
+    return Response.json({ error: "Erreur serveur" }, { status: 500 });
   }
-};
+}
 
 // PUT (modifier une activité)
 export const PUT = async (request, { params }) => {

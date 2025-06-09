@@ -19,21 +19,19 @@ const Activity = () => {
       <h1 className={styles.selectTitle}>Nos Activités</h1>
       <hr className={styles.sectionDividerOrange} />
       <div className={styles.categories}>
-        {categories.map((cat) => (
-          <Link key={cat.slug} href={`/activity/${cat.slug}`} className={styles.categoryCard}>
-            <div className={styles.imageWrapper}>
-              <Image
-                src={cat.img}
-                alt={cat.alt}
-                fill
-                style={{ objectFit: "cover" }}
-                className={styles.image}
-                sizes="(max-width: 600px) 100vw, 300px"
-              />
-            </div>
-            <span className={styles.categoryTitle}>{cat.title}</span>
-          </Link>
-        ))}
+{categories.map((cat) => (
+  <Link key={cat.id} href={`/activity/${cat.id}`} className={styles.categoryCard}>
+    <div className={styles.imageWrapper}>
+      <Image
+        src={cat.img ? cat.img : `/images/categories/default.jpg`}
+        alt={cat.alt || `Image de la catégorie ${cat.title}`}
+        width={300}
+        height={200}
+      />
+    </div>
+    <h3>{cat.title}</h3>
+  </Link>
+))}
       </div>
     </div>
   );
