@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import styles from './Page.module.css';
+import styles from './page.module.css';
 import { FaPlus, FaSearch, FaEdit, FaTrash } from 'react-icons/fa';
 // import CotisationCard from '@/components/CotisationCard/CotisationCard';
 
