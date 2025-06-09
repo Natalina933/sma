@@ -1,14 +1,5 @@
 import styles from './header.module.css';
 
-const navLinks = [
-    { label: "Découvrir", href: "#decouvrir" },
-    { label: "Sortir", href: "#sortir" },
-    { label: "Manger", href: "#manger" },
-    { label: "Dormir", href: "#dormir" },
-    { label: "Infos pratiques", href: "#infos" },
-    { label: "Billetterie", href: "#billetterie" },
-    { label: "Contact", href: "#contact" }
-];
 
 const Header = () => (
     <header className={styles.header}>
@@ -27,7 +18,7 @@ const Header = () => (
                     <h2 className={styles.subtitle}>
                         Découvrez un monde d&apos;activités passionnantes pour petits et grands à Saint-Mandé et Vincennes
                     </h2>
-                    <a href="#activities" className={styles.heroCta}>Découvrir nos activités</a>
+                    <a href="activity" className={styles.heroCta}>Découvrir nos activités</a>
 
                 </div>
             </div>
