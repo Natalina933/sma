@@ -7,13 +7,19 @@
   box-shadow: var(--box-shadow);
 }
 
-.selectTitle, .catTitle {
+.selectTitle,
+.catTitle {
   text-align: center;
   color: var(--primary-dark-color);
   font-size: var(--font-size-xxl);
   font-weight: 700;
   margin-bottom: var(--spacing-lg);
   letter-spacing: 1px;
+}
+
+.catTitle .count {
+  font-size: 0.7em;
+  color: var(--secondary-color);
 }
 
 .categories {
@@ -30,7 +36,8 @@
   background: var(--card-background);
   border-radius: var(--border-radius-lg);
   box-shadow: var(--box-shadow);
-  transition: box-shadow var(--transition-duration), transform var(--transition-duration);
+  transition: box-shadow var(--transition-duration),
+    transform var(--transition-duration);
   width: 260px;
   padding: var(--spacing-md);
   text-align: center;
@@ -38,7 +45,8 @@
   text-decoration: none;
 }
 
-.categoryCard:hover, .categoryCard:focus-visible {
+.categoryCard:hover,
+.categoryCard:focus-visible {
   box-shadow: var(--box-shadow-hover);
   transform: translateY(-4px) scale(1.03);
 }
@@ -80,10 +88,12 @@
   border-radius: var(--border-radius-lg);
   box-shadow: var(--box-shadow);
   overflow: hidden;
-  transition: box-shadow var(--transition-duration), transform var(--transition-duration);
+  transition: box-shadow var(--transition-duration),
+    transform var(--transition-duration);
 }
 
-.activityCard:hover, .activityCard:focus-visible {
+.activityCard:hover,
+.activityCard:focus-visible {
   box-shadow: var(--box-shadow-hover);
   transform: translateY(-2px) scale(1.01);
 }
@@ -140,10 +150,12 @@
   font-size: var(--font-size-md);
   font-weight: 600;
   cursor: pointer;
-  transition: background var(--transition-duration), color var(--transition-duration);
+  transition: background var(--transition-duration),
+    color var(--transition-duration);
 }
 
-.button:hover, .button:focus-visible {
+.button:hover,
+.button:focus-visible {
   background: var(--secondary-color);
   color: #fff;
 }

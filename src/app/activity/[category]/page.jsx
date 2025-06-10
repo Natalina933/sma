@@ -42,7 +42,12 @@ const Category = async ({ params }) => {
       <Link href="/activity" className={styles.backButton}>
         <button>Retour aux activités</button>
       </Link>
-      <h1 className={styles.catTitle}>{categoryName}</h1>
+      <h1 className={styles.catTitle}>
+        {categoryName}
+        <span className={styles.count}>
+          &nbsp;({data.length} activité{data.length > 1 ? "s" : ""} proposée{data.length > 1 ? "s" : ""})
+        </span>
+      </h1>
       <div className={styles.activityList}>
         {data.map((activity) => (
           <div className={styles.item} key={activity.id}>
