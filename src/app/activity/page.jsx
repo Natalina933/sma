@@ -1,98 +1,71 @@
 "use client";
 import styles from "./page.module.css";
+import ActivityCard from "@/components/common/actitityCard/ActivityCard";
+import { useEffect, useState, useMemo } from "react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
 
 const Activity = () => {
   const [categories, setCategories] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState(null);
   const [activities, setActivities] = useState([]);
-  const [categoryName, setCategoryName] = useState("");
-
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  // Récupère toutes les catégories
   useEffect(() => {
-    fetch("/api/categories")
-      .then((res) => res.json())
-      .then(setCategories);
+    setLoading(true);
+    setError(null);
+    Promise.all([
+      fetch("/api/categories").then((res) => res.json()),
+      fetch("/api/activities").then((res) => res.json()),
+    ])
+      .then(([categoriesData, activitiesData]) => {
+        setCategories(categoriesData);
+        setActivities(activitiesData);
+      })
+      .catch(() => setError("Erreur de chargement des données"))
+      .finally(() => setLoading(false));
   }, []);
 
-  // Quand une catégorie est sélectionnée, charge ses activités
-  useEffect(() => {
-    if (selectedCategory) {
-      fetch(`/api/activities?category_id=${selectedCategory}`)
-        .then((res) => res.json())
-        .then((data) => {
-          setActivities(data.activities || data); // adapte selon ta réponse API
-          // Récupère le nom de la catégorie sélectionnée
-          const cat = categories.find((c) => c.id === selectedCategory);
-          setCategoryName(cat ? cat.title : "");
-        });
-    }
-  }, [selectedCategory, categories]);
+  // Regroupement optimisé avec useMemo
+  const activitiesByCategory = useMemo(() => {
+    const map = {};
+    categories.forEach((cat) => {
+      map[cat.name] = activities.filter((a) => a.category === cat.name);
+    });
+    return map;
+  }, [categories, activities]);
 
-  // Affichage de la liste des activités d'une catégorie
-  if (selectedCategory) {
-    return (
-      <div className={styles.container}>
-        <button className={styles.backButton} onClick={() => setSelectedCategory(null)}>
-          Retour aux catégories
-        </button>
-        <h1 className={styles.catTitle}>
-          {categoryName}
-          <span className={styles.count}>
-            &nbsp;({activities.length} activité{activities.length > 1 ? "s" : ""} proposée{activities.length > 1 ? "s" : ""})
-          </span>
-        </h1>
-        <div className={styles.activityList}>
-          {activities.map((activity) => (
-            <div className={styles.item} key={activity.id}>
-              <div className={styles.imgContainer}>
-                <Image
-                  className={styles.img}
-                  width={400}
-                  height={300}
-                  src={activity.img || "/images/categories/default.jpg"}
-                  alt={activity.alt || `Image de ${activity.title}`}
-                  style={{ objectFit: "cover" }}
-                />
-              </div>
-              <div className={styles.content}>
-                <h2 className={styles.title}>{activity.title}</h2>
-                <p className={styles.desc}>{activity.description}</p>
-                <p className={styles.date}>{activity.date}</p>
-                {/* Ajoute ici un bouton d'inscription si besoin */}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
+  if (loading) return <div>Chargement...</div>;
+  if (error) return <div className={styles.error}>{error}</div>;
 
-  // Affichage de la liste des catégories
   return (
     <div className={styles.container}>
-      <h1 className={styles.selectTitle}>Nos Activités</h1>
-      <hr className={styles.sectionDividerOrange} />
-      <div className={styles.categories}>
-        {categories.map((cat) => (
-          <div
-            key={cat.id}
-            className={styles.categoryCard}
-            onClick={() => setSelectedCategory(cat.id)}
-            style={{ cursor: "pointer" }}
-          >
-            <div className={styles.imageWrapper}>
-              <Image
-                src={cat.img ? cat.img : `/images/categories/default.jpg`}
-                alt={cat.alt || `Image de la catégorie ${cat.title}`}
-                width={300}
-                height={200}
+      {categories.map((cat) => (
+        <section key={cat.id} className={styles.categorySection}>
+          <h2 className={styles.catTitle}>
+            {cat.name}
+            <span className={styles.count}>
+              &nbsp;({activitiesByCategory[cat.name]?.length || 0} activité
+              {activitiesByCategory[cat.name]?.length > 1 ? "s" : ""})
+            </span>
+          </h2>
+          <div className={styles.activityList}>
+            {(activitiesByCategory[cat.name] || []).map((activity) => (
+              <ActivityCard
+                key={activity.id}
+                activity={activity}
+                showDetailsButton={true}
+                showRegisterButton={true}
               />
-            </div>
-            <h3>{cat.title}</h3>
+            ))}
           </div>
-        ))}
-      </div>
+          <Image
+            src={cat.img || "/images/categories/default.jpg"} width={200}
+            height={200}
+            alt={cat.name || "Catégorie"}
+            className={styles.categoryImage}
+          />
+        </section>
+      ))}
     </div>
   );
 };
