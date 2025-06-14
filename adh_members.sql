@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : ven. 06 juin 2025 à 16:15
+-- Généré le : sam. 14 juin 2025 à 13:39
 -- Version du serveur : 8.3.0
 -- Version de PHP : 8.3.6
 
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS `adh_members` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `mail` (`mail`),
   KEY `referred_by` (`referred_by`)
-) ENGINE=MyISAM AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `adh_members`
@@ -65,7 +65,7 @@ CREATE TABLE IF NOT EXISTS `adh_members` (
 
 INSERT INTO `adh_members` (`id`, `name`, `surname`, `mail`, `phone`, `address`, `complement`, `city`, `cp`, `date_of_birth`, `gender`, `profile_picture`, `membership_type`, `membership_start`, `membership_end`, `payment_status`, `payment_method`, `preferred_contact`, `newsletter_subscription`, `last_login`, `referred_by`, `status`, `notes`, `created_at`, `updated_at`) VALUES
 (1, 'Jean', 'Dupont', 'jean.dupont@example.com', '0612345678', '10 rue de Paris', NULL, 'Paris', '75001', '1985-06-15', 'Monsieur', NULL, 'single', '2024-01-01', '2025-01-01', 'paid', 'card', 'email', 1, NULL, NULL, 'actif', 'Membre fidèle depuis 5 ans', '2025-04-04 10:39:19', '2025-04-04 10:39:19'),
-(2, 'Marie', 'Curie', 'marie.curie@example.com', '0623456789', '5 avenue des Lumières', '', 'Lyon', '69003', '1990-11-07', 'Madame', NULL, 'duo', '2023-06-01', '2024-06-01', 'pending', 'paypal', 'phone', 0, NULL, NULL, 'actif', 'Nouvelle adhérente, scientifique reconnue', '2025-04-04 10:39:19', '2025-05-12 16:23:38'),
+(2, 'Marie', 'Curie', 'marie.curie@example.com', '0623456789', '5 avenue des Lumières', NULL, 'Lyon', '69002', '1990-11-07', 'Madame', NULL, 'duo', '2023-06-01', '2024-06-01', 'pending', 'paypal', 'phone', 0, NULL, NULL, 'actif', 'Nouvelle adhérente, scientifique reconnue', '2025-04-04 10:39:19', '2025-04-04 10:39:19'),
 (3, 'Albert', 'Einstein', 'albert.einstein@example.com', '0634567890', '3 boulevard Relativité', NULL, 'Nice', '06000', '1879-03-14', 'Monsieur', NULL, 'family', '2022-09-10', '2023-09-10', 'overdue', 'cash', 'sms', 1, NULL, NULL, 'inactif', 'Physicien mondialement connu', '2025-04-04 10:39:19', '2025-04-04 10:39:19'),
 (4, 'Isaac', 'Newton', 'isaac.newton@example.com', '0645678901', '12 rue de la Gravité', NULL, 'Londres', 'WC2N', '1643-01-04', 'Monsieur', NULL, 'single', '2023-02-15', '2024-02-15', 'paid', 'transfer', 'email', 1, NULL, NULL, 'actif', 'Passionné de physique et d’astronomie', '2025-04-04 10:39:19', '2025-04-04 10:39:19'),
 (5, 'Nikola', 'Tesla', 'nikola.tesla@example.com', '0656789012', '99 avenue de l’Électricité', NULL, 'Belgrade', '11000', '1856-07-10', 'Monsieur', NULL, 'duo', '2023-08-20', '2024-08-20', 'pending', 'paypal', 'phone', 1, NULL, NULL, 'actif', 'Toujours en avance sur son temps', '2025-04-04 10:39:19', '2025-04-04 10:39:19'),
@@ -73,11 +73,7 @@ INSERT INTO `adh_members` (`id`, `name`, `surname`, `mail`, `phone`, `address`, 
 (7, 'Galilée', 'Galileo', 'galilee.galileo@example.com', '0678901234', '7 place des Étoiles', NULL, 'Pise', '56100', '1564-02-15', 'Monsieur', NULL, 'single', '2022-12-05', '2023-12-05', 'overdue', 'cash', 'email', 0, NULL, NULL, 'inactif', 'Astronome et physicien révolutionnaire', '2025-04-04 10:39:19', '2025-04-04 10:39:19'),
 (8, 'Leonardo', 'da Vinci', 'leonardo.davinci@example.com', '0689012345', '21 rue de l’Art', NULL, 'Florence', '50100', '1452-04-15', 'Monsieur', NULL, 'duo', '2023-05-10', '2024-05-10', 'paid', 'transfer', 'none', 1, NULL, NULL, 'actif', 'Génie universel et artiste de renom', '2025-04-04 10:39:19', '2025-04-04 10:39:19'),
 (9, 'Marie', 'Antoinette', 'marie.antoinette@example.com', '0690123456', 'Château de Versailles', NULL, 'Versailles', '78000', '1755-11-02', 'Madame', NULL, 'family', '2023-07-15', '2024-07-15', 'pending', 'paypal', 'phone', 0, NULL, NULL, 'actif', 'Aime organiser des réceptions somptueuses', '2025-04-04 10:39:19', '2025-04-04 10:39:19'),
-(10, 'Vincent', 'Van Gogh', 'vincent.vangogh@example.com', '0601234567', '2 rue des Tournesols', NULL, 'Arles', '13200', '1853-03-30', 'Monsieur', NULL, 'single', '2023-09-25', '2024-09-25', 'paid', 'card', 'sms', 1, NULL, NULL, 'actif', 'Peintre talentueux en quête de reconnaissance', '2025-04-04 10:39:19', '2025-04-04 10:39:19'),
-(11, 'nathaliegnd', 'Charbonnelcvx', 'nat111933@free.fr', '0624401417', '7 Rue de Dantzig', '', 'PARIS', '75016', NULL, NULL, NULL, 'single', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 'actif', NULL, '2025-05-12 14:05:18', '2025-05-12 14:05:18'),
-(12, 'jjjjjj', ',msq,m', '933@mail.fr', '0254589632', '15d cko^^k', '	vpxjppkp', 'jkjoijio', '84410', NULL, NULL, NULL, 'single', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 'actif', NULL, '2025-05-12 14:35:25', '2025-05-12 14:35:25'),
-(13, 'nathaliegggg', 'Charbonnelggggg', 'nat933gggg@free.frgggg', '0624501144', '15 rue Cler', '', 'PARIS', '75016', NULL, NULL, NULL, 'single', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 'actif', NULL, '2025-05-14 13:40:56', '2025-05-14 13:40:56'),
-(14, 'nathaliezzzzzzz', 'Charbonnelzzzzzzzz', 'nat9000033zz@free.fr', 'nat933@free.fr', '0624501410', '', 'PARIS 15', '75015', NULL, NULL, NULL, 'single', NULL, NULL, NULL, NULL, NULL, 1, NULL, NULL, 'actif', NULL, '2025-05-15 15:26:00', '2025-05-15 15:26:00');
+(10, 'Vincent', 'Van Gogh', 'vincent.vangogh@example.com', '0601234567', '2 rue des Tournesols', NULL, 'Arles', '13200', '1853-03-30', 'Monsieur', NULL, 'single', '2023-09-25', '2024-09-25', 'paid', 'card', 'sms', 1, NULL, NULL, 'actif', 'Peintre talentueux en quête de reconnaissance', '2025-04-04 10:39:19', '2025-04-04 10:39:19');
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

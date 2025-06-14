@@ -1,6 +1,12 @@
 import styles from "./CategorySection.module.css";
 import Image from "next/image";
 
+function isPast(dateStr) {
+  // Si ta date est au format ISO ou YYYY-MM-DD, ça fonctionne
+  const date = new Date(dateStr);
+  return date < new Date();
+}
+
 const CategorySection = ({ categories, activitiesByCategory }) => {
   if (!categories || !Array.isArray(categories)) {
     return <div>Aucune catégorie à afficher.</div>;
@@ -8,7 +14,6 @@ const CategorySection = ({ categories, activitiesByCategory }) => {
 
   return (
     <section className={styles.categorySection}>
-      <h1 className={styles.mainTitle}>Nos activités cette année</h1>
       <table className={styles.table}>
         <thead>
           <tr>
@@ -34,9 +39,35 @@ const CategorySection = ({ categories, activitiesByCategory }) => {
               <td>{activitiesByCategory[cat.id]?.length || 0}</td>
               <td>
                 <ul className={styles.activityList}>
-                  {(activitiesByCategory[cat.id] || []).map((activity) => (
-                    <li key={activity.id}>{activity.title}</li>
-                  ))}
+                  {(activitiesByCategory[cat.id] || []).map((activity) => {
+                    const placesRestantes = activity.capacity - activity.inscrits;
+                    const estTerminee = isPast(activity.date);
+
+                    return (
+                      <li key={activity.id}>
+                        <strong>{activity.title}</strong>
+                        {" — "}
+                        {typeof activity.capacity === "number" && typeof activity.inscrits === "number"
+                          ? `Reste ${placesRestantes} place${placesRestantes > 1 ? "s" : ""} sur ${activity.capacity}`
+                          : "Capacité inconnue"}
+                        {" — "}
+                        {estTerminee ? (
+                          <span className={styles.ended}>Terminée</span>
+                        ) : (
+                          <span className={styles.upcoming}>À venir</span>
+                        )}
+                        {/* Bouton S'inscrire */}
+                        {!estTerminee && placesRestantes > 0 && (
+                          <button
+                            className={styles.subscribeBtn}
+                            onClick={() => handleInscription(activity.id)}
+                          >
+                            S&apos;inscrire
+                          </button>
+                        )}
+                      </li>
+                    );
+                  })}
                 </ul>
               </td>
             </tr>
