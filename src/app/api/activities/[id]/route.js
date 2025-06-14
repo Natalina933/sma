@@ -93,12 +93,26 @@ export const DELETE = async (_, { params }) => {
     if (result.affectedRows === 0) {
       return new NextResponse("Activité non trouvée", { status: 404 });
     }
-    return new NextResponse(
-      JSON.stringify({ message: "Activité supprimée" }),
-      { status: 200 }
-    );
+    return new NextResponse(JSON.stringify({ message: "Activité supprimée" }), {
+      status: 200,
+    });
   } catch (error) {
     console.error(error);
     return new NextResponse("Erreur serveur", { status: 500 });
   }
 };
+export async function POST(request) {
+  const { activity_id, member_id } = await request.json();
+  try {
+    await pool.execute(
+      "INSERT INTO act_activity_members (activity_id, member_id) VALUES (?, ?)",
+      [activity_id, member_id]
+    );
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Erreur d'inscription" },
+      { status: 500 }
+    );
+  }
+}
