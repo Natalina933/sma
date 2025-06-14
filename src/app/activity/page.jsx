@@ -1,15 +1,14 @@
 "use client";
 import styles from "./page.module.css";
-import ActivityCard from "@/components/common/actitityCard/ActivityCard";
+import CategorySection from "@/components/CategorySection/CategorySection";
 import { useEffect, useState, useMemo } from "react";
-import Image from "next/image";
 
 const Activity = () => {
   const [categories, setCategories] = useState([]);
   const [activities, setActivities] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // Récupère toutes les catégories
+
   useEffect(() => {
     setLoading(true);
     setError(null);
@@ -25,11 +24,10 @@ const Activity = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  // Regroupement optimisé avec useMemo
   const activitiesByCategory = useMemo(() => {
     const map = {};
     categories.forEach((cat) => {
-      map[cat.name] = activities.filter((a) => a.category === cat.name);
+      map[cat.id] = activities.filter((a) => a.category_id === cat.id);
     });
     return map;
   }, [categories, activities]);
@@ -39,33 +37,10 @@ const Activity = () => {
 
   return (
     <div className={styles.container}>
-      {categories.map((cat) => (
-        <section key={cat.id} className={styles.categorySection}>
-          <h2 className={styles.catTitle}>
-            {cat.name}
-            <span className={styles.count}>
-              &nbsp;({activitiesByCategory[cat.name]?.length || 0} activité
-              {activitiesByCategory[cat.name]?.length > 1 ? "s" : ""})
-            </span>
-          </h2>
-          <div className={styles.activityList}>
-            {(activitiesByCategory[cat.name] || []).map((activity) => (
-              <ActivityCard
-                key={activity.id}
-                activity={activity}
-                showDetailsButton={true}
-                showRegisterButton={true}
-              />
-            ))}
-          </div>
-          <Image
-            src={cat.img || "/images/categories/default.jpg"} width={200}
-            height={200}
-            alt={cat.name || "Catégorie"}
-            className={styles.categoryImage}
-          />
-        </section>
-      ))}
+      <CategorySection
+        categories={categories}
+        activitiesByCategory={activitiesByCategory}
+      />
     </div>
   );
 };

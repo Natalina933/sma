@@ -1,0 +1,24 @@
+.categorySection {
+  margin-bottom: 2em;
+}
+.catTitle {
+  font-size: 1.5em;
+  margin-bottom: 0.5em;
+}
+.count {
+  font-size: 0.9em;
+  color: var(--secondary-color);
+}
+.activityList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+}
+.noActivity {
+  color: #888;
+  font-style: italic;
+}
+.categoryImage {
+  margin-top: 1em;
+  border-radius: 8px;
+}
