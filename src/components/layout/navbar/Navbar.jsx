@@ -9,14 +9,13 @@ import { signOut, useSession } from "next-auth/react";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { FaCogs } from "react-icons/fa";
-import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
   const [showTimeoutModal, setShowTimeoutModal] = useState(false);
   const timerRef = useRef();
-  const router = useRouter();
+  const [loginMode, setLoginMode] = useState("adherent"); // "adherent" ou "admin"
 
   // Gestion de l'inactivité
   const resetTimer = () => {
@@ -142,43 +141,48 @@ const Navbar = () => {
           </Link>
         ))}
 
-        {/* Lien Tableau de bord (toujours visible, redirige intelligemment) */}
+        {/* Lien Tableau de bord */}
         {renderDashboardLink()}
 
-        {/* Connexion/Inscription gestionnaire */}
+        {/* Toggle Connexion */}
+        {!session && (
+          <div className={styles.toggleWrapper}>
+            <button
+              className={`${styles.toggleBtn} ${loginMode === "adherent" ? styles.activeToggle : ""}`}
+              onClick={() => setLoginMode("adherent")}
+              type="button"
+            >
+              Connexion adhérent
+            </button>
+            <button
+              className={`${styles.toggleBtn} ${loginMode === "admin" ? styles.activeToggle : ""}`}
+              onClick={() => setLoginMode("admin")}
+              type="button"
+            >
+              Connexion gestionnaire
+            </button>
+          </div>
+        )}
+
+        {/* Connexion/Inscription selon le mode choisi */}
         {!session ? (
           <div className={styles.authButtons}>
-            <Link
-              href="/dashboard/login"
-              onClick={handleLinkClick}
-              className={styles.loginLink}
-            >
-              <button className={styles.login}>
-                <FontAwesomeIcon icon={faBars} className={styles.loginIcon} />
-                Connexion gestionnaire
-              </button>
-            </Link>
-            {/* Connexion/Inscription adhérent */}
-            <Link
-              href="/dashboard/adherent/login"
-              onClick={handleLinkClick}
-              className={styles.loginLink}
-            >
-              <button className={styles.login}>
-                <FontAwesomeIcon icon={faBars} className={styles.loginIcon} />
-                Connexion adhérent
-              </button>
-            </Link>
-            <Link
-              href="/dashboard/adherent/register"
-              onClick={handleLinkClick}
-              className={styles.signupLink}
-            >
-              <button className={styles.signup}>
-                <FontAwesomeIcon icon={faTimes} className={styles.signupIcon} />
-                S&apos;inscrire (adhérent)
-              </button>
-            </Link>
+            {loginMode === "admin" ? (
+              <Link
+                href="/dashboard/login"
+                onClick={handleLinkClick}
+                className={styles.loginLink}
+              >
+                <button className={styles.login}>
+                  Connexion gestionnaire
+                </button>
+              </Link>
+            ) : (
+              <>
+
+
+              </>
+            )}
           </div>
         ) : (
           <button className={styles.logout} onClick={handleLogout}>

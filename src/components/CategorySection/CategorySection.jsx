@@ -1,5 +1,6 @@
 import styles from "./CategorySection.module.css";
 import Image from "next/image";
+import { useState } from "react";
 
 function isPast(dateStr) {
   const date = new Date(dateStr);
@@ -7,18 +8,25 @@ function isPast(dateStr) {
 }
 
 const CategorySection = ({ categories, activitiesByCategory, user }) => {
+  const [error, setError] = useState(null);
+
   const handleInscription = async (activityId) => {
-    const memberId = user.id; // à adapter selon ton contexte
+    setError(null);
+    if (!user || !user.id) {
+      setError("Vous devez être connecté pour vous inscrire.");
+      return;
+    }
     const res = await fetch("/api/activity-members", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ activity_id: activityId, member_id: memberId }),
+      body: JSON.stringify({ activity_id: activityId, member_id: user.id }),
     });
     if (res.ok) {
       alert("Inscription réussie !");
       // Optionnel : rafraîchir la liste des activités/inscrits
     } else {
-      alert("Erreur lors de l'inscription");
+      const data = await res.json();
+      setError(data.error || "Erreur lors de l'inscription");
     }
   };
 
@@ -29,6 +37,7 @@ const CategorySection = ({ categories, activitiesByCategory, user }) => {
   return (
     <section className={styles.categorySection}>
       <h1 className={styles.mainTitle}>Nos activités cette année</h1>
+      {error && <div className={styles.errorMsg}>{error}</div>}
       <table className={styles.table}>
         <thead>
           <tr>
