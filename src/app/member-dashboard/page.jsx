@@ -1,4 +1,5 @@
 "use client";
+import styles from "./page.module.css";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import ProfileCard from "@/components/member-dashboard/ProfileCard";
@@ -31,7 +32,7 @@ export default function DashboardAdherent() {
     const notInscrit = activities.filter(a => !inscritIds.includes(a.id));
 
     return (
-        <div>
+        <div className={styles.pageContainer}>
             <h1>Mon espace adhérent</h1>
             <ProfileCard user={session.user} />
             <h2>Mes activités</h2>
