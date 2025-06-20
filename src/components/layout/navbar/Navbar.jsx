@@ -8,7 +8,6 @@ import DarkModeToggle from "@/components/darkModeToggle/DarkModeToggle";
 import { signOut, useSession } from "next-auth/react";
 import { faBars, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { FaCogs } from "react-icons/fa";
 
 const Navbar = () => {
   const { data: session } = useSession();
@@ -16,26 +15,29 @@ const Navbar = () => {
   const [showTimeoutModal, setShowTimeoutModal] = useState(false);
   const timerRef = useRef();
 
-  // Gestion de l'inactivité
-  const resetTimer = () => {
-    if (timerRef.current) clearTimeout(timerRef.current);
-    timerRef.current = setTimeout(() => {
-      setShowTimeoutModal(true);
-    }, 300000); // 5 minutes
-  };
-
+  // Gestion de l'inactivité : active seulement si connecté
   useEffect(() => {
+    if (!session) return; // N'active rien si pas connecté
+
+    const resetTimer = () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+      timerRef.current = setTimeout(() => {
+        setShowTimeoutModal(true);
+      }, 300000); // 5 minutes
+    };
+
     window.addEventListener("mousemove", resetTimer);
     window.addEventListener("keydown", resetTimer);
     window.addEventListener("scroll", resetTimer);
     resetTimer();
+
     return () => {
       if (timerRef.current) clearTimeout(timerRef.current);
       window.removeEventListener("mousemove", resetTimer);
       window.removeEventListener("keydown", resetTimer);
       window.removeEventListener("scroll", resetTimer);
     };
-  }, []);
+  }, [session]);
 
   const handleLogout = () => {
     signOut({ callbackUrl: "/dashboard/login" });
@@ -54,34 +56,6 @@ const Navbar = () => {
 
   const handleLinkClick = () => {
     setIsOpen(false);
-  };
-
-  // Affiche le lien tableau de bord seulement si gestionnaire connecté
-  const renderDashboardLink = () => {
-    if (session && (session.user?.role === "admin" || session.user?.role === "moderator")) {
-      return (
-        <Link
-          href="/dashboard"
-          className={styles.dashboardBtn}
-        >
-          <button className={styles.dashboardBtn}>
-            Tableau de bord gestionnaire
-          </button>
-        </Link>
-      );
-    } else if (session && session.user?.role === "membre") {
-      return (
-        <Link
-          href="/dashboardMember"
-          className={styles.dashboardBtn}
-        >
-          <button className={styles.dashboardBtn}>
-            Tableau de bord adhérent
-          </button>
-        </Link>
-      );
-    }
-    return null;
   };
 
   return (
@@ -153,9 +127,6 @@ const Navbar = () => {
             <div className={styles.linkTitle}>{link.title}</div>
           </Link>
         ))}
-
-        {/* Lien Tableau de bord (gestionnaire uniquement) */}
-        {renderDashboardLink()}
 
         {/* Connexion (affiché seulement si pas connecté) */}
         {!session && (

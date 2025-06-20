@@ -1,15 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { getProviders, signIn, useSession } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
 import styles from "./page.module.css";
 
-const INACTIVITY_TIMEOUT = 15 * 60 * 1000;
-
 export default function LoginForm() {
-  const session = useSession();
+  const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
   const [info, setInfo] = useState({ email: "", password: "" });
   const [showPassword, setShowPassword] = useState(false);
@@ -17,21 +15,25 @@ export default function LoginForm() {
   const [pending, setPending] = useState(false);
   const params = useSearchParams();
 
+  // Redirection après authentification
   useEffect(() => {
-    if (session.status === "authenticated") {
+    if (sessionStatus === "authenticated") {
       router?.push("/dashboard");
     }
-  }, [session.status, router]);
+  }, [sessionStatus, router]);
 
+  // Gestion des inputs
   function handleInput(e) {
     setInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
+  // Soumission du formulaire
   async function handleSubmit(e) {
     e.preventDefault();
+    setError("");
 
     if (!info.email || !info.password) {
-      setError("Veuillez remplir tous les champs");
+      setError("Veuillez saisir votre email et votre mot de passe.");
       return;
     }
 
@@ -44,35 +46,58 @@ export default function LoginForm() {
       });
 
       if (res?.error) {
-        setError("Identifiants invalides");
+        setError(res.error || "Identifiants invalides.");
         setPending(false);
         return;
       }
 
       router.replace("/dashboard");
-    } catch (error) {
+    } catch (apiError) {
       setPending(false);
-      setError("Une erreur est survenue");
+      setError("Une erreur inattendue est survenue. Veuillez réessayer.");
     }
   }
 
-  // Exemple d'utilisation de params (pour afficher un message d'erreur dans l'URL)
+  // Gestion des erreurs dans l'URL
   useEffect(() => {
     const errorParam = params.get("error");
-    if (errorParam) setError(errorParam);
+    if (errorParam) {
+      switch (errorParam) {
+        case "CredentialsSignin":
+          setError("Identifiants invalides. Veuillez vérifier votre email et mot de passe.");
+          break;
+        case "Callback":
+          setError(params.get("message") || "Une erreur d'authentification est survenue. Veuillez réessayer.");
+          break;
+        default:
+          setError("Une erreur de connexion est survenue. " + (errorParam ? `Détails: ${errorParam}` : ""));
+          break;
+      }
+    }
   }, [params]);
+
+  if (sessionStatus === "loading") {
+    return <div className={styles.loadingContainer}>Chargement...</div>;
+  }
+
+  if (sessionStatus === "authenticated") {
+    return null;
+  }
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.subtitle}>Connectez-vous pour accéder au tableau de bord</h2>
+      <h1 className={styles.mainTitle}>Accès Espace Gestionnaire</h1>
+
       <form className={styles.form} onSubmit={handleSubmit}>
         <h2>Connexion</h2>
-        <Link href="/dashboard/register">Pas de compte ? Inscrivez-vous</Link>
+        <Link href="/dashboard/register" className={styles.registerLink}>
+          Pas de compte gestionnaire ? <span className={styles.highlightLink}>Inscrivez-vous ici</span>
+        </Link>
 
         <div className={styles.inputGroup}>
           <input
             type="email"
-            placeholder="Email"
+            placeholder="Adresse email"
             className={styles.input}
             onChange={handleInput}
             name="email"
@@ -110,6 +135,15 @@ export default function LoginForm() {
           disabled={pending}
         >
           {pending ? "Connexion en cours..." : "Se connecter"}
+        </button>
+
+        <span className={styles.separator}>ou</span>
+        <button
+          type="button"
+          onClick={() => signIn("google")}
+          className={`${styles.button} ${styles.googleButton}`}
+        >
+          Se connecter avec Google
         </button>
       </form>
     </div>

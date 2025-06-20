@@ -3,8 +3,8 @@ import React, { useEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
 import styles from "./page.module.css"; // Assurez-vous que ce fichier CSS est bien le même ou adapté
+import PasswordInput from "@/components/common/passwordInput/PasswordInput";
 
 // Le timeout d'inactivité peut être géré globalement ou au niveau de la session NextAuth.
 // Pour cette page de connexion, il n'est pas directement utilisé.
@@ -77,12 +77,9 @@ export default function LoginMemberForm() {
 
     return (
         <div className={styles.container}>
-            <h2 className={styles.subtitle}>Accédez à votre espace adhérent</h2>
             <form className={styles.form} onSubmit={handleSubmit}>
-                <h2 className={styles.formTitle}>Connexion Adhérent</h2>
-                {/* Décidez si vous voulez un lien d'inscription pour les adhérents.
-            Si l'inscription se fait uniquement via les gestionnaires, supprimez cette ligne. */}
-                <Link href="/registerMember" className={styles.registerLink}>
+                <h2 className={styles.formTitle}>Accédez à votre espace adhérent</h2>
+                <Link href="/dashboardMember/registerMember" className={styles.registerLink}>
                     Pas encore membre ? Inscrivez-vous !
                 </Link>
 
@@ -99,25 +96,14 @@ export default function LoginMemberForm() {
                 </div>
 
                 <div className={styles.inputGroup}>
-                    <div className={styles.passwordContainer}>
-                        <input
-                            type={showPassword ? "text" : "password"}
-                            placeholder="Votre mot de passe"
-                            className={styles.input}
-                            onChange={handleInput}
-                            name="password"
-                            required
-                            autoComplete="current-password"
-                        />
-                        <button
-                            type="button"
-                            className={styles.passwordToggle}
-                            onClick={() => setShowPassword(!showPassword)}
-                            aria-label={showPassword ? "Masquer le mot de passe" : "Afficher le mot de passe"}
-                        >
-                            {showPassword ? <RiEyeOffFill /> : <RiEyeFill />}
-                        </button>
-                    </div>
+                    <PasswordInput
+                        value={info.password}
+                        onChange={handleInput}
+                        name="password"
+                        placeholder="Votre mot de passe"
+                        required
+                        autoComplete="current-password"
+                    />
                 </div>
 
                 {error && <p className={styles.errorMessage}>{error}</p>}

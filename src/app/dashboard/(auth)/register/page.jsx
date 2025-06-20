@@ -3,7 +3,6 @@ import { useState } from "react";
 import styles from "./page.module.css";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import bcrypt from "bcryptjs";
 import { signIn } from "next-auth/react";
 
 /* eslint-disable react/jsx-no-comment-textnodes */
@@ -12,8 +11,8 @@ import { signIn } from "next-auth/react";
 const Register = () => {
   const router = useRouter();
   const [info, setInfo] = useState({
-    name: "",
-    username: "",
+    name: "", // Correspond à la colonne 'name' dans `usr_users`
+    username: "", // Correspond à la colonne 'username' dans `usr_users`
     email: "",
     password: "",
     confirmPassword: "",
@@ -21,115 +20,110 @@ const Register = () => {
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
 
-
-
   function handleInput(e) {
     setInfo((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 
   async function handleSubmit(e) {
-    // console.log("inside handleSubmit");
     e.preventDefault();
-    // Vérifie si tous les champs sont bien rempli
+    setError(""); // Réinitialise les messages d'erreur à chaque soumission
+    setPending(true); // Active l'état d'attente pour le bouton
+
+    // --- Validation côté client ---
+    // 1. Vérifie si tous les champs requis sont remplis, y compris confirmPassword
     if (
       !info.email ||
       !info.password ||
       !info.name ||
-      !info.username
+      !info.username ||
+      !info.confirmPassword
     ) {
-      setError("Veuillez remplir tous les champs");
+      setError("Veuillez remplir tous les champs requis.");
+      setPending(false); // Désactive l'état d'attente
+      return; // Arrête l'exécution de la fonction
     }
-    // si les mots de passe ne correspondent pas
-    if (info.password !== info.password) {
-      setError("Les mots de passe ne correspondent pas");
-      return;
-    }
-    // Hachage du mot de passe
-    const hashedPassword = await bcrypt.hash(info.password, 10);
-    // Envoi des données au serveur   
-    try {
-      setPending(true);
 
+    // 2. Vérifie si les mots de passe correspondent (CORRECTION CRUCIALE ICI)
+    if (info.password !== info.confirmPassword) {
+      setError("Les mots de passe ne correspondent pas.");
+      setPending(false); // Désactive l'état d'attente
+      return; // Arrête l'exécution de la fonction
+    }
+    // --- Fin de la validation côté client ---
+
+    // IMPORTANT : Le hachage du mot de passe doit être effectué sur le serveur
+    // dans votre API '/api/auth/register'.
+    // Supprimez ou commentez la ligne suivante :
+    // const hashedPassword = await bcrypt.hash(info.password, 10);
+
+    try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(info),
+        // Envoie les données brutes (mot de passe en clair via HTTPS)
+        // L'API sera chargée de hacher le mot de passe avant de l'insérer en base
+        body: JSON.stringify({
+          name: info.name,
+          username: info.username,
+          email: info.email,
+          password: info.password,
+        }),
       });
+
       if (res.ok) {
-        setPending(false);
-        const form = e.target;
-        form.reset();
-        router.push("/dashboard/login")
-        console.log("user registered");
+        // Inscription réussie
+        const data = await res.json();
+        console.log("Utilisateur enregistré avec succès:", data.message);
+        setPending(false); // Désactive l'état d'attente
+        e.target.reset(); // Réinitialise le formulaire
+        router.push("/dashboard/login"); // Redirige vers la page de connexion des gestionnaires
+
       } else {
+        // Gère les erreurs renvoyées par l'API (ex: email/username déjà pris)
         const errorData = await res.json();
-        setError(errorData.message);
-        setPending(false);
+        setError(errorData.message || "Une erreur est survenue lors de l'inscription.");
+        setPending(false); // Désactive l'état d'attente
       }
 
-    } catch (error) {
-      setPending(false);
-      setError("quelque chose ne fonctionne pas");
+    } catch (fetchError) {
+      // Gère les erreurs réseau ou les problèmes de connexion à l'API
+      console.error("Erreur réseau ou d'API lors de l'inscription:", fetchError);
+      setError("Impossible de se connecter au serveur. Veuillez réessayer.");
+      setPending(false); // Désactive l'état d'attente
     }
   }
-  // console.log({info});
+
   return (
     <div className={styles.container}>
       <form autoComplete="on" className={styles.form} onSubmit={handleSubmit}>
-        <h1>Créez votre compte</h1>
-        <Link href="/dashboard/login">Déjà inscrit ? Connectez-vous</Link>
+        <h1>Créez votre compte gestionnaire</h1> {/* Titre spécifique au rôle */}
+        <Link href="/dashboard/login">Déjà inscrit ? Connectez-vous</Link> {/* Lien vers la page de connexion des gestionnaires */}
 
-        {/* <div className={styles.radioGroup}>
-          <input
-            type="radio"
-            id="civilityMme"
-            name="civility"
-            value="Mme"
-            onChange={handleCivilityChange}
-          />
-          <label className={styles.label} htmlFor="civilityMme">
-            Mme
-          </label>
-
-          <input type="radio" id="civilityM" name="civility" value="M." />
-          <label className={styles.label} htmlFor="civilityM">
-            M.
-          </label>
-
-          <input
-            type="radio"
-            id="civilityMmeEtM"
-            name="civility"
-            value="Mme et M."
-          />
-          <label className={styles.label} htmlFor="civilityMmeEtM">
-            Mme et M.
-          </label>
-        </div> */}
-
+        
         <input
           type="text"
           placeholder="Nom"
           className={styles.input}
-          onChange={(e) => handleInput(e)}
+          onChange={handleInput} // Utilisation directe de handleInput
           name="name"
-          autoComplete="name"
+          autoComplete="family-name" // Autocomplétion appropriée
           required
         />
         <input
           type="text"
-          placeholder="Prénom"
-          onChange={(e) => handleInput(e)}
+          placeholder="Prénom (sera votre nom d'utilisateur)" // Précision sur l'usage du champ
+          onChange={handleInput} // Utilisation directe de handleInput
           className={styles.input}
           name="username"
+          autoComplete="given-name" // Autocomplétion appropriée
           required
         />
         <input
           type="email"
           placeholder="Email"
-          onChange={(e) => handleInput(e)}
+          onChange={handleInput} // Utilisation directe de handleInput
           className={styles.input}
           name="email"
           autoComplete="email"
@@ -139,7 +133,7 @@ const Register = () => {
         <input
           type="password"
           placeholder="Mot de passe"
-          onChange={(e) => handleInput(e)}
+          onChange={handleInput} // Utilisation directe de handleInput
           className={styles.input}
           name="password"
           autoComplete="new-password"
@@ -150,27 +144,29 @@ const Register = () => {
           type="password"
           placeholder="Confirmation du mot de passe"
           className={styles.input}
+          onChange={handleInput} // Utilisation directe de handleInput
           name="confirmPassword"
           autoComplete="new-password"
           required
         />
-        {error && <p className="message">{error}</p>}
-        <button className={styles.button}
-          disabled={pending ? true : false}
+        {/* Affiche les messages d'erreur ici, avec une classe CSS pour le style */}
+        {error && <p className={styles.errorMessage}>{error}</p>}
+        <button
+          className={styles.button}
+          disabled={pending} // Le bouton est désactivé si pending est vrai
         >
-          {pending ? "Registering" : "S'inscrire"}</button>
+          {pending ? "Inscription en cours..." : "S'inscrire"}
+        </button>
       </form>
       <span>ou</span>
       <button
         type="button"
-        onClick={() => {
-          signIn("google");
-        }}
+        onClick={() => signIn("google")} // Appel simplifié de signIn
         className={styles.button + " " + styles.google}
       >
-        Sinscrire avec votre compte Google
+        S'inscrire avec Google
       </button>
-      {error && <p>{error}</p>}
+      {/* Le message d'erreur est déjà affiché dans le formulaire, pas besoin de le répéter ici */}
     </div>
   );
 };
