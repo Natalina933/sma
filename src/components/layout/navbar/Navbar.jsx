@@ -15,7 +15,6 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [showTimeoutModal, setShowTimeoutModal] = useState(false);
   const timerRef = useRef();
-  const [loginMode, setLoginMode] = useState("adherent"); // "adherent" ou "admin"
 
   // Gestion de l'inactivité
   const resetTimer = () => {
@@ -57,19 +56,33 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
-  // Lien vers le tableau de bord : redirige vers login si non connecté
-  const renderDashboardLink = () => (
-    <Link
-      href={session ? "/dashboard" : "/dashboard/login"}
-      className={styles.link}
-      onClick={handleLinkClick}
-    >
-      <div className={styles.linkIcon}>
-        <FaCogs />
-      </div>
-      <div className={styles.linkTitle}>Tableau de bord</div>
-    </Link>
-  );
+  // Affiche le lien tableau de bord seulement si gestionnaire connecté
+  const renderDashboardLink = () => {
+    if (session && (session.user?.role === "admin" || session.user?.role === "moderator")) {
+      return (
+        <Link
+          href="/dashboard"
+          className={styles.dashboardBtn}
+        >
+          <button className={styles.dashboardBtn}>
+            Tableau de bord gestionnaire
+          </button>
+        </Link>
+      );
+    } else if (session && session.user?.role === "membre") {
+      return (
+        <Link
+          href="/dashboardMember"
+          className={styles.dashboardBtn}
+        >
+          <button className={styles.dashboardBtn}>
+            Tableau de bord adhérent
+          </button>
+        </Link>
+      );
+    }
+    return null;
+  };
 
   return (
     <nav className={styles.container}>
@@ -141,52 +154,37 @@ const Navbar = () => {
           </Link>
         ))}
 
-        {/* Lien Tableau de bord */}
+        {/* Lien Tableau de bord (gestionnaire uniquement) */}
         {renderDashboardLink()}
 
-        {/* Toggle Connexion */}
+        {/* Connexion (affiché seulement si pas connecté) */}
         {!session && (
-          <div className={styles.toggleWrapper}>
-            <button
-              className={`${styles.toggleBtn} ${loginMode === "adherent" ? styles.activeToggle : ""}`}
-              onClick={() => setLoginMode("adherent")}
-              type="button"
+          <div className={styles.authButtons}>
+            <Link
+              href="/dashboardMember/loginMember"
+              onClick={handleLinkClick}
+              className={styles.loginLink}
             >
-              Connexion adhérent
-            </button>
-            <button
-              className={`${styles.toggleBtn} ${loginMode === "admin" ? styles.activeToggle : ""}`}
-              onClick={() => setLoginMode("admin")}
-              type="button"
+              <button className={styles.login}>
+                Espace adhérent
+              </button>
+            </Link>
+            <Link
+              href="/dashboard/login"
+              onClick={handleLinkClick}
+              className={styles.loginLink}
             >
-              Connexion gestionnaire
-            </button>
+              <button className={styles.login}>
+                Espace gestionnaire
+              </button>
+            </Link>
           </div>
         )}
 
-        {/* Connexion/Inscription selon le mode choisi */}
-        {!session ? (
-          <div className={styles.authButtons}>
-            {loginMode === "admin" ? (
-              <Link
-                href="/dashboard/login"
-                onClick={handleLinkClick}
-                className={styles.loginLink}
-              >
-                <button className={styles.login}>
-                  Connexion gestionnaire
-                </button>
-              </Link>
-            ) : (
-              <>
-
-
-              </>
-            )}
-          </div>
-        ) : (
+        {/* Déconnexion si connecté */}
+        {session && (
           <button className={styles.logout} onClick={handleLogout}>
-            Déconnexion
+            Se déconnecter
           </button>
         )}
       </section>

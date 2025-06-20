@@ -1,0 +1,66 @@
+/* src/components/dashboardMember/memberSideMenu/MemberSideMenu.module.css */
+.sideMenu {
+    width: 250px;
+    background-color: var(--bgSoft);
+    /* Une couleur de fond pour le menu */
+    padding: 20px;
+    border-right: 1px solid var(--borderColor);
+    /* Séparateur avec le contenu */
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.menuTitle {
+    color: var(--textColor);
+    font-size: 1.5em;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.menuList {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menuItem {
+    margin-bottom: 10px;
+}
+
+.menuItem a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    color: var(--textColor);
+    text-decoration: none;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menuItem a:hover {
+    background-color: var(--hoverColor);
+    /* Une couleur au survol */
+    color: var(--primaryColor);
+}
+
+.menuItem.active a {
+    background-color: var(--primaryColor);
+    /* Couleur de la section active */
+    color: white;
+    font-weight: bold;
+}
+
+.menuItem.active a .menuIcon {
+    color: white;
+    /* Les icônes aussi blanches si l'élément est actif */
+}
+
+.menuIcon {
+    font-size: 1.2em;
+    color: var(--softTextColor);
+    /* Couleur des icônes par défaut */
+    transition: color 0.3s ease;
+}
