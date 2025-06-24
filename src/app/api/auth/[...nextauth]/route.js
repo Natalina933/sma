@@ -10,50 +10,27 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
-      id: "credentials",
-      name: "Credentials",
+      id: "member-credentials",
+      name: "Adhérent",
       async authorize(credentials) {
-        let connection;
-        try {
-          connection = await pool.getConnection();
-
-          // Recherche l'utilisateur par email
-          const [rows] = await connection.execute(
-            "SELECT * FROM usr_users WHERE email = ?",
-            [credentials.email]
-          );
-
-          if (!rows || rows.length === 0) {
-            return null; // Utilisateur non trouvé
-          }
-
-          const user = rows[0];
-
-          // Vérifie le mot de passe
-          const isPasswordCorrect = await bcrypt.compare(
-            credentials.password,
-            user.password
-          );
-
-          if (!isPasswordCorrect) {
-            return null; // Mauvais mot de passe
-          }
-
-          // Retourne l'utilisateur (ajoute les champs nécessaires)
-          return {
-            id: user.id,
-            name: user.name,
-            email: user.email,
-            username: user.username,
-            role: user.role,
-            status: user.status,
-          };
-        } catch (err) {
-          console.error("Erreur NextAuth authorize:", err);
-          throw new Error("Erreur serveur");
-        } finally {
-          if (connection) connection.release();
-        }
+        // Cherche dans la table adh_members
+        const [rows] = await pool.execute(
+          "SELECT * FROM adh_members WHERE mail = ?",
+          [credentials.mail]
+        );
+        const user = rows[0];
+        if (!user) return null;
+        const isPasswordCorrect = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
+        if (!isPasswordCorrect) return null;
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.mail,
+          role: "member",
+        };
       },
     }),
 

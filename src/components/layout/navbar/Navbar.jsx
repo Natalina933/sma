@@ -15,16 +15,24 @@ const Navbar = () => {
   const [showTimeoutModal, setShowTimeoutModal] = useState(false);
   const timerRef = useRef();
 
+  // Déclare resetTimer ici pour qu'il soit accessible partout
+  const resetTimer = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      setShowTimeoutModal(true);
+    }, 300000); // 5 minutes
+  };
+
   // Gestion de l'inactivité : active seulement si connecté
   useEffect(() => {
-    if (!session) return; // N'active rien si pas connecté
-
-    const resetTimer = () => {
+    if (!session) {
+      // Si pas connecté, on nettoie le timer et les listeners
       if (timerRef.current) clearTimeout(timerRef.current);
-      timerRef.current = setTimeout(() => {
-        setShowTimeoutModal(true);
-      }, 300000); // 5 minutes
-    };
+      window.removeEventListener("mousemove", resetTimer);
+      window.removeEventListener("keydown", resetTimer);
+      window.removeEventListener("scroll", resetTimer);
+      return;
+    }
 
     window.addEventListener("mousemove", resetTimer);
     window.addEventListener("keydown", resetTimer);

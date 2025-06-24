@@ -10,8 +10,8 @@ const RegisterMember = () => {
     const router = useRouter();
     const [info, setInfo] = useState({
         name: "",
-        username: "",
-        email: "",
+        surname: "",
+        mail: "",
         password: "",
         confirmPassword: "",
     });
@@ -28,10 +28,10 @@ const RegisterMember = () => {
         setPending(true);
 
         if (
-            !info.email ||
+            !info.mail ||
             !info.password ||
             !info.name ||
-            !info.username ||
+            !info.surname ||
             !info.confirmPassword
         ) {
             setError("Veuillez remplir tous les champs.");
@@ -53,16 +53,21 @@ const RegisterMember = () => {
                 },
                 body: JSON.stringify({
                     name: info.name,
-                    username: info.username,
-                    email: info.email,
+                    surname: info.surname,
+                    mail: info.mail,
                     password: info.password,
                 }),
             });
 
             if (res.ok) {
-                setPending(false);
-                e.target.reset();
-                router.push("/dashboardMember/loginMember");
+                // Connexion automatique après inscription
+                await signIn("member-credentials", {
+                    redirect: true,
+                    callbackUrl: "/dashboardMember",
+                    mail: info.mail,
+                    password: info.password,
+                });
+                // Pas besoin de router.push ici, la redirection est gérée par signIn
             } else {
                 const errorData = await res.json();
                 setError(errorData.message || "Une erreur est survenue lors de l'inscription.");
@@ -93,10 +98,10 @@ const RegisterMember = () => {
                 />
                 <input
                     type="text"
-                    placeholder="Prénom (sera votre nom d'utilisateur)"
+                    placeholder="Prénom"
                     onChange={handleInput}
                     className={styles.input}
-                    name="username"
+                    name="surname"
                     autoComplete="given-name"
                     required
                 />
@@ -105,7 +110,7 @@ const RegisterMember = () => {
                     placeholder="Email"
                     onChange={handleInput}
                     className={styles.input}
-                    name="email"
+                    name="mail"
                     autoComplete="email"
                     required
                 />
