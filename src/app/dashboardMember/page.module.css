@@ -1,52 +1,171 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap");
+
 /* Styles existants pour dashboardContainer, dashboardContent, dashboardHeader */
 
+.dashboardContainer {
+  display: flex;
+  min-height: 100vh;
+  background: var(--background-light);
+  font-family: "Roboto", sans-serif;
+}
+
+.sideMenu {
+  min-width: 230px;
+  background: var(--card-background);
+  border-right: 1px solid var(--border-color);
+  padding: var(--spacing-lg) var(--spacing-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  box-shadow: var(--box-shadow);
+}
+
+.menuBtn,
+.activeMenuBtn {
+  background: none;
+  border: none;
+  color: var(--text-color);
+  font-size: var(--font-size-lg);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius);
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  transition: background var(--transition-duration),
+    color var(--transition-duration);
+}
+
+.menuBtn:hover,
+.activeMenuBtn {
+  background: var(--primary-color);
+  color: #fff;
+}
+
+.logoutBtn {
+  margin-top: auto;
+  background: var(--secondary-color);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm) var(--spacing-md);
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  transition: background var(--transition-duration);
+}
+
+.logoutBtn:hover {
+  background: var(--secondary-dark-color);
+}
+
+.dashboardContent {
+  flex: 1;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  background: var(--background-color);
+  min-height: 100vh;
+}
+
+.dashboardHeader {
+  margin-bottom: var(--spacing-lg);
+  font-size: var(--font-size-xl);
+  color: var(--primary-dark-color);
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
 .sectionCard {
-  background-color: var(--bgSoft); /* Une couleur de fond légère */
-  padding: 25px;
-  border-radius: 10px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-bottom: 20px;
+  background: var(--card-background);
+  border-radius: var(--border-radius-md);
+  box-shadow: var(--box-shadow);
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-lg);
+  animation: fadeIn 0.5s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .sectionTitle {
-  color: var(--textColor); /* Couleur du texte principal */
-  font-size: 1.8em;
-  margin-bottom: 20px;
+  color: var(--primary-dark-color);
+  font-size: var(--font-size-xl);
+  margin-bottom: var(--spacing-md);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: var(--spacing-sm);
 }
 
 .icon {
-  color: var(--primaryColor); /* Une couleur d'accent pour les icônes */
-  font-size: 1.2em;
-}
-
-.emptyMessage {
-  color: var(--softTextColor); /* Une couleur de texte plus douce pour les messages */
-  font-style: italic;
-  margin-bottom: 20px;
+  color: var(--primary-color);
+  font-size: var(--font-size-lg);
 }
 
 /* Styles pour la section Profil */
 .profileInfo {
-  margin-bottom: 20px;
-  line-height: 1.6;
+  margin-bottom: var(--spacing-lg);
+  line-height: 1.7;
+  font-size: var(--font-size-md);
+  color: var(--text-color);
+  background: var(--background-light);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-color);
 }
 
 .editButton {
-  background-color: var(--buttonColor); /* Adaptez à votre palette */
-  color: white;
-  padding: 10px 15px;
+  background: var(--primary-color);
+  color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-sm) var(--spacing-lg);
+  font-size: var(--font-size-md);
   cursor: pointer;
-  font-size: 1em;
-  transition: background-color 0.3s ease;
+  transition: background var(--transition-duration);
+  margin-top: var(--spacing-sm);
 }
 
 .editButton:hover {
-  background-color: var(--buttonHoverColor);
+  background: var(--primary-hover-color);
+}
+
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: #fff;
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-xl);
+  box-shadow: var(--box-shadow-hover);
+  min-width: 320px;
+  max-width: 95vw;
+}
+
+.closeModal {
+  background: var(--secondary-color);
+  color: #fff;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xs) var(--spacing-md);
+  cursor: pointer;
+  margin-top: var(--spacing-md);
 }
 
 /* Styles pour les Activités & Planning */
@@ -57,189 +176,167 @@
 .activityList {
   list-style: none;
   padding: 0;
+  margin: 0;
 }
 
-.activityList li {
-  background-color: var(--bgSoft);
-  border: 1px solid var(--borderColor);
-  padding: 15px;
-  margin-bottom: 10px;
-  border-radius: 8px;
+.activityItem {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  gap: var(--spacing-md);
+  background: var(--background-light);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  box-shadow: 0 2px 8px rgba(90, 159, 212, 0.04);
 }
 
-.registerButton, .detailsButton {
-  background-color: var(--accentColor); /* Une couleur d'accent différente */
-  color: white;
-  padding: 8px 12px;
+.activityImg {
+  border-radius: var(--border-radius);
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 1px solid var(--border-color);
+  background: #fff;
+}
+
+.activityMeta {
+  font-size: var(--font-size-sm);
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+.inscritBadge {
+  background: var(--success-color);
+  color: #fff;
+  border-radius: var(--border-radius);
+  padding: 4px 10px;
+  font-size: var(--font-size-sm);
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.registerButton {
+  background: var(--primary-color);
+  color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius: var(--border-radius);
+  padding: var(--spacing-xs) var(--spacing-md);
+  font-size: var(--font-size-md);
   cursor: pointer;
-  font-size: 0.9em;
-  transition: background-color 0.3s ease;
+  margin-left: auto;
+  transition: background var(--transition-duration);
 }
 
-.registerButton:hover, .detailsButton:hover {
-  background-color: var(--accentHoverColor);
+.registerButton:hover {
+  background: var(--primary-hover-color);
 }
 
-/* Styles pour les Discussions */
-.discussionFeed {
-  margin-top: 20px;
-  border: 1px solid var(--borderColor);
-  border-radius: 8px;
-  padding: 15px;
-  max-height: 400px; /* Limite la hauteur du flux */
-  overflow-y: auto; /* Ajoute un défilement si trop de contenu */
-}
-
-.discussionPost {
-  background-color: var(--bgLighter); /* Une couleur encore plus claire */
-  padding: 12px;
-  margin-bottom: 10px;
-  border-radius: 6px;
-  border: 1px solid var(--borderColor);
-}
-
-.postAuthor {
-  font-weight: bold;
-  color: var(--textColor);
-  margin-bottom: 5px;
-  font-size: 0.9em;
-}
-
-.postContent {
-  color: var(--textColor);
-  font-size: 0.95em;
-  margin-bottom: 10px;
-}
-
-.replyButton {
-  background-color: var(--buttonSecondaryColor); /* Une couleur secondaire */
-  color: white;
-  padding: 5px 10px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.8em;
-}
-
-.newPostTextarea {
-  width: calc(100% - 20px);
-  padding: 10px;
-  margin-top: 20px;
-  border: 1px solid var(--borderColor);
-  border-radius: 5px;
-  min-height: 80px;
-  resize: vertical;
-}
-
-.postButton {
-  background-color: var(--buttonColor);
-  color: white;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 10px;
+.emptyMessage {
+  color: var(--text-light);
+  font-style: italic;
+  margin-bottom: var(--spacing-md);
 }
 
 /* Styles pour les Documents */
 .documentList {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .documentList li {
-    margin-bottom: 10px;
+  margin-bottom: var(--spacing-xs);
 }
 
 .documentList li a {
-    color: var(--linkColor); /* Couleur pour les liens */
-    text-decoration: none;
-    font-weight: 500;
+  color: var(--primary-dark-color);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition-duration);
 }
 
 .documentList li a:hover {
-    text-decoration: underline;
+  color: var(--secondary-color);
+  text-decoration: underline;
 }
 
 /* Styles pour la Cotisation */
 .duesStatus {
-    padding: 15px;
-    background-color: var(--bgLighter);
-    border-radius: 8px;
-    border: 1px solid var(--borderColor);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 20px;
+  padding: var(--spacing-md);
+  background: var(--background-light);
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--spacing-md);
 }
 
 .statusPaid {
-    color: green;
-    font-weight: bold;
+  color: var(--success-color);
+  font-weight: bold;
 }
 
 .statusOverdue {
-    color: red;
-    font-weight: bold;
+  color: var(--error-color);
+  font-weight: bold;
 }
 
 .payButton {
-    background-color: var(--successColor); /* Couleur pour le paiement */
-    color: white;
-    padding: 10px 15px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1em;
+  background: var(--success-color);
+  color: #fff;
+  padding: var(--spacing-xs) var(--spacing-lg);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-size: var(--font-size-md);
+  transition: background var(--transition-duration);
 }
 
 .payButton:hover {
-    background-color: #218838; /* Vert plus foncé */
+  background: #218838;
 }
 
 /* Styles pour les Notifications */
 .notificationList {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .notificationItem {
-    background-color: var(--bgLighter);
-    border: 1px solid var(--borderColor);
-    padding: 12px;
-    margin-bottom: 8px;
-    border-radius: 6px;
-    font-size: 0.95em;
-    color: var(--textColor);
+  background: var(--background-light);
+  border: 1px solid var(--border-color);
+  padding: var(--spacing-sm);
+  margin-bottom: var(--spacing-xs);
+  border-radius: var(--border-radius);
+  font-size: var(--font-size-md);
+  color: var(--text-color);
 }
 
 .notificationDate {
-    font-weight: bold;
-    color: var(--softTextColor);
-    margin-right: 10px;
+  font-weight: bold;
+  color: var(--text-light);
+  margin-right: 10px;
 }
 
 /* Styles pour les Paramètres */
 .settingsOption {
-    background-color: var(--bgLighter);
-    border: 1px solid var(--borderColor);
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
+  background: var(--background-light);
+  border: 1px solid var(--border-color);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+  border-radius: var(--border-radius);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-md);
 }
 
 .settingsOption h3 {
-    margin: 0;
-    font-size: 1.1em;
-    color: var(--textColor);
+  margin: 0;
+  font-size: var(--font-size-md);
+  color: var(--text-color);
 }
 
 /* Base pour le switch toggle (inspiré de Shadcn/UI pour la simplicité) */
@@ -263,10 +360,9 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: #ccc; /* Couleur de fond non activée */
-  -webkit-transition: .4s;
-  transition: .4s;
-  border-radius: 28px; /* Forme ronde */
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 28px;
 }
 
 .sliderRound:before {
@@ -277,21 +373,54 @@
   left: 4px;
   bottom: 4px;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 50%;
 }
 
 input:checked + .sliderRound {
-  background-color: var(--primaryColor); /* Couleur de fond activée */
+  background-color: var(--primary-color);
 }
 
 input:focus + .sliderRound {
-  box-shadow: 0 0 1px var(--primaryColor);
+  box-shadow: 0 0 1px var(--primary-color);
 }
 
 input:checked + .sliderRound:before {
-  -webkit-transform: translateX(22px);
-  -ms-transform: translateX(22px);
   transform: translateX(22px);
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .dashboardContainer {
+    flex-direction: column;
+  }
+  .sideMenu {
+    flex-direction: row;
+    min-width: unset;
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+    padding: var(--spacing-md) var(--spacing-xs);
+    gap: var(--spacing-xs);
+    overflow-x: auto;
+  }
+  .dashboardContent {
+    padding: var(--spacing-md);
+  }
+}
+
+@media (max-width: 600px) {
+  .sectionCard {
+    padding: var(--spacing-md);
+  }
+  .dashboardHeader {
+    font-size: var(--font-size-lg);
+  }
+  .activityImg {
+    width: 50px;
+    height: 50px;
+  }
+  .sideMenu {
+    font-size: var(--font-size-sm);
+  }
 }
