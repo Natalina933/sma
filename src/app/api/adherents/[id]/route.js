@@ -32,23 +32,51 @@ export const PUT = async (request, { params }) => {
   }
   try {
     const data = await request.json();
-    const { name, surname, mail, phone, address, complement, cp, city, membership_start } = data;
+    // On force tous les champs à une valeur par défaut si undefined
+    const {
+      name = "",
+      surname = "",
+      mail = "",
+      phone = "",
+      address = "",
+      complement = "",
+      cp = "",
+      city = "",
+      date_of_birth = null,
+      profile_picture = null,
+      membership_type = "single",
+      membership_start = null,
+      membership_end = null,
+      payment_status = null,
+      payment_method = null,
+      preferred_contact = null,
+      newsletter_subscription = 1,
+      notes = null
+    } = data;
 
-    // Validation simple (à adapter selon besoins)
     if (![name, surname, mail].every(Boolean)) {
       return NextResponse.json({ message: "Champs obligatoires manquants" }, { status: 400 });
     }
 
     const [result] = await pool.query(
       `UPDATE adh_members
-       SET name = ?, surname = ?, mail = ?, phone = ?, address = ?, complement = ?, cp = ?, city = ?, membership_start = ?
-       WHERE id = ?`,
-      [name, surname, mail, phone, address, complement, cp, city, membership_start, id]
+      SET name = ?, surname = ?, mail = ?, phone = ?, address = ?, complement = ?, cp = ?, city = ?,
+          date_of_birth = ?, profile_picture = ?, membership_type = ?, membership_start = ?, membership_end = ?,
+          payment_status = ?, payment_method = ?, preferred_contact = ?, newsletter_subscription = ?, notes = ?
+      WHERE id = ?`,
+      [
+        name, surname, mail, phone, address, complement, cp, city,
+        date_of_birth, profile_picture, membership_type, membership_start, membership_end,
+        payment_status, payment_method, preferred_contact, newsletter_subscription, notes,
+        id
+      ]
     );
     if (result.affectedRows === 0) {
       return NextResponse.json({ message: "Adhérent non trouvé" }, { status: 404 });
     }
-    return NextResponse.json({ id: Number(id), ...data }, { status: 200 });
+
+    const [updatedRows] = await pool.query("SELECT * FROM adh_members WHERE id = ?", [id]);
+    return NextResponse.json({ adherent: updatedRows[0] }, { status: 200 });
   } catch (error) {
     console.error("Erreur lors de la mise à jour de l'adhérent :", error);
     return NextResponse.json({ message: "Erreur serveur" }, { status: 500 });

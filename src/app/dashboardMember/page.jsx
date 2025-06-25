@@ -25,7 +25,16 @@ export default function DashboardMember() {
     const [activities, setActivities] = useState([]);
     const [inscriptions, setInscriptions] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [showEditModal, setShowEditModal] = useState(false);
+    const [isEditing, setIsEditing] = useState(false);
+    const [editValues, setEditValues] = useState({
+        surname: session?.user?.surname || "",
+        name: session?.user?.name || "",
+        mail: session?.user?.mail || session?.user?.email || "",
+        phone: session?.user?.phone || "",
+        address: session?.user?.address || "",
+        date_of_birth: session?.user?.date_of_birth || "",
+        membership_type: session?.user?.membership_type || "",
+    });
 
     // Récupère les activités et inscriptions du membre
     useEffect(() => {
@@ -43,6 +52,18 @@ export default function DashboardMember() {
             });
         }
     }, [status, session, router]);
+
+    useEffect(() => {
+        setEditValues({
+            surname: session?.user?.surname || "",
+            name: session?.user?.name || "",
+            mail: session?.user?.mail || session?.user?.email || "",
+            phone: session?.user?.phone || "",
+            address: session?.user?.address || "",
+            date_of_birth: session?.user?.date_of_birth || "",
+            membership_type: session?.user?.membership_type || "",
+        });
+    }, [session]);
 
     if (status === "loading" || loading) {
         return <p className={styles.loading}>Chargement de votre espace membre...</p>;
@@ -70,6 +91,28 @@ export default function DashboardMember() {
         }
     }
 
+    async function handleSaveProfile() {
+        // Appel API pour sauvegarder les modifications
+        const res = await fetch(`/api/adherents/${session.user.id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ ...editValues }),
+        });
+        if (res.ok) {
+            setIsEditing(false);
+            // Optionnel : feedback visuel
+            alert("Profil mis à jour !");
+            // Rafraîchir la session ou les données utilisateur si besoin
+            window.location.reload();
+        } else {
+            alert("Erreur lors de la sauvegarde du profil.");
+        }
+    }
+
+    function handleChange(e) {
+        setEditValues({ ...editValues, [e.target.name]: e.target.value });
+    }
+
     const member = session?.user || {};
 
     function formatDate(dateStr) {
@@ -88,32 +131,122 @@ export default function DashboardMember() {
                             <FontAwesomeIcon icon={faUserCircle} className={styles.icon} /> Mon Profil
                         </h2>
                         <div className={styles.profileInfo}>
-                            <p><strong>Prénom :</strong> {member.surname || "Non défini"}</p>
-                            <p><strong>Nom :</strong> {member.name || "Non défini"}</p>
-                            <p><strong>Email :</strong> {member.email || member.mail || "Non défini"}</p>
-                            <p><strong>Téléphone :</strong> {member.phone || "Non défini"}</p>
-                            <p><strong>Adresse :</strong> {member.address || "Non défini"}</p>
-                            <p><strong>Date de naissance :</strong> {formatDate(member.date_of_birth) || "Non défini"}</p>
-                            <p><strong>Genre :</strong> {member.gender || "Non défini"}</p>
-                            <p><strong>Type d’adhésion :</strong> {member.membership_type || "Non défini"}</p>
-                            <p><strong>Statut :</strong> {member.status || "Non défini"}</p>
-                            <p><strong>Date d’inscription :</strong> {formatDate(member.created_at) || "Non défini"}</p>
-                        </div>
-                        <button className={styles.editButton} onClick={() => setShowEditModal(true)}>
-                            Modifier mon profil
-                        </button>
+                            <p>
+                                <strong>Prénom :</strong>{" "}
+                                {isEditing ? (
+                                    <input
+                                        name="surname"
+                                        value={editValues.surname}
+                                        onChange={handleChange}
+                                        className={styles.inputEdit}
+                                    />
+                                ) : (
+                                    member.surname || "Non défini"
+                                )}
+                            </p>
+                            <p>
+                                <strong>Nom :</strong>{" "}
+                                {isEditing ? (
+                                    <input
+                                        name="name"
+                                        value={editValues.name}
+                                        onChange={handleChange}
+                                        className={styles.inputEdit}
+                                    />
+                                ) : (
+                                    member.name || "Non défini"
+                                )}
+                            </p>
+                            <p>
+                                <strong>Email :</strong>{" "}
+                                {isEditing ? (
+                                    <input
+                                        name="mail"
+                                        value={editValues.mail ?? ""}
+                                        onChange={handleChange}
+                                        className={styles.inputEdit}
+                                        type="email"
+                                    />
 
-                        {/* Modal d’édition (exemple simple) */}
-                        {showEditModal && (
-                            <div className={styles.modalOverlay}>
-                                <div className={styles.modalContent}>
-                                    <h3>Modifier mon profil</h3>
-                                    <p>(Formulaire à implémenter ici)</p>
-                                    <button className={styles.closeModal} onClick={() => setShowEditModal(false)}>
-                                        Fermer
-                                    </button>
-                                </div>
+                                ) : (
+                                    member.email || member.mail || "Non défini"
+                                )}
+                            </p>
+                            <p>
+                                <strong>Téléphone :</strong>{" "}
+                                {isEditing ? (
+                                    <input
+                                        name="phone"
+                                        value={editValues.phone}
+                                        onChange={handleChange}
+                                        className={styles.inputEdit}
+                                        type="tel"
+                                    />
+                                ) : (
+                                    member.phone || "Non défini"
+                                )}
+                            </p>
+                            <p>
+                                <strong>Adresse :</strong>{" "}
+                                {isEditing ? (
+                                    <input
+                                        name="address"
+                                        value={editValues.address}
+                                        onChange={handleChange}
+                                        className={styles.inputEdit}
+                                    />
+                                ) : (
+                                    member.address || "Non défini"
+                                )}
+                            </p>
+                            <p>
+                                <strong>Date de naissance :</strong>{" "}
+                                {isEditing ? (
+                                    <input
+                                        name="date_of_birth"
+                                        value={editValues.date_of_birth}
+                                        onChange={handleChange}
+                                        className={styles.inputEdit}
+                                        type="date"
+                                    />
+                                ) : (
+                                    formatDate(member.date_of_birth) || "Non défini"
+                                )}
+                            </p>
+                            <p>
+                                <strong>Type d’adhésion :</strong>{" "}
+                                {isEditing ? (
+                                    <input
+                                        name="membership_type"
+                                        value={editValues.membership_type}
+                                        onChange={handleChange}
+                                        className={styles.inputEdit}
+                                    />
+                                ) : (
+                                    member.membership_type || "Non défini"
+                                )}
+                            </p>
+                            {/* Champs non éditables */}
+                            <p>
+                                <strong>Genre :</strong> {member.gender || "Non défini"}
+                            </p>
+                            <p>
+                                <strong>Date d’inscription :</strong> {formatDate(member.created_at) || "Non défini"}
+                            </p>
+                        </div>
+                        {isEditing ? (
+                            <div className={styles.editActions}>
+                                <button className={styles.saveButton} onClick={handleSaveProfile}>
+                                    Enregistrer
+                                </button>
+                                <button className={styles.cancelButton} onClick={() => setIsEditing(false)}>
+                                    Annuler
+                                </button>
                             </div>
+                        ) : (
+                            <button className={styles.editButton} onClick={() => setIsEditing(true)}>
+                                Modifier mon profil
+                            </button>
                         )}
                     </section>
                 );
