@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import styles from "@/components/carousel/mycarousel.module.css";
@@ -46,21 +46,13 @@ const responsiveConfig = {
 
 const MyCarousel = () => {
   const { expandedActivity, selectedActivity, isAutoPlay, handleToggleDescription, handleSelectActivity } = useActivityState();
-  const { data: activities, error } = useSWR("/api/activities", fetcher);
-  const [fetchedActivities, setFetchedActivities] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const { data, error, isLoading } = useSWR("/api/activities", fetcher);
 
-  useEffect(() => {
-    fetch("/api/activities")
-      .then(res => res.json())
-      .then(data => {
-        setFetchedActivities(data);
-        setLoading(false);
-      });
-  }, []);
+  // Toujours garantir un tableau pour .map
+  const activities = Array.isArray(data) ? data : [];
 
   if (error) return <div>Erreur de chargement</div>;
-  if (loading) return <div>Chargement...</div>;
+  if (isLoading) return <div>Chargement...</div>;
 
   return (
     <section id="activities" className={styles.carouselSection} aria-labelledby="carousel-heading">
@@ -76,7 +68,7 @@ const MyCarousel = () => {
         removeArrowOnDeviceType={["mobile"]}
         itemClass={styles.carouselItem}
       >
-        {fetchedActivities.map((activity) => (
+        {activities.map((activity) => (
           <ActivityCard
             key={activity.id}
             activity={activity}

@@ -10,21 +10,47 @@ const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
 const handler = NextAuth({
   providers: [
     CredentialsProvider({
-      id: "member-credentials",
-      name: "Adhérent",
+      id: "admin-credentials",
+      name: "Gestionnaire",
       async authorize(credentials) {
-        // Cherche dans la table adh_members
         const [rows] = await pool.execute(
-          "SELECT * FROM adh_members WHERE mail = ?",
-          [credentials.mail]
+          "SELECT * FROM usr_users WHERE email = ?",
+          [credentials.email]
         );
         const user = rows[0];
-        if (!user) return null;
+        if (!user || user.role !== "admin") return null;
+
         const isPasswordCorrect = await bcrypt.compare(
           credentials.password,
           user.password
         );
         if (!isPasswordCorrect) return null;
+
+        return {
+          id: user.id,
+          name: user.username,
+          email: user.email,
+          role: user.role,
+        };
+      },
+    }),
+    CredentialsProvider({
+      id: "member-credentials",
+      name: "Adhérent",
+      async authorize(credentials) {
+        const [rows] = await pool.execute(
+          "SELECT * FROM adh_members WHERE mail = ?",
+          [credentials.email]
+        );
+        const user = rows[0];
+        if (!user) return null;
+
+        const isPasswordCorrect = await bcrypt.compare(
+          credentials.password,
+          user.password
+        );
+        if (!isPasswordCorrect) return null;
+
         return {
           id: user.id,
           name: user.name,
