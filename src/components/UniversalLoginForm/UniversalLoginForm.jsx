@@ -3,9 +3,8 @@ import React, { useEffect, useState } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { RiEyeFill, RiEyeOffFill } from "react-icons/ri";
-import styles from "./page.module.css";
-
-export default function UniversalLoginForm({ userType }: { userType: "admin" | "member" }) {
+import styles from "./UniversalLoginForm.module.css";
+export default function UniversalLoginForm({ userType }) {
   const { data: session, status } = useSession();
   const router = useRouter();
   const params = useSearchParams();
