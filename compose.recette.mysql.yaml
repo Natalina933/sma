@@ -1,0 +1,27 @@
+# SMA-FIX-02A-20 — PROPOSED ONLY. Do not run until isolated instance is approved.
+# No historical dump or SQL migration is mounted or auto-executed.
+name: sma-recette-isolee
+
+services:
+  mysql-recette:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: sma_recette_fictive_only
+      MYSQL_USER: sma_recette
+      MYSQL_PASSWORD: ${SMA_RECETTE_DB_PASSWORD:?Set a unique local test password before approved startup}
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_ROOT_HOST: localhost
+    ports:
+      - "127.0.0.1:33907:3306"
+    volumes:
+      - sma_mysql_recette_data:/var/lib/mysql
+    networks:
+      - recette_isolee
+    restart: "no"
+
+volumes:
+  sma_mysql_recette_data:
+
+networks:
+  recette_isolee:
+    internal: true

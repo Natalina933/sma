@@ -1,0 +1,20 @@
+# SMA-FIX-02A-21 — Secondary disposable restore target only.
+# Use together with compose.recette.mysql.yaml. No SQL is auto-imported.
+# Deliberately no published ports: access through docker exec only.
+services:
+  mysql-restauration:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: sma_restauration_fictive_only
+      MYSQL_USER: sma_recette_restore
+      MYSQL_PASSWORD: ${SMA_RECETTE_DB_PASSWORD:?Set a unique local test password before approved startup}
+      MYSQL_RANDOM_ROOT_PASSWORD: "yes"
+      MYSQL_ROOT_HOST: localhost
+    volumes:
+      - sma_mysql_restore_data:/var/lib/mysql
+    networks:
+      - recette_isolee
+    restart: "no"
+
+volumes:
+  sma_mysql_restore_data:
